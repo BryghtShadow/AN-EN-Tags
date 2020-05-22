@@ -1,0 +1,19 @@
+*[hidden] {
+  display: none;
+}
+
+[data-icon-dpi] .btn-char {
+  padding: 1px;
+}
+[data-icon-dpi="ldpi"] .btn-char .name,
+[data-icon-dpi="mdpi"] .btn-char .name,
+[data-icon-dpi="hdpi"] .btn-char .name {
+    padding-right: 8px;
+    display: inline-block;
+}
+[data-icon-dpi] .btn-char img {
+    background-color: #AAA;
+}
+[data-icon-dpi="ldpi"] .btn-char img {
+    background-color: transparent;
+}

@@ -13,6 +13,21 @@
         var globalOptStars = [];
         var JsonDATA = {};
 
+    let showClass = false;
+    let showImage = true;
+    let showName = true;
+    let size = 40;
+    let opIconBaseSize = 32; // mdpi
+    let opIconDPI = 'hdpi';
+    let opIconDPIScales = {
+        ldpi: 0.75,
+        mdpi: 1,
+        hdpi: 1.25, // 1.5 is standard
+        xhdpi: 2,
+        xxhdpi: 2.5, // 3 is standard
+        xxxhdpi: 4,
+    }
+
     function init() {
         var tags_aval = {};
         var all_chars = {};
@@ -116,21 +131,44 @@
 
 
                 if(!localStorage.getItem('showImage')){
-                    localStorage.setItem("showImage", JSON.stringify(true));
-                    localStorage.setItem("showName", JSON.stringify(true));
-                    localStorage.setItem("size", 40);
+                    localStorage.setItem("showImage", JSON.stringify(showImage));
                 } else {
-                    if(!JSON.parse(localStorage.getItem('showName'))){
-                        $("#showName").toggleClass("btn-primary btn-secondary");
-                    }
-                    if(!JSON.parse(localStorage.getItem('showImage'))){
-                        $("#showImage").toggleClass("btn-primary btn-secondary");
-                    }
-                    if(!JSON.parse(localStorage.getItem('showClass'))){
-                        $("#showClass").toggleClass("btn-primary btn-secondary");
-                    }
+                    showImage = JSON.parse(localStorage.getItem('showImage'))
+                    $("#showImage")
+                    .removeClass(showImage ? "btn-secondary" : "btn-primary")
+                    .addClass(showImage ? "btn-primary" : "btn-secondary")
                 }
-                if(!localStorage.getItem('showClass'))localStorage.setItem("showClass",JSON.stringify(false))
+
+                if (!localStorage.getItem('size')) {
+                    localStorage.setItem('size', JSON.stringify(size));
+                } else {
+                    size = JSON.parse(localStorage.getItem('size'));
+                }
+
+                if (!localStorage.getItem('opIconDPI')) {
+                    localStorage.setItem('opIconDPI', opIconDPI);
+                } else {
+                    opIconDPI = localStorage.getItem('opIconDPI');
+                    updateOpIconDPI(opIconDPI);
+                }
+
+                if (!localStorage.getItem('showName')) {
+                    localStorage.setItem("showClass", JSON.stringify(showName));
+                } else {
+                    showName = JSON.parse(localStorage.getItem('showName'));
+                    $("#showName")
+                    .removeClass(showName ? "btn-secondary" : "btn-primary")
+                    .addClass(showName ? "btn-primary" : "btn-secondary")
+                }
+
+                if(!localStorage.getItem('showClass')) {
+                    localStorage.setItem("showClass", JSON.stringify(showClass))
+                } else {
+                    showClass = JSON.parse(localStorage.getItem('showClass'));
+                    $("#showClass")
+                    .removeClass(showClass ? "btn-secondary" : "btn-primary")
+                    .addClass(showClass ? "btn-primary" : "btn-secondary")
+                }
 
                 if(!localStorage.getItem('gameRegion') || !localStorage.getItem('webLang')){
                     console.log("game region undefined");
@@ -165,9 +203,9 @@
                 console.log("Show Name: ", JSON.parse(localStorage.getItem('showName')));
                 console.log("Show Image: ", JSON.parse(localStorage.getItem('showImage')));
                 console.log("Show Class: ", JSON.parse(localStorage.getItem('showClass')));
-                
-                var size = JSON.parse(localStorage.getItem('size'));
-                updateImageSizeDropdownList(size);
+
+                var dpi = localStorage.getItem('opIconDPI');
+                updateOpIconDPI(dpi);
 
                 $(document).on("click", ".btn-name", function () {
                     var showName = !JSON.parse(localStorage.getItem('showName'))
@@ -335,24 +373,23 @@
             localStorage.removeItem('lastChar');
         }
 
-        function updateImageSizeDropdownList(size) {
-            size = parseInt(size);
+        function updateOpIconDPI(dpi) {
+            let scale = opIconDPIScales[dpi] || 1;
+            let size = scale * opIconBaseSize;
             $("#selectedImageSize").text(size);
-            $(".imagesizeselect").each(function() {
-                var itemSize = parseInt($(this).attr("title"));
-                if(itemSize === size) {
-                    $(this).addClass("active");
-                } else {
-                    $(this).removeClass("active");
-                }
+            $('#table-recommend').attr('data-icon-dpi', dpi);
+            $(`.imagesizeselect[data-dpi="${dpi}"]`).addClass('active');
+            $(`.imagesizeselect:not([data-dpi="${dpi}"]`).removeClass('active');
+            $('.btn-char img').attr({
+                width: size,
+                height: size,
             });
-            localStorage.setItem('size', JSON.stringify(size));
+            localStorage.setItem('opIconDPI', dpi);
         }
 
         function changeImageSize(el){
-            let size = $(el).attr('title');
-            updateImageSizeDropdownList(size);
-            refresh();
+            let dpi = $(el).attr('data-dpi');
+            updateOpIconDPI(dpi);
         }
 
         function clickBtnOpt(el){
@@ -588,7 +625,9 @@
                 var showName = JSON.parse(localStorage.getItem('showName'))
                 var showClass = JSON.parse(localStorage.getItem('showClass'))
                 var showImage = JSON.parse(localStorage.getItem('showImage'))
-                var size = JSON.parse(localStorage.getItem('size'))
+                var opIconDPI = localStorage.getItem('opIconDPI');
+                var size = (opIconDPIScales[opIconDPI] || 1) * opIconBaseSize;
+
                 $.each(combs, function (_, comb) {
                     if (comb.possible.length === 0) return;
                     let chars = comb.possible;
@@ -603,21 +642,12 @@
                        return currtag
                     });
                     tags = anotag
-                    let chars_html = [];
                     let colors = { 1: "1", 2: "2", 3: "3", 4: "4", 5: "5", 6: "6" };
                     comb.possible.sort(function (a, b) {
                         return a.level > b.level ? -1 : (a.level < b.level ? 1 : 0);
                     });
-                    $.each(chars, function (_, char) {
-                        let padding = showName && size <60? "padding-right: 8px" : "padding-right: 1px";
-                        let style = showImage ? "style=\"padding: 1px 1px;" + padding + ";\" " : "";
-                        let buttonstyle = size >25? "background-color: #AAA": "background-color: transparent";
-                        chars_html.push("<button type=\"button\" class=\" ak-shadow-small ak-btn btn btn-sm ak-rare-" + colors[char.level] + " btn-char my-1\" data-toggle=\"tooltip\" data-placement=\"bottom\" onclick=\"showChar(this)\" " +style+"title=\""+ char.name +"\">");
-                        if(showImage)chars_html.push("<img style=\""+buttonstyle+"\"height=\""+size+"\" width=\""+size+"\" src=\"./img/chara/"+ char.name_en +".png\">   " )
-                        if(size>60)chars_html.push("<div>")
-                        if(showName)chars_html.push(char.name_tl)
-                        if(size>60)chars_html.push("</div>")
-                        chars_html.push("</button>\n")
+                    let chars_html = chars.map(char => {
+                        return `<button type="button" class="ak-shadow-small ak-btn btn btn-sm ak-rare-${colors[char.level]} btn-char my-1" data-toggle="tooltip" data-placement="bottom" onclick="showChar(this)" title="${char.name}"><img height="${size}" width="${size}" src="./img/chara/${char.name_en}.png" ${showImage?'':'hidden'}> <div class="name" ${showName?'':'hidden'}>${char.name_tl}</div></button>\n`;
                     });
                     let tags_html = [];
                     // console.log(tags)
