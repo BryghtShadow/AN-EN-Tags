@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap');
+
+body {
+  font-family: 'Open Sans Condensed', 'Roboto Condensed', 'Arial Narrow', sans-serif;
+}
+
 *[hidden] {
   display: none;
 }
