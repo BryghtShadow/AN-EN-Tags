@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="theme-color" content="#222222ff">
+    <title>Arknights Material Inventory</title>
+    <link rel="manifest" href="./manifest.json" crossorigin="use-credentials">
+    <link rel='stylesheet' href='css/bootstrap.min.css'>
+    <link rel="stylesheet" href="css/ak.css">
+    <script src="js/multilingual.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <script src='js/jquery-3.4.0.min.js'></script>
+    <script src='js/popper.min.js'></script>
+    <!-- <script src='js/bootstrap.min.js'></script> -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-159317757-1"></script> -->
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag = function() { }
+        gtag('js', new Date());
+        gtag('config', 'UA-159317757-1');
+    </script>
+</head>
+<body>
+    <div id="loadingOverlay" style="width: 100vw; height: 150%; background-color: #111111; position: absolute; z-index: 9999; top:0px; transition: opacity 1s;">
+        <div class="d-flex justify-content-center" style="margin-top: 50vh">
+            <div class="spinner-border" role="status" style="border-color: #0098DC; border-right-color: transparent; width: 4rem; height: 4rem;">
+            </div>
+        </div>
+        <div style="width: 100%; text-align: center; margin-top: 13px;">
+            <div class='loadtext'>Loading Toolbox</div>
+            <div></div>
+            <div id='loadforce' class="loadforce" onclick="hideload()"><a>Click here if stuck on loading</a></div>
+        </div>
+    </div>
+    <!-- <button class="btn btn-sm btn-primary goToTag" style="position:fixed;bottom:15px ;right: 0px;size:70px 70px;padding: 10px;z-index: 10000" id="to-tag" type="button">^ </button> -->
+    <nav id="aknav" class="navbar fixed-top navbar-expand-md navbar-dark bg-dark" style="background-image: linear-gradient(#222222ff 70%,#222222ff , #111111aa );">
+            <img src="./img/factions/logo_rhodes.png" width="40" height="40" style="transform:scale(1.2,1.2)translate(-8px,1px)"class="d-inline-block align-top" alt="">
+            <a class="navbar-brand" href="#" translate-id="topbar-1">Arknights Toolbox</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="展开">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+    </nav>
+    <div id='acedonate'></div>
+    <div style="padding-bottom:50px"></div>
+
+    <button class="btn btn-sm ak-ontop-button" style="position:fixed;bottom:60px ;right: 0px;size:70px 70px;padding: 4px;z-index: 10000" id="btn-filter" type="button">Filter </button>
+    <button class="btn btn-sm ak-ontop-button" style="position:fixed;bottom:20px ;right: 0px;size:70px 70px;padding: 4px;z-index: 10000" id="btn-reset" type="button">Reset </button>
+    <!-- <button class="btn btn-sm btn-primary ak-ontop-button" style="position:fixed;bottom:100px ;right: 0px;size:70px 70px;padding: 2px;z-index: 10000" id="btn-load" type="button">Filter </button> -->
+    <div class="container " style="margin:auto;max-width:1080px;padding:0">
+        <div class="d-inline d-sm-none " id="mobile-only-visible"></div>
+        <div class="col-12 alert alert-dark mt-3 p-1 p-sm-2 ak-c-black" role="alert">
+            <button type="button" class="btn btn-sm btn-success my-1" id="btn-filter">
+                <!-- <span class="cn">过滤</span> -->
+                <span class="en">Filter</span>
+            </button>
+            <button type="button" class="btn btn-sm btn-secondary btn-opt my-1" opt-id="all" id="opt-all">ALL</button>
+            <button type="button" class="btn btn-sm btn-primary btn-opt my-1" opt-id="5">5★</button>
+            <button type="button" class="btn btn-sm btn-primary btn-opt my-1" opt-id="4">4★</button>
+            <button type="button" class="btn btn-sm btn-primary btn-opt my-1" opt-id="3">3★</button>
+            <button type="button" class="btn btn-sm btn-primary btn-opt my-1" opt-id="2">2★</button>
+            <button type="button" class="btn btn-sm btn-secondary btn-opt my-1" opt-id="1">1★</button>
+            <button type="button" class="btn btn-sm btn-danger my-1" id="btn-reset">
+                <!-- <span class="cn">重置</span> -->
+                <span class="en">Reset</span>
+            </button>
+            <button type="button" class="btn btn-sm btn-warning my-1" id="btn-load">
+                <!-- <span class="cn">加载已保存数据</span> -->
+                <span class="en">Load saved data</span>
+            </button>
+            <br>
+            <div style='display: inline-flex;'> 
+                <input class="my-1" type="text" style="background-color:#444444;width:410px;border-width:0;border-radius:5px;padding:5px;color:white;" id="updater" placeholder="Put the adress of another akevolve to update the current" />
+            <button type="button" class="btn btn-sm my-1" style="background-color:#444444;position:relative;border-radius:5px;color:white;margin: 2px;" id="btn-update">Update</button>
+            </div>
+            <hr class="my-1" />
+            <!-- <p class="cn my-0"><small><a class="save" href="?n&h&o">右键或长按复制我，保存输入信息</a></small></p> -->
+            <p class="en my-0"><small><a class="save" href="?n&h&o">Copy me with right click or long press, to save your input</a></small></p>
+        </div>
+        <div class="col-12 mt-3 p-1 p-sm-2">
+            <div class="d-flex flex-wrap" id="row-m">
+            </div>
+        </div>
+        <hr />
+        <div class="row col-12 ak-mid ak-shadow">
+            <!-- <div class="col-12 text-left cn">
+                <p><b>使用说明</b></p>
+                <p>1. 输入需要的材料数量；</p>
+                <p>2. 点击“过滤”掉与合成无关的材料；</p>
+                <p>3. 输入已有的材料数量；</p>
+                <p>4. 再次“过滤”掉不需要刷的材料。</p>
+            </div> -->
+            <div class="col-12 text-left en">
+                <p><b>Usage</b></p>
+                <p>1. Input the needed number of materials.</p>
+                <p>2. "Filter" out irrelevant materials.</p>
+                <p>3. Input material numbers you have.</p>
+                <p>4. "Filter" out materials you don't need to work for.</p>
+            </div>
+        </div>
+        <!-- <div class="col-12 alert alert-success mt-1 cn" role="alert">
+            如需Excel版，可以使用<a href="https://bbs.nga.cn/read.php?tid=17155811">材料合成计算器</a>。
+        </div> -->
+    </div>
+
+    <hr />
+    <div class="row col-12 ak-footer">
+        <div class="col-12 text-center">
+            <p>This module was originally forked from <a href = "https://graueneko.github.io/akhr.html">Graueneko web</a></p>
+        <div class="col-12 text-center"></div>
+            <p><a href="https://github.com/Aceship/AN-EN-Tags/issues">Bug Report and Suggestions</a></p>
+            <p>Developed and Maintained by: Aceship and Faryzal2020</p>
+        </div>
+    </div>
+    <script src='js/arrive.min.js'></script>
+    <script src="./js/aknav.js"></script>
+    <script src="./js/evolve.js"></script>
+</body>
+</html>

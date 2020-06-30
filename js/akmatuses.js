@@ -1,5 +1,35 @@
         $.holdReady(true);
 
+        /* Avatar scaling */
+        const dpiScales = {
+            ldpi: 0.75,
+            mdpi: 1,
+            hdpi: 1.5,
+            xhdpi: 2,
+            xxhdpi: 3,
+            xxxhdpi: 4,
+        }
+        const baseSize = 32;
+
+        function setAvatarScale(dpi) {
+            if (typeof dpiScales[dpi] === 'undefined') {
+                dpi = 'mdpi'
+            }
+            localStorage.setItem('dpi', dpi);
+            // Update image select dropdown
+            $('.imagesizeselect.active').removeClass('active');
+            $(`.imagesizeselect[data-dpi="${dpi}"]`).addClass('active');
+            // Update image select size
+            $('#selectedImageSize').text(dpiScales[dpi] * baseSize);
+            // Resize avatar
+            $('.operator-info').removeClass(Object.keys(dpiScales)).addClass(dpi);
+        }
+
+        $('.imagesizeselect').on('mouseup', function(event) {
+            let dpi = $(this).attr('data-dpi');
+            setAvatarScale(dpi);
+        })
+
         /*===== Retrieve and set language =====*/
         var lang;
         var reg;
@@ -92,6 +122,7 @@
                 if (key in materials) {
                     materials[key]["en"] = item.name;
                     materials[key]["iconId"] = item.iconId;
+                    materials[key].rarity = item.rarity;
                 }
             });
         });
@@ -109,7 +140,7 @@
             $.each(data, function (key, char) {
                 // retrieve E1 and E2 costs
                 i = 0
-                console.log(key)
+                // console.log(key)
                 $.each(char.phases, function (_, phase) {
                     let elevel = "E" + i++;
                     if (phase.evolveCost) {
@@ -198,22 +229,9 @@
                 $("#showImage").toggleClass("btn-primary btn-secondary");
             }
 
-            if (!localStorage.getItem('size')) {
-                localStorage.setItem("size", JSON.stringify(40));
-            } else if (!JSON.parse(localStorage.getItem('showImage'))) {
-                $("#showImage").toggleClass("btn-primary btn-secondary");
-            }
-
-            $(".imagesizeselect").each(function(_, el) {
-                let size = JSON.parse(localStorage.getItem('size'));
-
-                $("#selectedImageSize").html(JSON.parse(localStorage.getItem('size')));
-                if ($(el).attr("title") == size) {
-                    $("<span> <<</span>").appendTo(el);
-                } else {
-                    $(el).html($(el).attr("title"));
-                }
-            });
+            localStorage.removeItem('size')
+            let dpi = localStorage.getItem('dpi') || 'mdpi'
+            setAvatarScale(dpi);
         });
 
         $.when(d0, d1).then(function () {
@@ -277,26 +295,33 @@
 
         function clickBtnOpt3(el) {
             $(el).toggleClass("btn-primary btn-secondary");
-            localStorage.setItem('showImage', JSON.stringify($(el).hasClass("btn-primary")));
+            let showImage = $(el).hasClass("btn-primary")
+            localStorage.setItem('showImage', JSON.stringify(showImage));
 
-            actualize();
+            if (showImage) {
+                $('.avatar').show()
+            } else {
+                $('.avatar').hide()
+            }
+
+            // actualize();
         }
 
-        function changeImageSize(el) {
-            localStorage.setItem('size', parseInt($(el).attr('title')));
+        // function changeImageSize(el) {
+        //     localStorage.setItem('size', parseInt($(el).attr('title')));
 
-            $("#selectedImageSize").html(JSON.parse(localStorage.getItem('size')));
-            $(".imagesizeselect").each(function() {
-                let size = JSON.parse(localStorage.getItem('size'));
-                if($(this).attr("title") == size) {
-                    $("<span> <<</span>").appendTo(this);
-                } else {
-                    $(this).html($(this).attr("title"));
-                }
-            });
+        //     $("#selectedImageSize").html(JSON.parse(localStorage.getItem('size')));
+        //     $(".imagesizeselect").each(function() {
+        //         let size = JSON.parse(localStorage.getItem('size'));
+        //         if($(this).attr("title") == size) {
+        //             $("<span> <<</span>").appendTo(this);
+        //         } else {
+        //             $(this).html($(this).attr("title"));
+        //         }
+        //     });
 
-            actualize();
-        }
+        //     actualize();
+        // }
 
         function clickBtnTag(el) {
             $(el).toggleClass("btn-primary btn-secondary");
@@ -337,28 +362,28 @@
         function actualize() {
             $("#tbody-recommend").html("");
 
-            chars_selection = {}
+            let chars_selection = {}
+
             $(".btn-primary.btn-tag").each(function(_, btn) {
                 let mat_id = $(btn).attr("mat-id");
-                chars_selection[mat_id] = $.map($.extend(true, {}, chars[mat_id]), val => [val]);
+                chars_selection[mat_id] = chars[mat_id]
+                // filter by stars and levels
+                .filter(char => {
+                    return optStars.includes(char.char_level.toString()) && optLevels.includes(char.class)
+                })
+                // sort by stars > levels > skill index (if any) > skill level (if any) > name
+                .sort((a,b) => {
+                    return b.char_level - a.char_level
+                    || inverse_levels[b.class] - inverse_levels[a.class]
+                    || (a.skill_level || 0) - (b.skill_level || 0)
+                    || (a.skill_index || 0) - (b.skill_index || 0)
+                    || b.name.localeCompare(a.name)
+                })
             });
 
-            for (let key in chars_selection) {
-                // filter by stars and levels
-                chars_selection[key] = chars_selection[key].filter(char =>
-                    optStars.includes(char["char_level"].toString()) && optLevels.includes(char["class"]));
-                // sort by stars > levels > skill index (if any) > skill level (if any) > name
-                chars_selection[key] = chars_selection[key].sort((a, b) =>
-                    (b.char_level - a.char_level) * 1000 +
-                    (inverse_levels[b.class] - inverse_levels[a.class]) * 250 +
-                    ((('skill_level' in a) ? a.skill_level : 0) - (('skill_level' in b) ? b.skill_level : 0)) * 20 +
-                    ((('skill_index' in a) ? a.skill_index : 0) - (('skill_index' in b) ? b.skill_index : 0)) * 5 +
-                    b.name.localeCompare(a.name) + 1);
-            }
-
-            var showImage = JSON.parse(localStorage.getItem('showImage'))
+            // var showImage = JSON.parse(localStorage.getItem('showImage'))
             var showInfo = JSON.parse(localStorage.getItem('showInfo'))
-            var size = JSON.parse(localStorage.getItem('size'))
+            var size = dpiScales[localStorage.getItem('dpi')] * baseSize;
             
             $.each(chars_selection, function (mat_id, chars) {
                 let style = 'style="padding:2px;"';
@@ -379,23 +404,10 @@
                               ' data-toggle="tooltip" data-placement="bottom" onclick="charSwap(this)"' +
                               style + ' "title="' + char.name + '" mat-id="' + mat_id + '" mat-count=' + char.count + '>');
 
-                    if (showImage) {
-                        if (size < 60) {
-                            body.push('<div style="display:flex;">');
-                        }
-                        body.push('<img style="' + buttonstyle
-                                + '" height="' + size
-                                + '" width="' + size
-                                + '" src="./img/avatars/' + char.id + '.png">');
-                    }
-
-                    body.push(`<div style='background:#333;color:#aaa;width:100%;
-                    ${(size < 60)||!showImage?
-                    `padding:${showImage?size/2-10+'px 7px 0px 7px;':"2px 2px"} `:
-                    `padding:2px 2px`}'>${char.name}</div>`)
-                    if (showImage && size < 60) {
-                        body.push('</div>');
-                    }
+                    body.push('<div class="operator-info">');
+                    body.push('<div class="avatar"><img height="24" width="24" src="./img/avatars/' + char.id + '.png"></div>');
+                    body.push(`<div class="name">${char.name}</div>`)
+                    body.push('</div>');
                     if(showInfo) {
                         let info = `<div style='background:#222;margin:2px 0px 2px 0px;width:100%;'>`;
                         if (char.class == "Skill-up") {
@@ -404,10 +416,10 @@
                             // info += skill_levels[char.skill_level];
                             if (char.skill_index > 0) {
                                 info = `<div style='background-color:transparent;margin:2px 0px 2px 0px;display:flex;width:100%;'>`;
-                                info += `<div style='color:#ffffff;font-size:24px;font-weight:bold;background:#000;width:50%;float:left;margin-right:1px;display:flex;justify-content:center;align-items:center;padding:0px 5px 0px 5px;'>S${char.skill_index}</div>`;
-                                info += `<div style="background:#222; width:50%; float:right; display:flex; justify-content:center; margin-left:1px;padding:0px 5px 0px 5px;">`
+                                info += `<div class="skill-index">S${char.skill_index}</div>`;
+                                info += `<div class="skill-mastery">`
                             }
-                            info += `<img src='img/ui/rank/${skill_levels[char.skill_level].toLocaleLowerCase()}.png' style='width:40px;height:40px'title='Skill ${titleimg}'>`;
+                            info += `<img src='img/ui/rank/${skill_levels[char.skill_level].toLocaleLowerCase()}.png' title='Skill ${titleimg}'>`;
                             if (char.skill_index > 0) {
                                 info += "</div>";
                             }
@@ -435,16 +447,17 @@
                             else info += "Elite 2";
                         }
                         info+="</div>"
-                        body.push(info + `<div class="item-amount" style="font-weight: bold; padding: 0px 2px 0px 2px; border-radius: 5px; z-index: 2; background-color: #000000;color:#ddd">${char.count}x</div>`);
+                        body.push(info + `<div class="item-amount" style="color:#ddd">${char.count}x</div>`);
                     }
                 
                     body.push("</button>\n")
                 }
 
-                body.push('<td><div class="internal-container" style="position: relative;width:100px;">' +
-                            '<img class="item-rarity" width=100 height=100 style="top: 0; left: 0; z-index: 0;" src="img/material/bg/item-' + (mat_id % 10) + '.png">' +
-                            '<img class="item-image" width=100 height=100 style="top:0; left: 0; padding: 10px; z-index: 1; position: absolute;object-fit: contain;" src="img/items/' + materials[mat_id].iconId + '.png">' +
-                            '<div class="item-amount" style="font-weight: bold; bottom: 0; right: 0; padding: 0px 2px 0px 2px; border-radius: 5px; z-index: 2; background-color: #000000; position: absolute;" mat-id="' + mat_id + '">' + total_materials[mat_id] + "x</div>" +
+                let material = materials[mat_id]
+
+                body.push('<td><div class="internal-container rare-'+(material.rarity+1)+'">' +
+                            '<img class="item-image" width=100 height=100 src="img/items/' + material.iconId + '.png">' +
+                            '<div class="item-amount" mat-id="' + mat_id + '">' + total_materials[mat_id] + "x</div>" +
                           "</div></td>");
                 $("#tbody-recommend").append(body.join(""));
             });

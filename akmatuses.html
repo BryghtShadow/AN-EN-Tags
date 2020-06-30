@@ -10,6 +10,7 @@
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css'>
     <link rel="stylesheet" href="css/ak.css">
     <link rel="stylesheet" href="css/akchardetail.css">
+    <link rel="stylesheet" href="css/matuses.css">
     <link href='https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css' rel='stylesheet'>
     <link rel='shortcut icon' type='image/x-icon' href='favicon.ico'>
     <script src='https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js'></script>
@@ -174,12 +175,12 @@
                                     Image Size</button>
                                 <div  class="btn btn-sm btn-primary my-1 ak-btn btn-image disabled"  style="background-color: white; color: black; border-color: darkgrey;margin-left: -6px;border-radius: 0px 5px 5px 0px" disabled><span id="selectedImageSize"></span></div>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <button class="dropdown-item btn-size ak-btn imagesizeselect" onclick="changeImageSize(this)" id="btn-calculate" type="button" title="20">20</button>
-                                        <button class="dropdown-item btn-size ak-btn imagesizeselect" onclick="changeImageSize(this)" id="btn-calculate" type="button" title="32">32</button>
-                                        <button class="dropdown-item btn-size ak-btn imagesizeselect" onclick="changeImageSize(this)" id="btn-calculate" type="button" title="40">40</button>
-                                        <button class="dropdown-item btn-size ak-btn imagesizeselect" onclick="changeImageSize(this)" id="btn-calculate" type="button" title="64">64</button>
-                                        <button class="dropdown-item btn-size ak-btn imagesizeselect" onclick="changeImageSize(this)" id="btn-calculate" type="button" title="80">80</button>
-                                        <button class="dropdown-item btn-size ak-btn imagesizeselect" onclick="changeImageSize(this)" id="btn-calculate" type="button" title="128">128</button>
+                                    <button class="dropdown-item btn-size ak-btn imagesizeselect" id="btn-calculate" type="button" title="20" data-dpi="ldpi">20</button>
+                                    <button class="dropdown-item btn-size ak-btn imagesizeselect" id="btn-calculate" type="button" title="32" data-dpi="mdpi">32</button>
+                                    <button class="dropdown-item btn-size ak-btn imagesizeselect" id="btn-calculate" type="button" title="40" data-dpi="hdpi">40</button>
+                                    <button class="dropdown-item btn-size ak-btn imagesizeselect" id="btn-calculate" type="button" title="64" data-dpi="xhdpi">64</button>
+                                    <button class="dropdown-item btn-size ak-btn imagesizeselect" id="btn-calculate" type="button" title="80" data-dpi="xxhdpi">80</button>
+                                    <button class="dropdown-item btn-size ak-btn imagesizeselect" id="btn-calculate" type="button" title="128" data-dpi="xxxhdpi">128</button>
                                 </div> 
                             </div>
                             
