@@ -122,7 +122,7 @@
                 if (key in materials) {
                     materials[key]["en"] = item.name;
                     materials[key]["iconId"] = item.iconId;
-                    materials[key].rarity = item.rarity;
+                    materials[key].rarity = item.rarity + 1;
                 }
             });
         });
@@ -139,12 +139,12 @@
         var d1 = $.getJSON("json/gamedata/en_US/gamedata/excel/character_table.json", function (data) {
             $.each(data, function (key, char) {
                 // retrieve E1 and E2 costs
-                i = 0
+                // var i = 0
                 // console.log(key)
-                $.each(char.phases, function (_, phase) {
-                    let elevel = "E" + i++;
+                char.phases.forEach(function (phase, elite_level) {
+                    let elevel = "E" + elite_level;
                     if (phase.evolveCost) {
-                        $.each(phase.evolveCost, function(_, mat) {
+                        phase.evolveCost.forEach(function(mat, j) {
                             if (!(mat.id in chars)) chars[mat.id] = [];
 
                             chars[mat.id].push({
@@ -152,15 +152,17 @@
                                 "id": key,
                                 "name": char.name,
                                 "count": mat.count,
-                                "char_level": char.rarity + 1
+                                "char_level": char.rarity + 1,
+                                "elite": elite_level,
                             });
                         });
                     }
                 });
 
                 // retrieve skills costs
-                $.each(char.allSkillLvlup, function (skill_level, level) {
-                    $.each(level.lvlUpCost, function (_, mat) {
+                char.allSkillLvlup.forEach(function (level, skill_level) {
+                    if (!level.lvlUpCost) return;
+                    level.lvlUpCost.forEach(function (mat, j) {
                         if (!(mat.id in chars)) chars[mat.id] = [];
                         chars[mat.id].push({
                             "class": "Skill-up",
@@ -169,22 +171,17 @@
                             "count": mat.count,
                             "char_level": char.rarity + 1,
                             "skill_index": 0,
-                            "skill_level": skill_level + 2
+                            "skill_level": skill_level + 2,
                         });
                     });
                 });
 
                 /// Skill #
-                s = 0;
-                $.each(char.skills, function (skill_index, skill) {
-                    s += 1;
-
+                char.skills.forEach(function(skill, skill_index) {
                     /// Skill level
-                    l = 0;
-                    $.each(skill.levelUpCostCond, function (skill_level, level) {
-                        l += 8;
-
-                        $.each(level.levelUpCost, function (_, mat) {
+                    skill.levelUpCostCond.forEach(function (level, skill_level) {
+                        if (!level.levelUpCost) return
+                        level.levelUpCost.forEach(function (mat, j) {
                             if (!(mat.id in chars)) chars[mat.id] = [];
 
                             chars[mat.id].push({
@@ -194,7 +191,7 @@
                                 "count": mat.count,
                                 "char_level": char.rarity + 1,
                                 "skill_index": skill_index + 1,
-                                "skill_level": skill_level + 8
+                                "mastery_level": skill_level + 1,
                             });
                         });
                     });
@@ -357,8 +354,6 @@
         }
 
         var total_materials = {};
-        var inverse_levels = {"Skill-up": 2, "E1": 1, "E2": 0};
-        var skill_levels = ["0", "1", "2", "3", "4", "5", "6", "7", "M-1", "M-2", "M-3"];
         function actualize() {
             $("#tbody-recommend").html("");
 
@@ -366,19 +361,35 @@
 
             $(".btn-primary.btn-tag").each(function(_, btn) {
                 let mat_id = $(btn).attr("mat-id");
-                chars_selection[mat_id] = chars[mat_id]
+                chars_selection[mat_id] = chars[mat_id];
+            });
+
+            let weights = [
+                {field: 'char_level', direction: 'desc'}, // stars
+                {field: 'elite', direction: 'asc'},
+                {field: 'skill_index', direction: 'asc'},
+                {field: 'mastery_level', direction: 'asc'},
+                {field: 'skill_level', direction: 'asc'},
+                {field: 'name', direction: 'asc'},
+            ]
+            const weightedSort = (props) => (a,b) => {
+                for (let i = 0; i < props.length; i++) {
+                    const k = props[i].field;
+                    const aa = a[k] || 0;
+                    const bb = b[k] || 0;
+                    const d = props[i].direction === 'desc' ? -1 : 1;
+                    const retval = (aa < bb ? -1 : aa > bb ? 1 : 0) * d;
+                    if (retval !== 0) {
+                        return retval;
+                    }
+                }
+            };
+
+            Object.keys(chars_selection).forEach(key => {
+                chars_selection[key] = chars_selection[key]
                 // filter by stars and levels
-                .filter(char => {
-                    return optStars.includes(char.char_level.toString()) && optLevels.includes(char.class)
-                })
-                // sort by stars > levels > skill index (if any) > skill level (if any) > name
-                .sort((a,b) => {
-                    return b.char_level - a.char_level
-                    || inverse_levels[b.class] - inverse_levels[a.class]
-                    || (a.skill_level || 0) - (b.skill_level || 0)
-                    || (a.skill_index || 0) - (b.skill_index || 0)
-                    || b.name.localeCompare(a.name)
-                })
+                .filter((char) => optStars.includes(char.char_level.toString()) && optLevels.includes(char.class))
+                .sort(weightedSort(weights))
             });
 
             // var showImage = JSON.parse(localStorage.getItem('showImage'))
@@ -386,78 +397,57 @@
             var size = dpiScales[localStorage.getItem('dpi')] * baseSize;
             
             $.each(chars_selection, function (mat_id, chars) {
-                let style = 'style="padding:2px;"';
-                let buttonstyle = size > 25
-                                ? "background-color: #AAA"
-                                : "background-color: transparent";
-
                 let body = ['<tr class="tr-recommd"><td>', materials[mat_id][lang], "</td><td>"];
 
                 total_materials[mat_id] = 0;
                 console.log(chars)
                 for (let char of chars) {
+                    let style = !char.mastery_level ? 'style="background:#222"' : '';
+                    let tooltip;
+                     if (char.elite) {
+                        tooltip = `Elite ${char.elite}`
+                    } else if (char.mastery_level) {
+                        tooltip = `Skill ${char.skill_index} M-${char.mastery_level}`;
+                    } else {
+                        tooltip = `Skill Lv.${char.skill_level}`;
+                    }
                     
                     total_materials[mat_id] += char.count;
 
                     body.push('<button type="button"' +
-                              ' class="ak-shadow-small ak-btn btn btn-sm btn-char my-1 ak-rare-' + char.char_level + '"' +
+                              ` class="ak-shadow-small ak-btn btn btn-sm btn-char my-1 ak-rare-${char.char_level}"` +
                               ' data-toggle="tooltip" data-placement="bottom" onclick="charSwap(this)"' +
-                              style + ' "title="' + char.name + '" mat-id="' + mat_id + '" mat-count=' + char.count + '>');
+                              ` "title="${char.name}" mat-id="${mat_id}" mat-count="${char.count}">`);
 
-                    body.push('<div class="operator-info">');
-                    body.push('<div class="avatar"><img height="24" width="24" src="./img/avatars/' + char.id + '.png"></div>');
+                    body.push('<div class="operator-info mdpi">');
+                    body.push(`<div class="avatar"><img height="32" width="32" src="./img/avatars/${char.id}.png"></div>`);
                     body.push(`<div class="name">${char.name}</div>`)
                     body.push('</div>');
+
+                    body.push(`<div class="material-usage" ${style} title="${tooltip}">`);
                     if(showInfo) {
-                        let info = `<div style='background:#222;margin:2px 0px 2px 0px;width:100%;'>`;
-                        if (char.class == "Skill-up") {
-                            var titleimg = skill_levels[char.skill_level]
-                            if (char.skill >= 7) titleimg = char.skill_level;
-                            // info += skill_levels[char.skill_level];
-                            if (char.skill_index > 0) {
-                                info = `<div style='background-color:transparent;margin:2px 0px 2px 0px;display:flex;width:100%;'>`;
-                                info += `<div class="skill-index">S${char.skill_index}</div>`;
-                                info += `<div class="skill-mastery">`
-                            }
-                            info += `<img src='img/ui/rank/${skill_levels[char.skill_level].toLocaleLowerCase()}.png' title='Skill ${titleimg}'>`;
-                            if (char.skill_index > 0) {
-                                info += "</div>";
-                            }
+                        if (char.elite) {
+                            body.push(`<img width="40" src="img/ui/elite/${char.elite}-s.png">`);
+                        } else if (char.mastery_level) {
+                            body.push(`<div class="skill-index">S${char.skill_index}</div>`);
+                            body.push(`<div class="skill-mastery"><img width="40" src='img/ui/rank/m-${char.mastery_level}.png'></div>`);
                         } else {
-                            if(char.class=="E1")info += "<img src='img/ui/elite/1-s.png'>";
-                            else info += "<img src='img/ui/elite/2-s.png'>";
-                            
+                            body.push(`<img width="40" src='img/ui/rank/${char.skill_level}.png'>`);
                         }
-                        info+="</div>"
-                        body.push(info + `<div class="item-amount" style="font-weight: bold; padding: 0px 2px 0px 2px; border-radius: 5px; z-index: 2; background-color: #000000;color:#ddd">${char.count}x</div>`);
                     }else{
-                        let info = `<div style='background:#222;margin:2px 0px 2px 0px;color:#aaa;padding:0px 5px 0px 5px;min-width:50px'>`;
-                        if (char.class == "Skill-up") {
-                            if (char.skill_index == 0) {
-                                info += "Skill Level ";
-                            } else {
-                                info += `Skill ${char.skill_index} `;
-                            }
-                            var titleimg = skill_levels[char.skill_level]
-                            if (char.skill >= 7) titleimg = char.skill_level;
-                            info += skill_levels[char.skill_level];
-                            // info += `<img src='img/ui/rank/${skill_levels[char.skill_level].toLocaleLowerCase()}.png' style='width:40px;height:40px'title='Skill ${titleimg}'>`;
-                        } else {
-                            if(char.class=="E1")info += "Elite 1";
-                            else info += "Elite 2";
-                        }
-                        info+="</div>"
-                        body.push(info + `<div class="item-amount" style="color:#ddd">${char.count}x</div>`);
+                        body.push(tooltip);
                     }
+                    body.push(`</div>`);
+                    body.push(`<div class="item-amount" style="color:#ddd">${char.count}x</div>`);
                 
                     body.push("</button>\n")
                 }
 
                 let material = materials[mat_id]
 
-                body.push('<td><div class="internal-container rare-'+(material.rarity+1)+'">' +
-                            '<img class="item-image" width=100 height=100 src="img/items/' + material.iconId + '.png">' +
-                            '<div class="item-amount" mat-id="' + mat_id + '">' + total_materials[mat_id] + "x</div>" +
+                body.push(`<td><div class="internal-container rare-${material.rarity}">` +
+                            `<img class="item-image" width=100 height=100 src="img/items/${material.iconId}.png">` +
+                            `<div class="item-amount" mat-id="${mat_id}">${total_materials[mat_id]}x</div>` +
                           "</div></td>");
                 $("#tbody-recommend").append(body.join(""));
             });
