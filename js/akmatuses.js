@@ -25,11 +25,6 @@
             $('.operator-info').removeClass(Object.keys(dpiScales)).addClass(dpi);
         }
 
-        $('.imagesizeselect').on('mouseup', function(event) {
-            let dpi = $(this).attr('data-dpi');
-            setAvatarScale(dpi);
-        })
-
         /*===== Retrieve and set language =====*/
         var lang;
         var reg;
@@ -225,6 +220,24 @@
             } else if (!JSON.parse(localStorage.getItem('showImage'))) {
                 $("#showImage").toggleClass("btn-primary btn-secondary");
             }
+
+            // Populate image size chaneg dropdown menu.
+            document.querySelector('#changeImageSize .dropdown-menu')
+            .appendChild(Object.entries(dpiScales).reduce((dom, [dpi, scale]) => {
+                let button = document.createElement('span');
+                button.classList.add('dropdown-item', 'btn-size', 'ak-btn', 'imagesizeselect', 'active');
+                button.setAttribute('type', 'button');
+                button.setAttribute('title', scale * baseSize);
+                button.setAttribute('data-dpi', dpi);
+                button.textContent = scale * baseSize;
+                button.addEventListener('mouseup', function(event) {
+                    if (event.button == 0) {
+                        setAvatarScale(dpi);
+                    }
+                });
+                dom.appendChild(button);
+                return dom;
+            }, document.createDocumentFragment()));
 
             localStorage.removeItem('size')
             let dpi = localStorage.getItem('dpi') || 'mdpi'

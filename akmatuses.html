@@ -165,26 +165,26 @@
                     <button type="button" onclick="clickBtnOpt(this)" class="btn btn-sm btn-primary btn-opt my-1 button-tag" opt-group="2" opt-id="sk">Skill-up</button>
                 </div>
             </div>
-            <div class="row ak-small-row ak-rare-bg ak-shadow-small" >
-                    
-                    <div class= " col-xs-10 span"style="padding-left:4px;padding-right: 4px;margin:auto">
-                            <button type="button" onclick="clickBtnOpt2(this)" class="btn btn-sm btn-primary ak-btn my-1 btn-info" id="showInfo" opt-id="showInfo" translate-id="selector-name">Info</button>
-                            <button type="button" onclick="clickBtnOpt3(this)" class="btn btn-sm btn-primary ak-btn my-1 btn-image" id="showImage" opt-id="showImage" translate-id="selector-image">Image</button>
-                            <div style="display:inline-block">
-                                <button class="btn btn-sm btn-primary ak-btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="z-index: 100; float:unset;border-radius: 5px 0px 0px 5px" translate-id="selector-size">
-                                    Image Size</button>
-                                <div  class="btn btn-sm btn-primary my-1 ak-btn btn-image disabled"  style="background-color: white; color: black; border-color: darkgrey;margin-left: -6px;border-radius: 0px 5px 5px 0px" disabled><span id="selectedImageSize"></span></div>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <button class="dropdown-item btn-size ak-btn imagesizeselect" id="btn-calculate" type="button" title="20" data-dpi="ldpi">20</button>
-                                    <button class="dropdown-item btn-size ak-btn imagesizeselect" id="btn-calculate" type="button" title="32" data-dpi="mdpi">32</button>
-                                    <button class="dropdown-item btn-size ak-btn imagesizeselect" id="btn-calculate" type="button" title="40" data-dpi="hdpi">40</button>
-                                    <button class="dropdown-item btn-size ak-btn imagesizeselect" id="btn-calculate" type="button" title="64" data-dpi="xhdpi">64</button>
-                                    <button class="dropdown-item btn-size ak-btn imagesizeselect" id="btn-calculate" type="button" title="80" data-dpi="xxhdpi">80</button>
-                                    <button class="dropdown-item btn-size ak-btn imagesizeselect" id="btn-calculate" type="button" title="128" data-dpi="xxxhdpi">128</button>
-                                </div> 
-                            </div>
-                            
+            <div class="row ak-small-row ak-rare-bg ak-shadow-small">
+                <div class="col-xs-10 span" style="padding-left:4px;padding-right: 4px;margin:auto">
+                    <button type="button" onclick="clickBtnOpt2(this)" class="btn btn-sm btn-primary ak-btn my-1 btn-info" id="showInfo" opt-id="showInfo" translate-id="selector-name">Info</button>
+                    <button type="button" onclick="clickBtnOpt3(this)" class="btn btn-sm btn-primary ak-btn my-1 btn-image" id="showImage" opt-id="showImage" translate-id="selector-image">Image</button>
+                    <div id="changeImageSize" style="display:inline-block">
+                        <button class="btn btn-sm btn-primary ak-btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="z-index: 100; float:unset;border-radius: 5px 0px 0px 5px" translate-id="selector-size">
+                            Image Size</button>
+                        <div class="btn btn-sm btn-primary my-1 ak-btn btn-image disabled"  style="background-color: white; color: black; border-color: darkgrey;margin-left: -6px;border-radius: 0px 5px 5px 0px" disabled><span id="selectedImageSize"></span></div>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+<!--
+                            <button class="dropdown-item btn-size ak-btn imagesizeselect" id="btn-calculate" type="button" title="24" data-dpi="ldpi">24</button>
+                            <button class="dropdown-item btn-size ak-btn imagesizeselect" id="btn-calculate" type="button" title="32" data-dpi="mdpi">32</button>
+                            <button class="dropdown-item btn-size ak-btn imagesizeselect" id="btn-calculate" type="button" title="48" data-dpi="hdpi">48</button>
+                            <button class="dropdown-item btn-size ak-btn imagesizeselect" id="btn-calculate" type="button" title="64" data-dpi="xhdpi">64</button>
+                            <button class="dropdown-item btn-size ak-btn imagesizeselect" id="btn-calculate" type="button" title="80" data-dpi="xxhdpi">80</button>
+                            <button class="dropdown-item btn-size ak-btn imagesizeselect" id="btn-calculate" type="button" title="128" data-dpi="xxxhdpi">128</button>
+-->
+                        </div> 
                     </div>
+                </div>
             </div>
             <div class="row">
                     <button class="btn btn-danger col-12 align-self-center ak-btn text-center" style="padding:1px ; z-index: 0;font-weight: 550" onclick="clickBtnClear()" ><span translate-id="selector-clear">Clear</span> <span id="count-tag"></span> <span translate-id="clear-tags">Tags</span></button>
