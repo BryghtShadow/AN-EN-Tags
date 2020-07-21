@@ -326,7 +326,7 @@
             if(curChara.phases[num]){
                 // console.log(curChara.rarity+1)
                 // console.log(db.dataconst["evolveGoldCost"][curChara.rarity][num-1])
-                reqmats=([{"count":(db.dataconst["evolveGoldCost"][curChara.rarity][num-1]).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+                reqmats=([{"count":db.dataconst["evolveGoldCost"][curChara.rarity][num-1]
                             , "id" :4001
                             ,"type":"GOLD" }])
             }
@@ -501,14 +501,7 @@
             let itemdata = db.items[mat.id];
             let itemdataTL = query(db.itemstl, "name_cn", itemdata.name);
 
-            let formated_count = mat.count;
-            if (formated_count >= 1000) {
-                formated_count = formated_count.toString().split("");
-                for (i = formated_count.length - 3; i > 0; i -= 3) formated_count.splice(i, 0, ".");
-                formated_count = formated_count.join("");
-            }
-            
-            html.push(CreateMaterial(mat.id,formated_count));
+            html.push(CreateMaterial(mat.id,mat.count));
         }
 
         let need = Array.apply(null, Array(db["material"].length)).map(() => 0);
@@ -638,7 +631,7 @@
                 <img id="item-image" src="img/items/${itemdata.iconId}.png">
             </div>
             <img class="item-rarity" src="img/material/bg/item-${itemdata.rarity+1}.png">
-            <div class="item-amount">${count}x</div>
+            <div class="item-amount">${count.toLocaleString()}</div>
         </div>`)
         return material
     }
