@@ -147,7 +147,7 @@
         $('#operatorsResult').hide();
         localStorage.removeItem('selectedOP');
         selectedOP = localStorage.getItem('selectedOP');
-        // combined=[]
+        combined=[]
         $("#reqmats-container").empty();
         $("#tbody-materials").empty();
         $("#eliteReqMats").hide();
