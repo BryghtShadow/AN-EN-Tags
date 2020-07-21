@@ -189,21 +189,12 @@
             var result = [];
             $.each(db.chars2,function(_,char){
                 var languages = ['cn','en','jp','kr'];
-                var found = false;
-                if(el=="Browse"){
-                    found=true;
-                }else{
-                    for (var i = 0; i < languages.length; i++) {
-                        var charname = char['name_'+languages[i]].toUpperCase();
-                        var unreadable = query(db.unreadNameTL,"name",char.name_en)
-                        var input = inputs.toUpperCase();
-                        var search = (unreadable?unreadable.name_en.toUpperCase().search(input):charname.search(input));
-                        if(search != -1){
-                            found = true;
-                            break;
-                        };
-                    }
-                }
+                var found = (el=="Browse") || languages.some(language=>{
+                    var charname = char['name_'+language];
+                    var unreadable = query(db.unreadNameTL,"name",char.name_en)
+                    var input = inputs.toUpperCase();
+                    return (unreadable?unreadable.name_en:charname).toUpperCase().includes(input);
+                })
                 if(found){
                     // console.log(char)
                     var name_cn = char.name_cn;
@@ -261,23 +252,19 @@
             $('#operatorsResult').empty();
             $('#operatorsResult').hide();
             var opdata = query(db.chars2,"name_cn",opname);
-            var opdataFull
             // var opclass = query(db.classes,"type_cn",opdata.type);
             console.log(opdata);
-            var opdata2 = query(db.chars,"name",opdata.name_cn,true,true);
-            console.log(opdata2);
-            $.each(opdata2,function(key,v){
-                $("#opImage").attr('src','img/portraits/'+key+'_1.png');
-                opdataFull = opdata2[key]
-                // $("#opGlow").attr('src','img/ui/chara/glow-'+(opdata2[key].rarity+1)+'.png');
-                $("#opHeader").attr('src','img/ui/chara/header-'+(opdata2[key].rarity+1)+'.png');
-                $("#opBg").attr('src','img/ui/chara/bg-'+(opdata2[key].rarity<=2? 1:opdata2[key].rarity+1 )+'.png');
-                // $("#opBanner").attr('src','img/ui/chara/banner-'+(opdata2[key].rarity<=2? 1:opdata2[key].rarity+1 )+'.png');
-                
-                $("#opID").val(key);
-                localStorage.setItem('selectedOP', key);
-                return false
-            });
+            var [key, opdataFull] = Object.entries(db.chars).find(([k, v])=>{
+                return v.name.toLowerCase() === opdata.name_cn.toLowerCase()
+            })
+            $("#opImage").attr('src','img/portraits/'+key+'_1.png');
+            // $("#opGlow").attr('src','img/ui/chara/glow-'+(opdataFull.rarity+1)+'.png');
+            $("#opHeader").attr('src','img/ui/chara/header-'+(opdataFull.rarity+1)+'.png');
+            $("#opBg").attr('src','img/ui/chara/bg-'+(opdataFull.rarity<=2? 1:opdataFull.rarity+1 )+'.png');
+            // $("#opBanner").attr('src','img/ui/chara/banner-'+(opdataFull.rarity<=2? 1:opdataFull.rarity+1 )+'.png');
+            
+            $("#opID").val(key);
+            localStorage.setItem('selectedOP', key);
             // console.log(opclass)
             // $("#opClassImage").attr('src','img/classes/black/icon_profession_'+opclass.type_en.toLowerCase()+'_large.png');
             // console.log(db.classes)
@@ -286,15 +273,13 @@
             console.log(type)
             $("#opClassImage").attr("src","img/classes/black/icon_profession_"+type.type_en.toLowerCase()+"_large.png")
 
-            $("#op-nametl").html(opdata['name_'+lang]);
-            $("#op-name").html(opdata['name_'+reg]);
+            $("#op-nametl").text(opdata['name_'+lang]);
+            $("#op-name").text(opdata['name_'+reg]);
             $("#detail").html("<a type=\"button\" class=\"btn btn-sm ak-btn ak-shadow ak-shadow-small my-1\" style=\"background:#444444DD\"data-toggle=\"tooltip\" data-placement=\"right\" href=\"./akhrchars.html?opname="+opdata.name_en.replace(/ /g,"_")+"\">Detail</button>")
             $("#add-op").html(`<a type="button" class="btn btn-sm ak-btn ak-shadow ak-shadow-small my-1" style="background:#444444DD" onclick="addCurrentOperator()" data-toggle="tooltip" data-placement="left">Add</a>`);
-            var rarity = "";
-            for (var i = 0; i < opdata.level; i++) {
-                rarity = rarity + " ★";
-            }
-            $("#op-rarity").html(rarity);
+            var rarity = " ★".repeat(opdata.level);
+            $("#op-rarity").text(rarity);
+
             let positions = {'MELEE': '近战位', 'RANGED': '远程位'}
             let position = positions[opdataFull.position]
             let tags = [position, ...opdataFull.tagList]
@@ -503,9 +488,9 @@
 
             html.push(CreateMaterial(mat.id,mat.count));
         }
-
-        let need = Array.apply(null, Array(db["material"].length)).map(() => 0);
-        let have = $.extend([], need);
+        var n = db["material"].length
+        let need = new Float32Array(n);
+        let have = new Float32Array(n);
 
         for (let mat of combined) {
             let name_cn = db.items[mat.id].name;
