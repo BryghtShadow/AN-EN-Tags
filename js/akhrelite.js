@@ -447,6 +447,7 @@
     }
 
     function rmOperator(el) {
+        $('#floating-reqmats-container').remove();
         delete chosen_ops[$(el).parent().attr("op-id")];
 
         // remove button -> div -> li
