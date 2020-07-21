@@ -1,39 +1,39 @@
     $.holdReady(true);
     var db = {};
-    var d0 = $.getJSON("json/gamedata/zh_CN/gamedata/excel/building_data.json",function(data){
+    var promises = [
+        $.getJSON("json/gamedata/zh_CN/gamedata/excel/building_data.json",function(data){
             db["manufactformulas"] = data.manufactFormulas;
-        });
-    var d1 = $.getJSON("json/gamedata/zh_CN/gamedata/excel/building_data.json",function(data){
             db["workshopformulas"] = data.workshopFormulas;
-        });
-    var d2 = $.getJSON("json/gamedata/zh_CN/gamedata/excel/character_table.json",function(data){
+        }),
+        $.getJSON("json/gamedata/zh_CN/gamedata/excel/character_table.json",function(data){
             db["chars"] = data;
-        });
-    var d3 = $.getJSON("json/gamedata/zh_CN/gamedata/excel/item_table.json",function(data){
+        }),
+        $.getJSON("json/gamedata/zh_CN/gamedata/excel/item_table.json",function(data){
             db["items"] = data.items;
-        });
-    var d4 = $.getJSON("json/tl-akhr.json",function(data){
+        }),
+        $.getJSON("json/tl-akhr.json",function(data){
             db["chars2"] = data;
-        });
-    var d5 = $.getJSON("json/tl-type.json",function(data){
+        }),
+        $.getJSON("json/tl-type.json",function(data){
             db["classes"] = data;
-        });
-    var d6 = $.getJSON("json/tl-tags.json",function(data){
+        }),
+        $.getJSON("json/tl-tags.json",function(data){
             db["tags"] = data;
-        });
-    var d7 = $.getJSON("./json/tl-item.json",function(data){
+        }),
+        $.getJSON("./json/tl-item.json",function(data){
             db["itemstl"] = data;
-        });
-    var d8 = $.getJSON("json/gamedata/zh_CN/gamedata/excel/gamedata_const.json",function(data){
+        }),
+        $.getJSON("json/gamedata/zh_CN/gamedata/excel/gamedata_const.json",function(data){
             db["dataconst"] = data;
-        });
-    var d15 = $.getJSON("json/tl-unreadablename.json",function(data){
+        }),
+        $.getJSON("json/tl-unreadablename.json",function(data){
             db["unreadNameTL"] = data;
-        });
-    var d16 = $.getJSON("json/akmaterial.json",function(data){
+        }),
+        $.getJSON("json/akmaterial.json",function(data){
             db["material"] = data.filter(e => !e.hidden).sort((a, b) => b.level - a.level);
-        });
-    $.when(d0,d1,d2,d3,d4,d5,d6,d7,d8,d15).then(function(){
+        }),
+    ]
+    $.when.apply($, promises).then(function(){
         $.holdReady(false);
     });
 
