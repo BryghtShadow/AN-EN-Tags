@@ -15,49 +15,90 @@ let timestamp = (function() {
 const ROOK = '\u265C'
 const BLANK = '\u29C4'
 
+function rewardIcon(item) {
+	let root = document.createElement('div')
+	root.className = 'item'
+
+	let icon = document.createElement('div')
+	icon.className = 'icon rare-' + (item.rarity+1)
+
+	let img = document.createElement('img')
+	img.src = './img/items/' + item.iconId + '.png'
+	img.width = 40
+	img.height = 40
+	icon.appendChild(img)
+
+	let count = document.createElement('span')
+	count.className = "count"
+	count.textContent = item.count
+
+	root.appendChild(icon)
+	root.appendChild(count)
+
+	return root
+}
+
 Promise.all([
 	fetch('json/gamedata/en_US/gamedata/excel/item_table.json').then((r) => r.json()),
 	fetch('json/gamedata/en_US/gamedata/excel/mission_table.json').then((r) => r.json()),
 ]).then((data) => {
 	var [itemData, missionData] = data
 	const now = new Date()
+	now.setHours(now.getHours()+2*24)
 	const dom = document.querySelector('code')
 	let text = []
 	text.push("NOW: " + timestamp(now))
 	missionData.dailyMissionPeriodInfo.forEach((daily) => {
 		let startTime = new Date(daily.startTime * 1000)
 		let endTime = new Date(daily.endTime * 1000)
-		if (startTime > now || now > endTime) {
-			return
-		}
 		daily.startTime = timestamp(startTime)
 		daily.endTime = timestamp(endTime)
 
+		if (startTime > now || now > endTime) {
+			return
+		}
 		text.push(JSON.stringify(daily, null, 4))
 
 		daily.periodList.forEach((periodData) => {
 			text.push('='.repeat(80))
+			// DAILY REWARDS
+			var dailyRewardsFragment = document.createDocumentFragment()
+
 			Object.values(missionData.periodicalRewards)
 			.filter((reward) => reward.groupId === periodData.rewardGroupId)
 			.sort((a, b) => a.sortIndex - b.sortIndex)
 			.forEach((reward, i) => {
-				text.push(`reward set - ${i.toString().padStart(3, '0')}\u25BC`)
-				text.push(ROOK.repeat(reward.periodicalPointCost).padEnd(3, BLANK) + ' ' + reward.rewards.map((rewardData) => {
-					return '[' + itemData.items[rewardData.id].name + ']\u00D7' + rewardData.count
-				}).join(', '))
-				text.push(JSON.stringify(reward, null, 4))
+				let rewardSet = document.createElement('div')
+				rewardSet.textContent = `reward set - ${i.toString().padStart(3, '0')}\u25BC\n`
+
+				let points = document.createElement('div')
+				points.textContent = ROOK.repeat(reward.periodicalPointCost).padEnd(3, BLANK)
+
+				let items = document.createElement('div')
+				items.className = 'items'
+
+				reward.rewards.forEach((rewardData) => {
+					let item = itemData.items[rewardData.id]
+
+					let icon = rewardIcon(item)
+
+					items.appendChild(icon)
+				})
+
+				dailyRewardsFragment.appendChild(items)
+				// text.push(JSON.stringify(reward, null, 4))
 			})
+			document.querySelector('#daily .rewards').appendChild(dailyRewardsFragment)
 
 			text.push('='.repeat(80))
 			let missionGroup = missionData.missionGroups[periodData.missionGroupId]
-			text.push(JSON.stringify(missionGroup, null, 4))
-			text.push('='.repeat(80))
+			// text.push(JSON.stringify(missionGroup, null, 4))
 			missionGroup.missionIds.forEach((missionId) => {
 				let mission = missionData.missions[missionId]
-				text.push(ROOK.repeat(mission.periodicalPoint).padEnd(3, BLANK))
-				text.push(JSON.stringify(mission, null, 4))
+				text.push(`${ROOK} [requirement] ${mission.description} [0/${mission.param[mission.param.length-1]} ${ROOK}\u00D7${mission.periodicalPoint}]`)
+				// text.push(JSON.stringify(mission, null, 4))
 			})
 		})
 	})
-	dom.textContent = text.join('\n')
+	// dom.textContent = text.join('\n')
 })

@@ -1,0 +1,36 @@
+.item .icon {
+	width: 40px;
+	height: 40px;
+	position: relative;
+}
+.item .icon:before {
+	content: "";
+	width: 40px;
+	height: 40px;
+	background-size: contain;
+	position: absolute;
+	display: block;
+	/*! margin: -4px; */
+}
+.item .rare-1:before {
+	background-image: url('/img/material/bg/item-1.png');
+}
+.item .rare-2:before {
+	background-image: url('/img/material/bg/item-2.png');
+}
+.item .rare-3:before {
+	background-image: url('/img/material/bg/item-3.png');
+}
+.item .rare-4:before {
+	background-image: url('/img/material/bg/item-4.png');
+}
+.item .rare-5:before {
+	background-image: url('/img/material/bg/item-5.png');
+}
+.item img {
+	object-fit: contain;
+	position: relative;
+	margin: 2px;
+	width: 36px;
+	height: 36px;
+}
