@@ -15,36 +15,42 @@ let timestamp = (function() {
 const ROOK = '\u265C'
 const BLANK = '\u29C4'
 
-function rewardIcon(item) {
-	let root = document.createElement('div')
-	root.className = 'item'
-
-	let icon = document.createElement('div')
-	icon.className = 'icon rare-' + (item.rarity+1)
-
-	let img = document.createElement('img')
-	img.src = './img/items/' + item.iconId + '.png'
-	img.width = 40
-	img.height = 40
-	icon.appendChild(img)
-
-	let count = document.createElement('span')
-	count.className = "count"
-	count.textContent = item.count
-
-	root.appendChild(icon)
-	root.appendChild(count)
-
-	return root
-}
 
 Promise.all([
 	fetch('json/gamedata/en_US/gamedata/excel/item_table.json').then((r) => r.json()),
 	fetch('json/gamedata/en_US/gamedata/excel/mission_table.json').then((r) => r.json()),
 ]).then((data) => {
 	var [itemData, missionData] = data
+
+
+	function rewardIcon(rewardData) {
+		let item = itemData.items[rewardData.id]
+
+		let root = document.createElement('div')
+		root.className = 'item'
+
+		let icon = document.createElement('div')
+		icon.className = 'icon rare-' + (item.rarity+1)
+
+		let img = document.createElement('img')
+		img.src = './img/items/' + item.iconId + '.png'
+		img.width = 40
+		img.height = 40
+		icon.appendChild(img)
+
+		let count = document.createElement('span')
+		count.className = "count"
+		count.textContent = rewardData.count
+
+		root.appendChild(icon)
+		root.appendChild(count)
+
+		return root
+	}
+
+
 	const now = new Date()
-	now.setHours(now.getHours()+2*24)
+	// now.setHours(now.getHours()+24)
 	const dom = document.querySelector('code')
 	let text = []
 	text.push("NOW: " + timestamp(now))
@@ -59,7 +65,8 @@ Promise.all([
 		}
 		text.push(JSON.stringify(daily, null, 4))
 
-		daily.periodList.forEach((periodData) => {
+		daily.periodList.forEach((periodData, j) => {
+			if (j > 0) return
 			text.push('='.repeat(80))
 			// DAILY REWARDS
 			var dailyRewardsFragment = document.createDocumentFragment()
@@ -68,6 +75,7 @@ Promise.all([
 			.filter((reward) => reward.groupId === periodData.rewardGroupId)
 			.sort((a, b) => a.sortIndex - b.sortIndex)
 			.forEach((reward, i) => {
+				if (i > 2) return
 				let rewardSet = document.createElement('div')
 				rewardSet.textContent = `reward set - ${i.toString().padStart(3, '0')}\u25BC\n`
 
@@ -78,9 +86,7 @@ Promise.all([
 				items.className = 'items'
 
 				reward.rewards.forEach((rewardData) => {
-					let item = itemData.items[rewardData.id]
-
-					let icon = rewardIcon(item)
+					let icon = rewardIcon(rewardData)
 
 					items.appendChild(icon)
 				})
