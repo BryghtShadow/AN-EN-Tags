@@ -1,0 +1,54 @@
+<body>
+<script>
+let languageRegionMap = {
+	'en': 'en_US',
+	'ja': 'ja_JP',
+	'ko': 'ko_KR',
+	'cn': 'zh_CN',
+	'tw': 'zh_TW',
+}
+let db = {
+	manufactformulas: {},
+	workshopformulas: {},
+	building_buffs: {},
+	building_chars: {},
+	chars: {},
+}
+function fetchGamedata(code, name) {
+	let url = 
+	return fetch(url).then(r=>r.json())
+}
+function f(dst, code, src) {
+	Object.entries(src).reduce((acc, [k, v]) => {
+		acc[k] = acc[k] || {}
+		acc[k][code] = v
+		return acc
+	}, dst)
+}
+let promises = Object.values(languageRegionMap)
+.reduce((acc, code) => {
+	acc.push(
+		fetch(`json/gamedata/${code}/gamedata/excel/building_data.json`)
+		.then((r) => r.json())
+		.then((data) => {
+			f(db.manufactformulas, code, data.manufactFormulas)
+			f(db.workshopformulas, code, data.workshopFormulas)
+			f(db.building_buffs, code, data.buffs)
+			f(db.building_chars, code, data.chars)
+		})
+	)
+	acc.push(
+		fetch(`json/gamedata/${code}/gamedata/excel/character_table.json`)
+		.then((r) => r.json())
+		.then((data) => {
+			f(db.chars, code, data)
+		})
+	)
+	return acc
+}, [])
+
+Promise.all(promises).then(data=>{
+	console.log(db)
+})
+</script>
+</body>
