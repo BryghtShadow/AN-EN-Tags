@@ -1,20 +1,73 @@
 <style>
+	body {
+		font-family: sans-serif;
+	}
 	.operator {
 		border: thin solid red;
 		margin-bottom: .5em;
 	}
+	.buff {
+		background: #333;
+		border: thin solid green;
+		margin: .5em;
+		color: #ddd;
+	}
+	.buff-header {
+		display: flex;
+		align-items: center;
+	}
+	.buff-icon {
+		padding: 5px;
+	}
+	.buff-name {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 5px;
+	}
+	.buff-name img {
+		margin-right: 2px;
+	}
+
+	.room-type-POWER {
+		background-color: #8fc31f;
+		color: #ffffff;
+	}
+	.room-type-MANUFACTURE {
+		background-color: #ffd800;
+		color: #333333;
+	}
+	.room-type-WORKSHOP {
+		background-color: #e3eb00;
+		color: #333333;
+	}
+	.room-type-MEETING {
+		background-color: #dd653f;
+		color: #ffffff;
+	}
+	.room-type-DORMITORY {
+		background-color: #21cdcb;
+		color: #ffffff;
+	}
+	.room-type-HIRE {
+		background-color: #565656;
+		color: #ffffff;
+	}
+	.room-type-TRAINING {
+		background-color: #7d0022;
+		color: #ffffff;
+	}
+	.room-type-CONTROL {
+		background-color: #005752;
+		color: #ffffff;
+	}
+	.room-type-TRADING { background-color: #0075a9; color: #ffffff; }
+
 </style>
 <script src='js/jquery-3.4.0.min.js'></script>
 <body>
 
 <script>
-let languageRegionMap = {
-	'en': 'en_US',
-	'ja': 'ja_JP',
-	'ko': 'ko_KR',
-	'cn': 'zh_CN',
-	'tw': 'zh_TW',
-}
 let db = {
 	manufactformulas: {},
 	workshopformulas: {},
@@ -22,6 +75,25 @@ let db = {
 	building_chars: {},
 	chars: {},
 }
+let languageRegionMap = {
+	'en': 'en_US',
+	'ja': 'ja_JP',
+	'ko': 'ko_KR',
+	'cn': 'zh_CN',
+	'tw': 'zh_TW',
+}
+let roomTypeIcons = {
+	TRADING: 'trade',
+	DORMITORY: 'dorm',
+	POWER: 'power',
+	MANUFACTURE: 'manu',
+	MEETING: 'meet',
+	WORKSHOP: 'workshop',
+	HIRE: 'hire',
+	TRAINING: 'train',
+	CONTROL: 'control',
+}
+
 function f(dst, code, src) {
 	Object.entries(src).reduce((acc, [k, v]) => {
 		acc[k] = acc[k] || {}
@@ -29,7 +101,25 @@ function f(dst, code, src) {
 		return acc
 	}, dst)
 }
-let promises = Object.values(languageRegionMap)
+
+function formatDescription(description) {
+	return description.replace(/<@(.+?)>(.+?)<\/>/g, function(m, rtf, text) {
+        // console.log(m, rtf, text);
+        let rich = db.dataconst.richTextStyles[rtf];
+        if (rich) {
+            let colorRTF = /<color=(#[0-9A-F]+)>\{0\}<\/color>/;
+            if (colorRTF.test(rich)) {
+                let color = colorRTF.exec(rich)[1]
+                return `<span style="color:${color}">${text}</span>`
+            } else {
+                return rich.replace('{0}', text)
+            }
+        }
+    })
+}
+
+let promises = []
+Object.values(languageRegionMap)
 .reduce((acc, code) => {
 	acc.push(
 		fetch(`json/gamedata/${code}/gamedata/excel/building_data.json`)
@@ -49,26 +139,62 @@ let promises = Object.values(languageRegionMap)
 		})
 	)
 	return acc
-}, [])
+}, promises)
+promises.push(fetch('json/gamedata/zh_CN/gamedata/excel/gamedata_const.json').then(r=>r.json()).then(data=>{
+	db.dataconst = data
+}))
 
 Promise.all(promises).then(data=>{
+
 	console.log(db)
 
 	let reg = 'en_US'
 	let lang = 'en_US'
 
 	let roomType = 'TRADING'
-	let $html = Object.entries(db.building_chars).map(([k,v])=>{
+	let $html = Object.entries(db.building_chars).reduce((acc, [k,v])=>{
 		let found = v[reg] && v[reg].buffChar.some(buffChar=>{
 			return buffChar.buffData.some(buffData=>{
 				return db.building_buffs[buffData.buffId][reg].roomType == roomType
 			})
 		})
-		return `<div class="operator">
-		${db.chars[k][reg].name}<br>${JSON.stringify(db.building_buffs[v[reg].buffChar[0].buffData[0].buffId][reg])}
-		</div>`
-	}).join('\n')
+		if (found || v[reg]) {
+			let charData = db.chars[k][reg]
+			let buffs = []
+			v[reg].buffChar.forEach(buffChar=>{
+				buffChar.buffData.forEach(buffData=>{
+					let buff = db.building_buffs[buffData.buffId][reg]
+					let roomTypeIcon = roomTypeIcons[buff.roomType]
 
+
+
+
+
+					buffs.push(`<div class="buff">
+						<div class="buff-header">
+							<div class="buff-icon">
+								<img src="img/ui/infrastructure/skill/${buff.skillIcon}.png" width="36" height="36">
+							</div>
+							<div class="buff-name room-type-${buff.roomType}">
+								<img src="img/ui/infrastructure/${roomTypeIcon}.png" width="23" height="23">
+								${buff.buffName}
+							</div>
+						</div>
+						<div class="description">
+						${formatDescription(buff.description)}
+						</div>
+						${JSON.stringify(buff, null, 2)}
+					</div>`)
+				})
+			})
+			let row = `<div class="operator">
+			<b class="name">${charData.name}</b>
+			${buffs.join('\n')}
+			</div>`
+			acc.push(row)
+		}
+		return acc
+	}, []).join('\n')
 	$('body').html($html)
 })
 </script>
