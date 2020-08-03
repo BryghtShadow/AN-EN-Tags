@@ -1,4 +1,12 @@
+<style>
+	.operator {
+		border: thin solid red;
+		margin-bottom: .5em;
+	}
+</style>
+<script src='js/jquery-3.4.0.min.js'></script>
 <body>
+
 <script>
 let languageRegionMap = {
 	'en': 'en_US',
@@ -45,6 +53,23 @@ let promises = Object.values(languageRegionMap)
 
 Promise.all(promises).then(data=>{
 	console.log(db)
+
+	let reg = 'en_US'
+	let lang = 'en_US'
+
+	let roomType = 'TRADING'
+	let $html = Object.entries(db.building_chars).map(([k,v])=>{
+		let found = v[reg] && v[reg].buffChar.some(buffChar=>{
+			return buffChar.buffData.some(buffData=>{
+				return db.building_buffs[buffData.buffId][reg].roomType == roomType
+			})
+		})
+		return `<div class="operator">
+		${db.chars[k][reg].name}<br>${JSON.stringify(db.building_buffs[v[reg].buffChar[0].buffData[0].buffId][reg])}
+		</div>`
+	}).join('\n')
+
+	$('body').html($html)
 })
 </script>
 </body>
