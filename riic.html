@@ -14,10 +14,6 @@ let db = {
 	building_chars: {},
 	chars: {},
 }
-function fetchGamedata(code, name) {
-	let url = 
-	return fetch(url).then(r=>r.json())
-}
 function f(dst, code, src) {
 	Object.entries(src).reduce((acc, [k, v]) => {
 		acc[k] = acc[k] || {}
