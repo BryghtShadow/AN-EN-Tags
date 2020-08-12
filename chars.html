@@ -7,8 +7,10 @@
 	</head>
 	<body>
 		<div id="app">
-			<label>Select an operator:</label>
-			<input autocomplete="off" placeholder="Operator name..." v-model.trim="search">
+			<label>
+				<div>Select an operator:</div>
+				<input autocomplete="off" placeholder="Operator name..." v-model.trim="search">
+			</label>
 			<button @click="showAll">Show All</button>
 			<div>
 			<ul id="operatorResult"
@@ -27,8 +29,8 @@
 			new Vue({
 				el: '#app',
 				data: {
-					search: 'Ch',
-					showingAll: true,
+					search: '',
+					showingAll: false,
 					operators: {},
 				},
 				mounted() {
@@ -53,7 +55,7 @@
 						}
 						let results = Object.values(this.operators)
 							.filter((c) => c.profession !== 'TRAP' && c.profession !== 'TOKEN')
-							.sort((a, b) => b.rarity - a.rarity || (a.name > b.name) )
+							.sort((a, b) => b.rarity - a.rarity || a.name > b.name)
 						if (this.showingAll) {
 							return results
 						}
