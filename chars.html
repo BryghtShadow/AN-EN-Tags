@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<link href="css/chars.css" rel="stylesheet">
+	</head>
+	<body>
+		<div id="app">
+			<label>Select an operator:</label>
+			<input autocomplete="off" placeholder="Operator name..." v-model.trim="search">
+			<button @click="showAll">Show All</button>
+			<div>
+			<ul id="operatorResult"
+				v-bind:class="{ 'opresult-grid': showingAll, 'opresult-list': !showingAll }"
+				v-show="filteredOperators.length > 0">
+				<li
+					class="operator"
+					v-bind:class="['rare-' + (operator.rarity+1)]"
+					v-for="(operator, id) in filteredOperators">
+					<img class="opres-img" :src="`/img/avatars/${operator.charId}.png`" width="70" height="70">
+					<span class="name">{{ operator.name }}</span>
+				</li>
+			</ul></div>
+		</div>
+		<script type="text/javascript">
+			new Vue({
+				el: '#app',
+				data: {
+					search: 'Ch',
+					showingAll: true,
+					operators: {},
+				},
+				mounted() {
+					fetch('json/gamedata/en_US/gamedata/excel/character_table.json').then((r) => r.json())
+					.then((data) => {
+						this.operators = Object.entries(data).reduce((acc, [k, v]) => {
+							v.charId = k
+							acc[k] = v
+							return acc
+						}, {})
+					})
+				},
+				watch: {
+					search: function(newVal, oldVal) {
+						this.showingAll = false;
+					}
+				},
+				computed: {
+					filteredOperators() {
+						if (!this.showingAll && this.search.length === 0) {
+							return []
+						}
+						let results = Object.values(this.operators)
+							.filter((c) => c.profession !== 'TRAP' && c.profession !== 'TOKEN')
+							.sort((a, b) => b.rarity - a.rarity || (a.name > b.name) )
+						if (this.showingAll) {
+							return results
+						}
+						let search = this.search.toLowerCase()
+						results = results.filter(operator => operator.name.toLowerCase().includes(search))
+						return results
+					}
+				},
+				methods: {
+					showAll: function() {
+						this.showingAll = !this.showingAll
+					},
+				}
+			})
+		</script>
+	</body>
+
+</html>
