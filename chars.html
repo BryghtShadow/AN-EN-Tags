@@ -55,7 +55,7 @@
 						}
 						let results = Object.values(this.operators)
 							.filter((c) => c.profession !== 'TRAP' && c.profession !== 'TOKEN')
-							.sort((a, b) => b.rarity - a.rarity || a.name > b.name)
+							.sort((a, b) => b.rarity - a.rarity || new Intl.Collator('en').compare(a,b))
 						if (this.showingAll) {
 							return results
 						}
