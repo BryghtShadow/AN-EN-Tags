@@ -1,0 +1,20 @@
+<html>
+<p id="dialogue"></p>
+<script type="text/javascript">
+fetch("json/gamedata/en_US/gamedata/story/activities/a001/level_a001_01_beg.txt").then(r=>r.text()).then(data=>{
+	var lines = data.split('\n').filter(line => line.startsWith('[name'))
+	var dialogueContainer = document.getElementById('dialogue')
+	console.log(lines)
+	var i = 0
+	function printDialogue() {
+		if (i >= lines.length) {
+			clearInterval(printDialogue)
+		}
+		var [_, name, dialogue] = lines[i].match(/^\[name="(.+?)"\]\s+(.+)$/)
+		dialogueContainer.textContent = name + ": " + dialogue
+		i++;
+	}
+	setInterval(printDialogue, 5000);
+})
+</script>
+</html>
