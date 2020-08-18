@@ -1,20 +1,441 @@
 <html>
-<p id="dialogue"></p>
+<style type="text/css">
+ .avg-scene {
+   position: relative;
+   width: 500px;
+   max-width: 100%;
+   margin: 10px 0;
+   font-size: 0;
+   overflow: hidden;
+ }
+ .avg-char, .avg-char1, .avg-char2  {
+   position: absolute;
+   top: 0;
+ }
+ .avg-char, .avg-char1, .avg-char2 {
+   position: absolute;
+   width: 50%;
+ }
+ .avg-char {
+   left: 25%;
+ }
+ .avg-char1 {
+   left: 0;
+ }
+ .avg-char2 {
+   right: 0;
+ }
+ .avg-name {
+   display: inline-block;
+   width: 120px;
+   text-align: right;
+   padding-right: 12px;
+   color: #777;
+ }
+ .avg-text {
+   display: inline;
+ }
+ @media screen and (max-width: 400px) {
+   .avg-name {
+	 display: block;
+	 width: auto;
+	 text-align: left;
+	 padding: 0;
+   }
+   .avg-text {
+	 display: block;
+	 padding-left: 12px;
+   }
+ }
+ .avg-option, .avg-reference {
+   display: inline-block;
+   background: #ddd;
+   border-radius: 20px;
+   padding: 0 10px;
+   margin: 3px 5px;
+ }
+ .avg-decision, .avg-predicate {
+   margin: 5px 0;
+ }	
+</style>
+<body>
+	<div id="story"></div>
+</body>
 <script type="text/javascript">
-fetch("json/gamedata/en_US/gamedata/story/activities/a001/level_a001_01_beg.txt").then(r=>r.text()).then(data=>{
-	var lines = data.split('\n').filter(line => line.startsWith('[name'))
-	var dialogueContainer = document.getElementById('dialogue')
-	console.log(lines)
-	var i = 0
-	function printDialogue() {
-		if (i >= lines.length) {
-			clearInterval(printDialogue)
+var url = "json/gamedata/en_US/gamedata/story/activities/a001/level_a001_01_beg.txt"
+var url = "json/gamedata/en_US/gamedata/story/obt/main/level_main_00-01_beg.txt"
+
+let parseArgs = function(s) {
+	let args = s.split(/,(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)/)
+	return args.reduce((acc, kv)=>{
+		let m = kv.match(/^\s*([^\s=]+)="?(.*?)"?$/)
+		acc[m[1]] = m[2]
+		return acc
+	}, {})
+}
+
+let parse = function(text) {
+	let list = []
+	for (var [i] of text.matchAll(/[^\r\n]+/g)) {
+		if (i.trim() === "") { continue; }
+		let commentPattern = /^\s*\/\//
+		if (commentPattern.test(i)) {
+			list.push({
+				type: 'comment',
+				comment: i.replace(commentPattern, '')
+			})
+		} else if (/\[/.test(i)) {
+			let [, command, text] = i.match(/\[([^\]]+)\]\s*(.*)/) || []
+			if (command) {
+				let [, func, args] = command.match(/([^\s]+)\(([^\)]*)\)/) || []
+				let [, setKey, setValue] = command.match(/([^\s=]+)="?([^\s="]+)"?/) || []
+				if (func) {
+					let argList = parseArgs(args)
+					list.push({
+						type: 'function',
+						name: func,
+						args: argList,
+					})
+				} else if (setKey) {
+					list.push({
+						type: 'set',
+						key: setKey,
+						value: setValue,
+					})
+				} else {
+					list.push({
+						type: 'function',
+						name: command,
+					})
+				}
+			}
+
+			if (text && text !== '') {
+				list.push({
+					type: 'text',
+					text: text,
+				})
+			}
+		} else {
+			list.push({
+				type: 'text',
+				text: i,
+			})
 		}
-		var [_, name, dialogue] = lines[i].match(/^\[name="(.+?)"\]\s+(.+)$/)
-		dialogueContainer.textContent = name + ": " + dialogue
-		i++;
 	}
-	setInterval(printDialogue, 5000);
+	return list
+}
+
+let read = function(list) {
+	let vars = {
+		background: undefined,
+		image: undefined,
+		name: undefined,
+		char1: undefined,
+		char2: undefined,
+		options: undefined,
+		references: undefined,
+	}
+	let old = {
+		background: undefined,
+		image: undefined,
+		char1: undefined,
+		char2: undefined,
+	}
+	let meta = {
+		header: undefined,
+	}
+	let state = undefined
+	let result = []
+
+	let noop = function() {}
+	let funcHandlers = {
+		HEADER: function(statement) {
+			state = 'WAIT_HEADER_TEXT'
+		},
+		Dialog: noop,
+		Delay: noop,
+		Blocker: noop,
+		PlayMusic: noop,
+		PlaySound: noop,
+		StopMusic: noop,
+		ImageTween: noop,
+		Background: function(s) {
+			let newbg
+			if (typeof(s.args) !== 'undefined') {
+				newbg = s.args.image
+			} else {
+				newbg = undefined
+			}
+
+			if (typeof(newbg) !== 'undefined') {
+				newbg = newbg.replace(/#.*$/, '')
+			}
+
+			if (newbg !== old.background) {
+				if (typeof(newbg) !== 'undefined') {
+					state = 'VISUAL'
+				}
+				old.background = newbg
+				vars.background = newbg
+			}
+		},
+		Image: function(s) {
+			let newimg
+			if (typeof(s.args) !== 'undefined') {
+				newimg = s.args.image
+			} else {
+				newimg = undefined
+			}
+
+			if (typeof(newimg) !== 'undefined') {
+				newimg = newimg.replace(/#.*$/, '')
+			}
+
+			if (newimg !== old.image) {
+				state = 'VISUAL'
+				old.image = newimg
+				vars.image = newimg
+			}
+		},
+		Character: function(s) {
+			let new1
+			let new2
+
+			if (typeof(s.args) !== 'undefined') {
+				new1 = s.args.name
+				new2 = s.args.name2
+			} else {
+				new1 = undefined
+				new2 = undefined
+			}
+
+			if (typeof(new1) !== 'undefined') {
+				new1 = new1.replace(/#.*$/, '')
+			}
+			if (typeof(new2) !== 'undefined') {
+				new2 = new2.replace(/#.*$/, '')
+			}
+
+			if (new1 !== old.char1 || new2 !== old.char2) {
+				if (typeof(new1) !== 'undefined' || typeof(new2) !== 'undefined') {
+					state = 'VISUAL'
+				}
+				old.char1 = new1
+				old.char2 = new2
+				vars.char1 = new1
+				vars.char2 = new2
+			}
+		},
+		Decision: function(s) {
+		  let options = {}
+		  
+		  if (typeof(s.args) !== 'undefined') {
+			let opts = Array.from(s.args.options.matchAll(/([^;]+)/g), m => m[0])
+			let values = Array.from(s.args.values.matchAll(/([^;]+)/g), m => m[0])
+			for (let i = 0; i < opts.length; i++) {
+			  options[values[i]] = opts[i]
+			}
+		  }
+		  
+		  state = 'DECISION'
+		  vars.options = options    	
+		},
+		Predicate: function (s) {
+			let references = []
+
+			if (typeof(s.args) !== 'undefined') {
+				references = Array.from(s.args.references.matchAll(/([^;]+)/g), m => m[0])
+			}
+
+			state = 'PREDICATE'
+			vars.references = references
+		}
+	}
+
+	let handlers = {
+		text: function (statement) {
+			if (state === 'WAIT_HEADER_TEXT') {
+				meta.header = statement.text
+				state = undefined
+			} else {
+				result.push({
+					type: 'dialog',
+					name: vars.name,
+					text: statement.text,
+				})
+				vars.name = undefined
+			}
+		},
+		set: function(statement) {
+			vars[statement.key] = statement.value
+		},
+		'function': function(statement) {
+			if (typeof(funcHandlers[statement.name]) !== 'undefined') {
+				funcHandlers[statement.name](statement)
+			} else {
+				// console.log("Unknown function: " + statement.name)
+			}
+		},
+		comment: noop,
+	}
+
+	for (let index = 0; index < list.length; index++) {
+		let statement = list[index]
+		if (typeof(handlers[statement.type]) !== 'undefined') {
+			handlers[statement.type](statement)
+		} else {
+			// console.log("Unknown statement: " + statement.type)
+		}
+
+		if (state === 'VISUAL') {
+			let visual = {
+				type: 'image',
+				background: vars.background,
+				image: vars.image,
+				char1: vars.char1,
+				char2: vars.char2,
+			}
+			if (result.length > 0) {
+				if (result[result.length-1].type === 'image') {
+					result[result.length] = visual
+				} else {
+					result.push(visual)
+				}
+			} else {
+				result.push(visual)
+			}
+			state = undefined
+		}
+
+		if (state === 'DECISION') {
+			result.push({
+				type: 'decision',
+				options: vars.options,
+			})
+			state = undefined
+		}
+
+		if (state === 'PREDICATE') {
+			result.push({
+				type: 'predicate',
+				options: vars.options,
+				references: vars.references,
+			})
+			state = undefined
+		}
+	}
+
+	return [result, meta]
+}
+
+let wiki = function(result, meta) {
+	let dom = document.createDocumentFragment()
+	if (typeof(meta.header) !== 'undefined') {
+		let header = document.createElement('div')
+		header.className = 'avg-title'
+		header.textContent = meta.header
+		dom.appendChild(header)
+	}
+
+	for (var k = 0; k < result.length; k++) {
+		let r = result[k]
+		if (r.type === 'image') {
+			let avgScene = document.createElement('div')
+			avgScene.className = 'avg-scene'
+			if (typeof(r.background) !== 'undefined') {
+				let avgBackground = document.createElement('div')
+				avgBackground.className = 'avg-background'
+				let img = document.createElement('img')
+				img.src = `img/avg/backgrounds/${r.background}.png`
+				img.width = 500
+				avgBackground.appendChild(img)
+				avgScene.appendChild(avgBackground)
+			}
+			if (typeof(r.image) !== 'undefined') {
+				let avgImage = document.createElement('div')
+				avgImage.className = 'avg-image'
+				let img = document.createElement('img')
+				img.src = `img/avg/images/${r.image}.png`
+				img.width = 500
+				avgImage.appendChild(img)
+				avgScene.appendChild(avgImage)
+			}
+			if (typeof(r.char1) !== 'undefined' && typeof(r.char2) !== 'undefined') {
+				for (var i = 0; i < 2; i++) {
+					let avgChar = document.createElement('div')
+					avgChar.className = `avg-char${i+1}`
+					let img = document.createElement('img')
+					img.src = `img/avg/character/${r[`char${i+1}`]}.png`
+					img.width = 250
+					avgChar.appendChild(img)
+					avgScene.appendChild(avgChar)
+				}
+			}
+			if (typeof(r.char1) !== 'undefined' && typeof(r.char2) === 'undefined') {
+				let avgChar = document.createElement('div')
+				avgChar.className = 'avg-char'
+				let img = document.createElement('img')
+				img.src = `img/avg/character/${r.char1}.png`
+				img.width = 250
+				avgChar.appendChild(img)
+				avgScene.appendChild(avgChar)
+			}
+			dom.appendChild(avgScene)
+		}
+		if (r.type === 'dialog') {
+			let avgDialog = document.createElement('div')
+			avgDialog.className = 'avg-dialog'
+			if (typeof(r.name) !== 'undefined') {
+				let avgName = document.createElement('div')
+				avgName.className = 'avg-name'
+				avgName.textContent = r.name
+				avgDialog.appendChild(avgName)
+			}
+			let avgText = document.createElement('div')
+			avgText.className = 'avg-text'
+			avgText.textContent = r.text
+			avgDialog.appendChild(avgText)
+			dom.appendChild(avgDialog)
+		}
+		if (r.type === 'decision') {
+			var avgDecision = document.createElement('div')
+			avgDecision.className = 'avg-decision'
+			avgDecision.appendChild(document.createTextNode('选项'))
+			Object.entries(r.options).forEach(([v, o]) => {
+				let avgOption = document.createElement('div')
+				avgOption.className = 'avg-option'
+				avgOption.textContent = o
+				avgDecision.appendChild(avgOption)
+			})
+			dom.appendChild(avgDecision)
+		}
+		if (r.type === 'predicate') {
+			let avgPredicate = document.createElement('div')
+			avgPredicate.className = 'avg-predicate'
+			avgPredicate.appendChild(document.createTextNode('选择'))
+			r.references.forEach((v) => {
+				let avgReference = document.createElement('div')
+				avgReference.className = r.options[v]
+				avgPredicate.appendChild(avgReference)
+			})
+			avgPredicate.appendChild(document.createTextNode('时:'))
+			dom.appendChild(avgPredicate)
+		}
+	}
+
+	return dom
+}
+
+let render = function(args) {
+	return wiki(...read(parse(args[0])))
+}
+
+fetch(url).then(r=>r.text()).then(text=>{
+	let html = render([text])
+	document.querySelector('#story').appendChild(html)
+	// console.log(html)
 })
+
 </script>
 </html>
