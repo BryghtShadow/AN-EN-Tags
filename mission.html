@@ -1,0 +1,27 @@
+<html>
+	<head>
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			{{ dailies }}
+			<h1>Tasks</h1>
+			<table>
+				<tr v-for="tasks in dailyTasks">
+					<td v-for="task in tasks">
+						{{ task }}
+					</td>
+				</tr>
+			</table>
+			<h1>Rewards</h1>
+			<table>
+				<tr v-for="rewards in dailyRewards">
+					<td v-for="rewardData in rewards">
+						{{ rewardData.rewards }}
+					</td>
+				</tr>
+			</table>
+		</div>
+		<script src="js/mission.js"></script>
+	</body>
+</html>
