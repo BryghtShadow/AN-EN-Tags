@@ -17,7 +17,7 @@
 			<table>
 				<tr v-for="rewards in dailyRewards">
 					<td v-for="rewardData in rewards">
-						{{ rewardData.rewards }}
+						<div v-for="item in rewardData.rewards"><img :src="getItemIcon(item)" width="40" height="40" style="object-fit: scale-down;"> {{ items[item.id].iconId }} </div>
 					</td>
 				</tr>
 			</table>

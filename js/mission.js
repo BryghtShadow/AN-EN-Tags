@@ -9,7 +9,7 @@ var app = new Vue({
 			this.missions = data
 		})
 		fetch('json/gamedata/en_US/gamedata/excel/item_table.json').then(r=>r.json()).then(data=>{
-			this.items = data
+			this.items = data.items
 		})
 	},
 	computed: {
@@ -47,5 +47,10 @@ var app = new Vue({
 			})
 			return results
 		}
+	},
+	methods: {
+		getItemIcon(item) {
+			return `img/items/${this.items[item.id].iconId}.png`
+		},
 	}
 })
