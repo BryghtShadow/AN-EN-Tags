@@ -1,27 +1,64 @@
 <html>
 	<head>
-		<script src="js/vue.js"></script>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
+    <meta http-equiv='x-ua-compatible' content='ie=edge'>
+	<style type="text/css">
+		.reward-set {
+			font-family: monospace;
+		}
+		.reward-set:after {
+			content: '▼';
+			color: blue;
+		}
+	</style>
 	</head>
 	<body>
 		<div id="app">
-			{{ dailies }}
-			<h1>Tasks</h1>
-			<table>
-				<tr v-for="tasks in dailyTasks">
-					<td v-for="task in tasks">
-						{{ task }}
-					</td>
-				</tr>
-			</table>
+			<dl>
+				<dt>Today:</dt>
+				<dd>
+  					<v-date-picker
+  					:mode="mode"
+  					:formats="formats"
+  					v-model='selectedDate'
+  					/>
+				</dd>
+				<dd>{{ selectedDate | timestamp }}</dd>
+				<dt>Daily type:</dt><dd>{{ dailies.tagState == "ACT_MISSION_IMG" ? "Event Mission" : "Daily Mission" }}</dd>
+				<dt>From:</dt><dd>{{ dailies.startTime * 1000 | timestamp }}</dd>
+				<dt>To:</dt><dd>{{ dailies.endTime * 1000 | timestamp }}</dd>
+			<hr>
+			<section style="float:right">
+				<h1>Tasks</h1>
+				<table>
+					<tr v-for="task in dailyTasks">
+						<td>{{ task.periodicalPoint }}x {{ task.description }}</td>
+					</tr>
+				</table>
+			</section>
+			<section style="float:left;">
 			<h1>Rewards</h1>
-			<table>
-				<tr v-for="rewards in dailyRewards">
-					<td v-for="rewardData in rewards">
-						<div v-for="item in rewardData.rewards"><img :src="getItemIcon(item)" width="40" height="40" style="object-fit: scale-down;"> {{ items[item.id].iconId }} </div>
+
+ 			<table>
+				<tr v-for="(rewardData, rewardIndex) in dailyRewards">
+					<td>
+						<div class="reward-set">reward set - {{ ('000'+rewardIndex).slice(-3) }}</div>
+						<span class="point-cost" v-for="i in rewardData.periodicalPointCost" >♜</span><span class="remaining-point-cost" v-for="i in (3-rewardData.periodicalPointCost)">❌</span>
+						<span style="display: inline-flex; justify-content: center; align-items: center; flex-direction: row;" v-for="item in rewardData.rewards"><img :src="getItemIcon(item)" width="40" height="40" style="object-fit: scale-down; ">&times;{{ item.count }} ({{ items[item.id] ? items[item.id].name : item.id }})</span>
 					</td>
+<!--
+					<td v-for="item in rewardData.rewards"><img :src="getItemIcon(item)" width="40" height="40" style="object-fit: scale-down;"> {{ items[item.id] ? items[item.id].iconId : item.id }} </td>
+ -->
 				</tr>
 			</table>
-		</div>
+		</section>
+ 		</div>
+	    <!-- 1. Link Vue Javascript -->
+	    <script src='https://unpkg.com/vue/dist/vue.js'></script>
+
+	    <!-- 2. Link VCalendar Javascript (Plugin automatically installed) -->
+	    <script src='https://unpkg.com/v-calendar'></script>
 		<script src="js/mission.js"></script>
 	</body>
 </html>
