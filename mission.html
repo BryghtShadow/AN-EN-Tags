@@ -58,7 +58,6 @@ body {
 	width: 35px;
 	height: 46px;
 	display: inline-block;
-	background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAuCAYAAACiR6CHAAADm0lEQVRYw72YS0hWQRTHf/f7rpYRfoQSKT3tUkgGCVkQuCgKKmhRSPsM6kJBRRH0ICJQiLRykdgigxZBZNAmaFGbwI1uKoqIrFbZC4ReKKnfbeG5Oo73fe/XgeHMnTsz5z9nzpxzZgzCqGeoHmgFzgNj0voY29pFz1ATMOAx6huwBCgC5UAncBnb+hQkKkc41Xq0VQmQbT5jFgMNWltjmCAzApjlHm1+GlHpJTEpimYagXkkpzJgHNiaBZj/RrkQ4zUykGECBSmBc0axmZOi4nrZMjvG2DZgPXAb2+oP62xE0Epe+AXgGeAATyIA2S58I3BFaXcAsC0nrmZUsDeAI0AH0Buw1UXhg8A14HSc/YxjK4eB60Al0BIwb5/M3QocV7Q7UYrT1BLjfyFLP+P2awQ+xvA5C4GHQLWMdwJtNKZmLLGDuLQnnWZmW7ojRrkWeCs8Cq0GnmYdDtR4NBRTK6+BS9opSwzGkVIANgNfxPlFoRXAsIBwlOLpY5KepoaI/XYr9TU+JpAITJ3wN+Leo9Av4HMpbEZNojZFHNPqo6VUyVUFUCNhoFbiE8B8zTDdhY0pY1eKAVdkBWaD8G7gQ0z7egEsAw6KV+5Lu03PgWNS74gJplv4RaA/LJ8pdab3Kr0Bz0bfJvyH2EAc2gv8VOr5IO2EaWaBbFFXxGit0w7hvbJVCWPTlHPaLy33gS0Jt6oJuKvkQ4nSzkXAiJIO/E5hOwXgvdTXAd+9PHHQNo0ornxfSkPeKc6yGvgq2x/ZgM9I7abwOynB3BN+SzsUIds0BaRdviqBR0BzBse8FzghpxLgFLbV6a+ZqSPXrmmlOSOf48aqLj8HagiIGqBK2lZpfZZqaUPe4y6t0rj2rT6DDGgJ+uB0SLKtd4YAGQZGXf0AV5U4VFYCz1wHnJOYNZ3z5ASISmeBQwKiFEAADgBHtbYHhmIvrv2Ua50qte/ykMivX9T+aN+jmoMdm7GZmThhKCUnJS/C3Hpe+ecC0Z3XpJbnTApAlReVMn3/NrUjroPxo6L8nwj4rwJzlNPrJua5WUm6pmIjRPCkIiCvCDQ8bhReGir6XFfc8Y4ZduVU7MDUAIW9Qnhtnf7f8NOM34TuHfmvCDYCBBEApOhxH5ulIdPn4ua3Qq9JopA+p+c8prJyR3spcDTurjLuO18x5LY65zQ5PisxEmoiipbmyDUjdDYyFO5PtuWYmU2WlJSML3zVad+CAy76Ov0D4F7nsoPYnpsAAAAASUVORK5CYII=');
 }
 
 .periodical-point {
@@ -69,56 +68,55 @@ body {
 }
 	
 	</style>
-	</head>
-	<body>
-		<div id="app">
+</head>
+<body>
+	<div id="app">
+		<dl>
+			<dt>Today:</dt>
+			<dd><v-date-picker
+				:mode="mode"
+				:formats="formats"
+				v-model='selectedDate'
+				/></dd>
+			<dd>{{ selectedDate | timestamp }}</dd>
+		</dl>
+		<div id="dailies">
+			<h1>{{ dailies.tagState === "ACT_MISSION_IMG" ? "Event Mission" : "Daily Mission" }}</h1>
 			<dl>
-				<dt>Today:</dt>
-				<dd>
-  					<v-date-picker
-  					:mode="mode"
-  					:formats="formats"
-  					v-model='selectedDate'
-  					/>
-				</dd>
-				<dd>{{ selectedDate | timestamp }}</dd>
-				<dt>Daily type:</dt><dd>{{ dailies.tagState == "ACT_MISSION_IMG" ? "Event Mission" : "Daily Mission" }}</dd>
-				<dt>From:</dt><dd>{{ dailies.startTime * 1000 | timestamp }}</dd>
-				<dt>To:</dt><dd>{{ dailies.endTime * 1000 | timestamp }}</dd>
-			<hr>
-			<section style="float:right">
-				<h1>Tasks</h1>
-				<div class="daily-tasks">
-					<div class="task" v-for="task in dailyTasks">
-						<span class="rhodes"></span>
-						<span class="requirement">requirement</span>
-						<span class="description">{{ task.description }}</span>
-						<div class="params">
-							<div class="progress">
-								<div class="progress-points">0/{{ task.param[task.param.length-1] }}</div>
-								<div class="progress-bar"></div>
-							</div>
-							<div class="periodical">
-								<span class="rook"></span><span class="times">×</span><span class="periodical-point">{{ task.periodicalPoint }}</span>
-							</div>
+				<dt>From:</dt>
+				<dd>{{ dailies.startTime * 1000 | timestamp }}</dd>
+				<dt>To:</dt>
+				<dd>{{ dailies.endTime * 1000 | timestamp }}</dd>
+			</dl>
+			<ul class="rewards" v-for="rewards in dailyRewards">
+				<li class="reward" v-for="(v, k) in rewards">
+					<div class="reward-set">reward set - {{ ('000'+k).slice(-3) }}</div>
+					<div>
+						<span class="point-cost" v-for="i in v.periodicalPointCost" >♜</span><span class="remaining-point-cost" v-for="i in (3-v.periodicalPointCost)">❌</span>
+						<span style="display: inline-flex; justify-content: center; align-items: center; flex-direction: row;" v-for="item in v.rewards" :title="getItemName(item)"><img :src="getItemIcon(item)" width="40" height="40" style="object-fit: scale-down; "></span>
+					</div>
+				</li>
+			</ul>
+
+			<ul class="tasks" v-for="tasks in dailyTasks">
+				<li class="task" v-for="(v, k) in tasks">
+					<span class="rhodes"></span>
+					<span class="requirement">requirement</span>
+					<span class="description">{{ v.description }}</span>
+					<div class="params">
+						<div class="progress">
+							<div class="progress-points">0/{{ v.param[v.param.length-1] }}</div>
+							<div class="progress-bar"></div>
+						</div>
+						<div class="periodical">
+							<span class="rook">♜</span><span class="times">×</span><span class="periodical-point">{{ v.periodicalPoint }}</span>
 						</div>
 					</div>
 				</div>
-			</section>
-			<section style="float:left;">
-			<h1>Rewards</h1>
-
- 			<table>
-				<tr v-for="(rewardData, rewardIndex) in dailyRewards">
-					<td>
-						<div class="reward-set">reward set - {{ ('000'+rewardIndex).slice(-3) }}</div>
-						<span class="point-cost" v-for="i in rewardData.periodicalPointCost" >♜</span><span class="remaining-point-cost" v-for="i in (3-rewardData.periodicalPointCost)">❌</span>
-						<span style="display: inline-flex; justify-content: center; align-items: center; flex-direction: row;" v-for="item in rewardData.rewards" :title="items[item.id].name"><img :src="getItemIcon(item)" width="40" height="40" style="object-fit: scale-down; "></span>
-					</td>
-				</tr>
-			</table>
-		</section>
- 		</div>
+			</ul>
+		</div>
+			
+	</div>
 	    <!-- 1. Link Vue Javascript -->
 	    <script src='https://unpkg.com/vue/dist/vue.js'></script>
 
