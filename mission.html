@@ -3,71 +3,8 @@
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
     <meta http-equiv='x-ua-compatible' content='ie=edge'>
-	<style type="text/css">
-
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-
-body {
-	font-family: "Roboto Condensed", sans-serif;
-	font-size: 14px;
-}
-
-.reward-set {
-	font-family: monospace;
-	font-size: 12px;
-}
-.reward-set:after {
-	content: '▼';
-	color: blue;
-}
-
-.task {
-	background: #ddd;
-	margin: 5px;
-	display: grid;
-	grid-template-columns: 50px 75px 21em 150px;
-	align-items: center;
-}
-
-.requirement {
-	font-family: monospace;
-	background: #333;
-	color: #999;
-	padding: 2px 4px;
-	border-radius: 6px;
-	font-size: 10px;
-}
-
-.description {
-	width: 21em;
-	display: inline-block;
-	margin: 5px;
-}
-
-.params {
-	font-family: Roboto;
-	display: grid;
-	
-	grid-template-columns: 100px 1fr;
-	background: #333;
-	color: #eee;
-}
-
-.rook {
-	width: 35px;
-	height: 46px;
-	display: inline-block;
-}
-
-.periodical-point {
-	font-size: 300%;
-	margin: -20px -20px -20px 0;
-	color: #0098dc;
-	font-weight: 700;
-}
-	
-	</style>
+	<link rel="stylesheet" href="css/mission.css" />
+	<title>Arknights Mission</title>
 </head>
 <body>
 	<div id="app">
@@ -88,11 +25,12 @@ body {
 				<dt>To:</dt>
 				<dd>{{ dailies.endTime * 1000 | timestamp }}</dd>
 			</dl>
+
 			<ul class="rewards" v-for="rewards in dailyRewards">
 				<li class="reward" v-for="(v, k) in rewards">
 					<div class="reward-set">reward set - {{ ('000'+k).slice(-3) }}</div>
 					<div>
-						<span class="point-cost" v-for="i in v.periodicalPointCost" >♜</span><span class="remaining-point-cost" v-for="i in (3-v.periodicalPointCost)">❌</span>
+						<span class="point-cost" v-for="i in v.periodicalPointCost">♜</span><span class="remaining-point-cost" v-for="i in (3-v.periodicalPointCost)">❌</span>
 						<span style="display: inline-flex; justify-content: center; align-items: center; flex-direction: row;" v-for="item in v.rewards" :title="getItemName(item)"><img :src="getItemIcon(item)" width="40" height="40" style="object-fit: scale-down; "></span>
 					</div>
 				</li>
@@ -100,9 +38,9 @@ body {
 
 			<ul class="tasks" v-for="tasks in dailyTasks">
 				<li class="task" v-for="(v, k) in tasks">
-					<span class="rhodes"></span>
-					<span class="requirement">requirement</span>
-					<span class="description">{{ v.description }}</span>
+					<div class="rhodes"></div>
+					<div class="requirement">requirement</div>
+					<div class="description">{{ v.description }}</div>
 					<div class="params">
 						<div class="progress">
 							<div class="progress-points">0/{{ v.param[v.param.length-1] }}</div>
