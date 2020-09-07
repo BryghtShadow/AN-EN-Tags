@@ -25,8 +25,8 @@
 				<dt>To:</dt>
 				<dd>{{ dailies.endTime * 1000 | timestamp }}</dd>
 			</dl>
-
-			<ul class="rewards" v-for="rewards in dailyRewards">
+			<table><tr>
+		<td><ul class="rewards" v-for="rewards in dailyRewards">
 				<li class="reward" v-for="(v, k) in rewards">
 					<div class="reward-set">reward set - {{ ('000'+k).slice(-3) }}</div>
 					<div>
@@ -34,9 +34,9 @@
 						<span style="display: inline-flex; justify-content: center; align-items: center; flex-direction: row;" v-for="item in v.rewards" :title="getItemName(item)"><img :src="getItemIcon(item)" width="40" height="40" style="object-fit: scale-down; "></span>
 					</div>
 				</li>
-			</ul>
+			</ul></td>
 
-			<ul class="tasks" v-for="tasks in dailyTasks">
+			<td><ul class="tasks" v-for="tasks in dailyTasks">
 				<li class="task" v-for="(v, k) in tasks">
 					<div class="rhodes"></div>
 					<div class="requirement">requirement</div>
@@ -50,9 +50,11 @@
 							<span class="rook">♜</span><span class="times">×</span><span class="periodical-point">{{ v.periodicalPoint }}</span>
 						</div>
 					</div>
-				</div>
-			</ul>
+				</li>
+			</ul></td></tr>
+	</table>
 		</div>
+	
 			
 	</div>
 	    <!-- 1. Link Vue Javascript -->
