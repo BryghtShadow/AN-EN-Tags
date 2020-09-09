@@ -188,6 +188,36 @@
 			"Every attack deals {{attack@times}:.0f} hits at {{attack@atk_scale}:.0%} damage each, however attacks no longer target enemies with higher than 50% HP"
 		]
 	},
+	"skchr_tomimi_1": {
+		"name": "Tribal Arts",
+		"desc": [
+			"Attack speed +{{attack_speed}:.0f}",
+			"Attack speed +{{attack_speed}:.0f}",
+			"Attack speed +{{attack_speed}:.0f}",
+			"Attack speed +{{attack_speed}:.0f}",
+			"Attack speed +{{attack_speed}:.0f}",
+			"Attack speed +{{attack_speed}:.0f}",
+			"Attack speed +{{attack_speed}:.0f}",
+			"Attack speed +{{attack_speed}:.0f}",
+			"Attack speed +{{attack_speed}:.0f}",
+			"Attack speed +{{attack_speed}:.0f}"
+		]
+	},
+	"skchr_tomimi_2": {
+		"name": "Gavial Protection Plan",
+		"desc": [
+			"Every attack has {{attack@tomimi_s_2.prob}:.0%} chance to activate one of the following effects: The target is stunned for {attack@tomimi_s_2.stun} seconds; The current attack deals {{attack@tomimi_s_2.atk_scale}:.0%} damage; The current attack deals splash damage",
+			"Every attack has {{attack@tomimi_s_2.prob}:.0%} chance to activate one of the following effects: The target is stunned for {attack@tomimi_s_2.stun} seconds; The current attack deals {{attack@tomimi_s_2.atk_scale}:.0%} damage; The current attack deals splash damage",
+			"Every attack has {{attack@tomimi_s_2.prob}:.0%} chance to activate one of the following effects: The target is stunned for {attack@tomimi_s_2.stun} seconds; The current attack deals {{attack@tomimi_s_2.atk_scale}:.0%} damage; The current attack deals splash damage",
+			"Every attack has {{attack@tomimi_s_2.prob}:.0%} chance to activate one of the following effects: The target is stunned for {attack@tomimi_s_2.stun} seconds; The current attack deals {{attack@tomimi_s_2.atk_scale}:.0%} damage; The current attack deals splash damage",
+			"Every attack has {{attack@tomimi_s_2.prob}:.0%} chance to activate one of the following effects: The target is stunned for {attack@tomimi_s_2.stun} seconds; The current attack deals {{attack@tomimi_s_2.atk_scale}:.0%} damage; The current attack deals splash damage",
+			"Every attack has {{attack@tomimi_s_2.prob}:.0%} chance to activate one of the following effects: The target is stunned for {attack@tomimi_s_2.stun} seconds; The current attack deals {{attack@tomimi_s_2.atk_scale}:.0%} damage; The current attack deals splash damage",
+			"Every attack has {{attack@tomimi_s_2.prob}:.0%} chance to activate one of the following effects: The target is stunned for {attack@tomimi_s_2.stun} seconds; The current attack deals {{attack@tomimi_s_2.atk_scale}:.0%} damage; The current attack deals splash damage",
+			"Every attack has {{attack@tomimi_s_2.prob}:.0%} chance to activate one of the following effects: The target is stunned for {attack@tomimi_s_2.stun} seconds; The current attack deals {{attack@tomimi_s_2.atk_scale}:.0%} damage; The current attack deals splash damage",
+			"Every attack has {{attack@tomimi_s_2.prob}:.0%} chance to activate one of the following effects: The target is stunned for {attack@tomimi_s_2.stun} seconds; The current attack deals {{attack@tomimi_s_2.atk_scale}:.0%} damage; The current attack deals splash damage",
+			"Every attack has {{attack@tomimi_s_2.prob}:.0%} chance to activate one of the following effects: The target is stunned for {attack@tomimi_s_2.stun} seconds; The current attack deals {{attack@tomimi_s_2.atk_scale}:.0%} damage; The current attack deals splash damage"
+		]
+	},
 	"skcom_atk_up[3]": {
 		"name": "Attack Strengthening·Type γ",
 		"desc": [
@@ -216,6 +246,21 @@
 			"Increase attack interval (+{{base_attack_time}:.0%}), attack changes to summoning comets from the sky. Comets require time to reach the ground. They deal {{attack@atk_scale}:.0%} magical damage to enemies in a large area and stun them for {attack@stun} seconds",
 			"Increase attack interval (+{{base_attack_time}:.0%}), attack changes to summoning comets from the sky. Comets require time to reach the ground. They deal {{attack@atk_scale}:.0%} magical damage to enemies in a large area and stun them for {attack@stun} seconds",
 			"Increase attack interval (+{{base_attack_time}:.0%}), attack changes to summoning comets from the sky. Comets require time to reach the ground. They deal {{attack@atk_scale}:.0%} magical damage to enemies in a large area and stun them for {attack@stun} seconds"
+		]
+	},
+	"skchr_acast_1": {
+		"name": "“All For Me”",
+		"desc": [
+			"Self attack speed +{{attack_speed}:.0f}. Additionally, all 【Caster】 operatives gain Attack +{{atk}:.0%}",
+			"Self attack speed +{{attack_speed}:.0f}. Additionally, all 【Caster】 operatives gain Attack +{{atk}:.0%}",
+			"Self attack speed +{{attack_speed}:.0f}. Additionally, all 【Caster】 operatives gain Attack +{{atk}:.0%}",
+			"Self attack speed +{{attack_speed}:.0f}. Additionally, all 【Caster】 operatives gain Attack +{{atk}:.0%}",
+			"Self attack speed +{{attack_speed}:.0f}. Additionally, all 【Caster】 operatives gain Attack +{{atk}:.0%}",
+			"Self attack speed +{{attack_speed}:.0f}. Additionally, all 【Caster】 operatives gain Attack +{{atk}:.0%}",
+			"Self attack speed +{{attack_speed}:.0f}. Additionally, all 【Caster】 operatives gain Attack +{{atk}:.0%}",
+			"Self attack speed +{{attack_speed}:.0f}. Additionally, all 【Caster】 operatives gain Attack +{{atk}:.0%}",
+			"Self attack speed +{{attack_speed}:.0f}. Additionally, all 【Caster】 operatives gain Attack +{{atk}:.0%}",
+			"Self attack speed +{{attack_speed}:.0f}. Additionally, all 【Caster】 operatives gain Attack +{{atk}:.0%}"
 		]
 	},
 	"skchr_leizi_2": {
@@ -371,16 +416,16 @@
 	"skchr_mostma_3": {
 		"name": "Key of Ordered Time",
 		"desc": [
-			"Increase attack range, attacks change to ripples that spread outwards, Attack +{{atk}:.0%}, talent 2 effect increases to {talent_scale}x, attacks push the target back with small force",
-			"Increase attack range, attacks change to ripples that spread outwards, Attack +{{atk}:.0%}, talent 2 effect increases to {talent_scale}x, attacks push the target back with small force",
-			"Increase attack range, attacks change to ripples that spread outwards, Attack +{{atk}:.0%}, talent 2 effect increases to {talent_scale}x, attacks push the target back with small force",
-			"Increase attack range, attacks change to ripples that spread outwards, Attack +{{atk}:.0%}, talent 2 effect increases to {talent_scale}x, attacks push the target back with small force",
-			"Increase attack range, attacks change to ripples that spread outwards, Attack +{{atk}:.0%}, talent 2 effect increases to {talent_scale}x, attacks push the target back with small force",
-			"Increase attack range, attacks change to ripples that spread outwards, Attack +{{atk}:.0%}, talent 2 effect increases to {talent_scale}x, attacks push the target back with small force",
-			"Increase attack range, attacks change to ripples that spread outwards, Attack +{{atk}:.0%}, talent 2 effect increases to {talent_scale}x, attacks push the target back with small force",
-			"Increase attack range, attacks change to ripples that spread outwards, Attack +{{atk}:.0%}, talent 2 effect increases to {talent_scale}x, attacks push the target back with small force",
-			"Increase attack range, attacks change to ripples that spread outwards, Attack +{{atk}:.0%}, talent 2 effect increases to {talent_scale}x, attacks push the target back with small force",
-			"Increase attack range, attacks change to ripples that spread outwards, Attack +{{atk}:.0%}, talent 2 effect increases to {talent_scale}x, attacks push the target back with small force"
+			"Increase attack range, attacks change to ripples that spread outwards, Attack +{{atk}:.0%}, talent 2 effect increases to {talent_scale}x, attacks push the target back with [[small]] force",
+			"Increase attack range, attacks change to ripples that spread outwards, Attack +{{atk}:.0%}, talent 2 effect increases to {talent_scale}x, attacks push the target back with [[small]] force",
+			"Increase attack range, attacks change to ripples that spread outwards, Attack +{{atk}:.0%}, talent 2 effect increases to {talent_scale}x, attacks push the target back with [[small]] force",
+			"Increase attack range, attacks change to ripples that spread outwards, Attack +{{atk}:.0%}, talent 2 effect increases to {talent_scale}x, attacks push the target back with [[small]] force",
+			"Increase attack range, attacks change to ripples that spread outwards, Attack +{{atk}:.0%}, talent 2 effect increases to {talent_scale}x, attacks push the target back with [[small]] force",
+			"Increase attack range, attacks change to ripples that spread outwards, Attack +{{atk}:.0%}, talent 2 effect increases to {talent_scale}x, attacks push the target back with [[small]] force",
+			"Increase attack range, attacks change to ripples that spread outwards, Attack +{{atk}:.0%}, talent 2 effect increases to {talent_scale}x, attacks push the target back with [[small]] force",
+			"Increase attack range, attacks change to ripples that spread outwards, Attack +{{atk}:.0%}, talent 2 effect increases to {talent_scale}x, attacks push the target back with [[small]] force",
+			"Increase attack range, attacks change to ripples that spread outwards, Attack +{{atk}:.0%}, talent 2 effect increases to {talent_scale}x, attacks push the target back with [[small]] force",
+			"Increase attack range, attacks change to ripples that spread outwards, Attack +{{atk}:.0%}, talent 2 effect increases to {talent_scale}x, attacks push the target back with [[small]] force"
 		]
 	},
 	"skchr_amgoat_1": {
@@ -722,16 +767,16 @@
 	"skchr_moeshd_2": {
 		"name": "Magnetic Hammer",
 		"desc": [
-			"Push away nearby enemies with medium force and stun them for {stun} seconds, dealing {{atk_scale}:.0%} physical damage",
-			"Push away nearby enemies with medium force and stun them for {stun} seconds, dealing {{atk_scale}:.0%} physical damage",
-			"Push away nearby enemies with medium force and stun them for {stun} seconds, dealing {{atk_scale}:.0%} physical damage",
-			"Push away nearby enemies with medium force and stun them for {stun} seconds, dealing {{atk_scale}:.0%} physical damage",
-			"Push away nearby enemies with medium force and stun them for {stun} seconds, dealing {{atk_scale}:.0%} physical damage",
-			"Push away nearby enemies with medium force and stun them for {stun} seconds, dealing {{atk_scale}:.0%} physical damage",
-			"Push away nearby enemies with large force and stun them for {stun} seconds, dealing {{atk_scale}:.0%} physical damage",
-			"Push away nearby enemies with large force and stun them for {stun} seconds, dealing {{atk_scale}:.0%} physical damage",
-			"Push away nearby enemies with large force and stun them for {stun} seconds, dealing {{atk_scale}:.0%} physical damage",
-			"Push away nearby enemies with huge force and stun them for {stun} seconds, dealing {{atk_scale}:.0%} physical damage"
+			"Push away nearby enemies with [[medium]] force and stun them for {stun} seconds, dealing {{atk_scale}:.0%} physical damage",
+			"Push away nearby enemies with [[medium]] force and stun them for {stun} seconds, dealing {{atk_scale}:.0%} physical damage",
+			"Push away nearby enemies with [[medium]] force and stun them for {stun} seconds, dealing {{atk_scale}:.0%} physical damage",
+			"Push away nearby enemies with [[medium]] force and stun them for {stun} seconds, dealing {{atk_scale}:.0%} physical damage",
+			"Push away nearby enemies with [[medium]] force and stun them for {stun} seconds, dealing {{atk_scale}:.0%} physical damage",
+			"Push away nearby enemies with [[medium]] force and stun them for {stun} seconds, dealing {{atk_scale}:.0%} physical damage",
+			"Push away nearby enemies with [[large]] force and stun them for {stun} seconds, dealing {{atk_scale}:.0%} physical damage",
+			"Push away nearby enemies with [[large]] force and stun them for {stun} seconds, dealing {{atk_scale}:.0%} physical damage",
+			"Push away nearby enemies with [[large]] force and stun them for {stun} seconds, dealing {{atk_scale}:.0%} physical damage",
+			"Push away nearby enemies with [[huge]] force and stun them for {stun} seconds, dealing {{atk_scale}:.0%} physical damage"
 		]
 	},
 	"skcom_def_up[3]": {
@@ -957,6 +1002,51 @@
 			"Attack +{{nian_s_3[self].atk}:.0%}. Nearby allies gain Defense +{{nian_s_3[ally].def}:.0%}, Block count +1 and [Resist] (reduce duration of stun, chill and freeze by 50%)",
 			"Attack +{{nian_s_3[self].atk}:.0%}. Nearby allies gain Defense +{{nian_s_3[ally].def}:.0%}, Block count +1 and [Resist] (reduce duration of stun, chill and freeze by 50%)",
 			"Attack +{{nian_s_3[self].atk}:.0%}. Nearby allies gain Defense +{{nian_s_3[ally].def}:.0%}, Block count +1 and [Resist] (reduce duration of stun, chill and freeze by 50%)"
+		]
+	},
+	"skchr_zumama_1": {
+		"name": "Lightweight Hanging Axe",
+		"desc": [
+			"Attack +{{atk}:.0%}, Defense +{{def}:.0%}",
+			"Attack +{{atk}:.0%}, Defense +{{def}:.0%}",
+			"Attack +{{atk}:.0%}, Defense +{{def}:.0%}",
+			"Attack +{{atk}:.0%}, Defense +{{def}:.0%}",
+			"Attack +{{atk}:.0%}, Defense +{{def}:.0%}",
+			"Attack +{{atk}:.0%}, Defense +{{def}:.0%}",
+			"Attack +{{atk}:.0%}, Defense +{{def}:.0%}",
+			"Attack +{{atk}:.0%}, Defense +{{def}:.0%}",
+			"Attack +{{atk}:.0%}, Defense +{{def}:.0%}",
+			"Attack +{{atk}:.0%}, Defense +{{def}:.0%}"
+		]
+	},
+	"skchr_zumama_2": {
+		"name": "Reverberating Chop",
+		"desc": [
+			"Slightly increase attack interval (+{base_attack_time} seconds), Attack +{{atk}:.0%}, blocked enemies are continually stunned for the duration of the skill",
+			"Slightly increase attack interval (+{base_attack_time} seconds), Attack +{{atk}:.0%}, blocked enemies are continually stunned for the duration of the skill",
+			"Slightly increase attack interval (+{base_attack_time} seconds), Attack +{{atk}:.0%}, blocked enemies are continually stunned for the duration of the skill",
+			"Slightly increase attack interval (+{base_attack_time} seconds), Attack +{{atk}:.0%}, blocked enemies are continually stunned for the duration of the skill",
+			"Slightly increase attack interval (+{base_attack_time} seconds), Attack +{{atk}:.0%}, blocked enemies are continually stunned for the duration of the skill",
+			"Slightly increase attack interval (+{base_attack_time} seconds), Attack +{{atk}:.0%}, blocked enemies are continually stunned for the duration of the skill",
+			"Slightly increase attack interval (+{base_attack_time} seconds), Attack +{{atk}:.0%}, blocked enemies are continually stunned for the duration of the skill",
+			"Slightly increase attack interval (+{base_attack_time} seconds), Attack +{{atk}:.0%}, blocked enemies are continually stunned for the duration of the skill",
+			"Slightly increase attack interval (+{base_attack_time} seconds), Attack +{{atk}:.0%}, blocked enemies are continually stunned for the duration of the skill",
+			"Slightly increase attack interval (+{base_attack_time} seconds), Attack +{{atk}:.0%}, blocked enemies are continually stunned for the duration of the skill"
+		]
+	},
+	"skchr_zumama_3": {
+		"name": "Iron Will",
+		"desc": [
+			"Attack +{{atk}:.0%}, Defense +{{def}:.0%}, Block count +{{block_cnt}:.0f}, recover {{hp_recovery_per_sec_by_max_hp_ratio}:.0%} Max HP every second. Operator is stunned for {{stun}:.0f} seconds after the skill ends",
+			"Attack +{{atk}:.0%}, Defense +{{def}:.0%}, Block count +{{block_cnt}:.0f}, recover {{hp_recovery_per_sec_by_max_hp_ratio}:.0%} Max HP every second. Operator is stunned for {{stun}:.0f} seconds after the skill ends",
+			"Attack +{{atk}:.0%}, Defense +{{def}:.0%}, Block count +{{block_cnt}:.0f}, recover {{hp_recovery_per_sec_by_max_hp_ratio}:.0%} Max HP every second. Operator is stunned for {{stun}:.0f} seconds after the skill ends",
+			"Attack +{{atk}:.0%}, Defense +{{def}:.0%}, Block count +{{block_cnt}:.0f}, recover {{hp_recovery_per_sec_by_max_hp_ratio}:.0%} Max HP every second. Operator is stunned for {{stun}:.0f} seconds after the skill ends",
+			"Attack +{{atk}:.0%}, Defense +{{def}:.0%}, Block count +{{block_cnt}:.0f}, recover {{hp_recovery_per_sec_by_max_hp_ratio}:.0%} Max HP every second. Operator is stunned for {{stun}:.0f} seconds after the skill ends",
+			"Attack +{{atk}:.0%}, Defense +{{def}:.0%}, Block count +{{block_cnt}:.0f}, recover {{hp_recovery_per_sec_by_max_hp_ratio}:.0%} Max HP every second. Operator is stunned for {{stun}:.0f} seconds after the skill ends",
+			"Attack +{{atk}:.0%}, Defense +{{def}:.0%}, Block count +{{block_cnt}:.0f}, recover {{hp_recovery_per_sec_by_max_hp_ratio}:.0%} Max HP every second. Operator is stunned for {{stun}:.0f} seconds after the skill ends",
+			"Attack +{{atk}:.0%}, Defense +{{def}:.0%}, Block count +{{block_cnt}:.0f}, recover {{hp_recovery_per_sec_by_max_hp_ratio}:.0%} Max HP every second. Operator is stunned for {{stun}:.0f} seconds after the skill ends",
+			"Attack +{{atk}:.0%}, Defense +{{def}:.0%}, Block count +{{block_cnt}:.0f}, recover {{hp_recovery_per_sec_by_max_hp_ratio}:.0%} Max HP every second. Operator is stunned for {{stun}:.0f} seconds after the skill ends",
+			"Attack +{{atk}:.0%}, Defense +{{def}:.0%}, Block count +{{block_cnt}:.0f}, recover {{hp_recovery_per_sec_by_max_hp_ratio}:.0%} Max HP every second. Operator is stunned for {{stun}:.0f} seconds after the skill ends"
 		]
 	},
 	"skcom_atk_up[1]": {
@@ -1328,6 +1418,21 @@
 			"Attack +{{atk}:.0%}, Attack speed +{{attack_speed}:.0f}. Infinite duration"
 		]
 	},
+	"skchr_aguard_1": {
+		"name": "Sword Drawing",
+		"desc": [
+			"Reduce Defense to 0, Max HP +{{max_hp}:.0%}, every attack has {{attack@atk_scale}:.0%} Attack power",
+			"Reduce Defense to 0, Max HP +{{max_hp}:.0%}, every attack has {{attack@atk_scale}:.0%} Attack power",
+			"Reduce Defense to 0, Max HP +{{max_hp}:.0%}, every attack has {{attack@atk_scale}:.0%} Attack power",
+			"Reduce Defense to 0, Max HP +{{max_hp}:.0%}, every attack has {{attack@atk_scale}:.0%} Attack power",
+			"Reduce Defense to 0, Max HP +{{max_hp}:.0%}, every attack has {{attack@atk_scale}:.0%} Attack power",
+			"Reduce Defense to 0, Max HP +{{max_hp}:.0%}, every attack has {{attack@atk_scale}:.0%} Attack power",
+			"Reduce Defense to 0, Max HP +{{max_hp}:.0%}, every attack has {{attack@atk_scale}:.0%} Attack power",
+			"Reduce Defense to 0, Max HP +{{max_hp}:.0%}, every attack has {{attack@atk_scale}:.0%} Attack power",
+			"Reduce Defense to 0, Max HP +{{max_hp}:.0%}, every attack has {{attack@atk_scale}:.0%} Attack power",
+			"Reduce Defense to 0, Max HP +{{max_hp}:.0%}, every attack has {{attack@atk_scale}:.0%} Attack power"
+		]
+	},
 	"skchr_tiger_1": {
 		"name": "Armor-crushing Fist",
 		"desc": [
@@ -1356,6 +1461,36 @@
 			"Attack +{{atk}:.0%}, change damage type to magical damage, every attack recovers HP equal to {{heal_scale}:.0%} of the damage dealt",
 			"Attack +{{atk}:.0%}, change damage type to magical damage, every attack recovers HP equal to {{heal_scale}:.0%} of the damage dealt",
 			"Attack +{{atk}:.0%}, change damage type to magical damage, every attack recovers HP equal to {{heal_scale}:.0%} of the damage dealt"
+		]
+	},
+	"skchr_flint_1": {
+		"name": "Indefatigable",
+		"desc": [
+			"The next attack has {{atk_scale}:.0%} Attack power, push the target away with [[small]] force and slow them for 1 second",
+			"The next attack has {{atk_scale}:.0%} Attack power, push the target away with [[small]] force and slow them for 1 second",
+			"The next attack has {{atk_scale}:.0%} Attack power, push the target away with [[small]] force and slow them for 1 second",
+			"The next attack has {{atk_scale}:.0%} Attack power, push the target away with [[small]] force and slow them for 1 second",
+			"The next attack has {{atk_scale}:.0%} Attack power, push the target away with [[small]] force and slow them for 1 second",
+			"The next attack has {{atk_scale}:.0%} Attack power, push the target away with [[small]] force and slow them for 1 second",
+			"The next attack has {{atk_scale}:.0%} Attack power, push the target away with [[small]] force and slow them for 1 second",
+			"The next attack has {{atk_scale}:.0%} Attack power, push the target away with [[small]] force and slow them for 1 second",
+			"The next attack has {{atk_scale}:.0%} Attack power, push the target away with [[small]] force and slow them for 1 second",
+			"The next attack has {{atk_scale}:.0%} Attack power, push the target away with [[small]] force and slow them for 1 second"
+		]
+	},
+	"skchr_flint_2": {
+		"name": "Sharp Edge",
+		"desc": [
+			"Reduce Block count to 0, Attack +{{atk}:.0%}, attack speed +{{attack_speed}:.0f}, every attack slows the target for 0.3 seconds",
+			"Reduce Block count to 0, Attack +{{atk}:.0%}, attack speed +{{attack_speed}:.0f}, every attack slows the target for 0.3 seconds",
+			"Reduce Block count to 0, Attack +{{atk}:.0%}, attack speed +{{attack_speed}:.0f}, every attack slows the target for 0.3 seconds",
+			"Reduce Block count to 0, Attack +{{atk}:.0%}, attack speed +{{attack_speed}:.0f}, every attack slows the target for 0.3 seconds",
+			"Reduce Block count to 0, Attack +{{atk}:.0%}, attack speed +{{attack_speed}:.0f}, every attack slows the target for 0.3 seconds",
+			"Reduce Block count to 0, Attack +{{atk}:.0%}, attack speed +{{attack_speed}:.0f}, every attack slows the target for 0.3 seconds",
+			"Reduce Block count to 0, Attack +{{atk}:.0%}, attack speed +{{attack_speed}:.0f}, every attack slows the target for 0.3 seconds",
+			"Reduce Block count to 0, Attack +{{atk}:.0%}, attack speed +{{attack_speed}:.0f}, every attack slows the target for 0.3 seconds",
+			"Reduce Block count to 0, Attack +{{atk}:.0%}, attack speed +{{attack_speed}:.0f}, every attack slows the target for 0.3 seconds",
+			"Reduce Block count to 0, Attack +{{atk}:.0%}, attack speed +{{attack_speed}:.0f}, every attack slows the target for 0.3 seconds"
 		]
 	},
 	"skchr_whitew_1": {
@@ -2117,6 +2252,21 @@
 			"Attacks change to firing composite medicinal shells (prioritizes enemies). The shells will recover HP equal to {{attack@heal_scale}:.0%} Attack to nearby allies and deal {{attack@atk_scale}:.0%} magic damage to enemies"
 		]
 	},
+	"skchr_amedic_1": {
+		"name": "Just Like an Apocalypse",
+		"desc": [
+			"Self attack range +{{ability_range_forward_extend}:.0f} tiles, heal {{attack@max_target}:.0f} targets on every heal. Additionally, all 【Medic】 operatives gain Attack +{{atk}:.0%}",
+			"Self attack range +{{ability_range_forward_extend}:.0f} tiles, heal {{attack@max_target}:.0f} targets on every heal. Additionally, all 【Medic】 operatives gain Attack +{{atk}:.0%}",
+			"Self attack range +{{ability_range_forward_extend}:.0f} tiles, heal {{attack@max_target}:.0f} targets on every heal. Additionally, all 【Medic】 operatives gain Attack +{{atk}:.0%}",
+			"Self attack range +{{ability_range_forward_extend}:.0f} tiles, heal {{attack@max_target}:.0f} targets on every heal. Additionally, all 【Medic】 operatives gain Attack +{{atk}:.0%}",
+			"Self attack range +{{ability_range_forward_extend}:.0f} tiles, heal {{attack@max_target}:.0f} targets on every heal. Additionally, all 【Medic】 operatives gain Attack +{{atk}:.0%}",
+			"Self attack range +{{ability_range_forward_extend}:.0f} tiles, heal {{attack@max_target}:.0f} targets on every heal. Additionally, all 【Medic】 operatives gain Attack +{{atk}:.0%}",
+			"Self attack range +{{ability_range_forward_extend}:.0f} tiles, heal {{attack@max_target}:.0f} targets on every heal. Additionally, all 【Medic】 operatives gain Attack +{{atk}:.0%}",
+			"Self attack range +{{ability_range_forward_extend}:.0f} tiles, heal {{attack@max_target}:.0f} targets on every heal. Additionally, all 【Medic】 operatives gain Attack +{{atk}:.0%}",
+			"Self attack range +{{ability_range_forward_extend}:.0f} tiles, heal {{attack@max_target}:.0f} targets on every heal. Additionally, all 【Medic】 operatives gain Attack +{{atk}:.0%}",
+			"Self attack range +{{ability_range_forward_extend}:.0f} tiles, heal {{attack@max_target}:.0f} targets on every heal. Additionally, all 【Medic】 operatives gain Attack +{{atk}:.0%}"
+		]
+	},
 	"skchr_ceylon_1": {
 		"name": "Concentrated Hydrotherapy",
 		"desc": [
@@ -2411,6 +2561,36 @@
 			"Attack +{{atk}:.0%}, slightly increase attack interval (+{base_attack_time} seconds). Increase attack range to the entire battlefield, however pre-attack animation is slowed when attacking enemies outside of default attack range"
 		]
 	},
+	"skchr_acdrop_1": {
+		"name": "Fancy Burst-firing",
+		"desc": [
+			"Attack speed +{{attack_speed}:.0f}",
+			"Attack speed +{{attack_speed}:.0f}",
+			"Attack speed +{{attack_speed}:.0f}",
+			"Attack speed +{{attack_speed}:.0f}",
+			"Attack speed +{{attack_speed}:.0f}",
+			"Attack speed +{{attack_speed}:.0f}",
+			"Attack speed +{{attack_speed}:.0f}",
+			"Attack speed +{{attack_speed}:.0f}",
+			"Attack speed +{{attack_speed}:.0f}",
+			"Attack speed +{{attack_speed}:.0f}"
+		]
+	},
+	"skchr_acdrop_2": {
+		"name": "Trigger Moment",
+		"desc": [
+			"Attack +{{atk}:.0%}, attacks deal 2 hits",
+			"Attack +{{atk}:.0%}, attacks deal 2 hits",
+			"Attack +{{atk}:.0%}, attacks deal 2 hits",
+			"Attack +{{atk}:.0%}, attacks deal 2 hits",
+			"Attack +{{atk}:.0%}, attacks deal 2 hits",
+			"Attack +{{atk}:.0%}, attacks deal 2 hits",
+			"Attack +{{atk}:.0%}, attacks deal 2 hits",
+			"Attack +{{atk}:.0%}, attacks deal 2 hits",
+			"Attack +{{atk}:.0%}, attacks deal 2 hits",
+			"Attack +{{atk}:.0%}, attacks deal 2 hits"
+		]
+	},
 	"skchr_bluep_1": {
 		"name": "Double Shot·Auto",
 		"desc": [
@@ -2484,6 +2664,21 @@
 			"Attack +{{atk}:.0%}, attacks deal 3 hits",
 			"Attack +{{atk}:.0%}, attacks deal 3 hits",
 			"Attack +{{atk}:.0%}, attacks deal 3 hits"
+		]
+	},
+	"skchr_asnipe_1": {
+		"name": "Spiral Arm",
+		"desc": [
+			"Can attack {{attack@max_target}:.0f} targets simultaneously, with each target being hit {{attack@times}:.0f} times",
+			"Can attack {{attack@max_target}:.0f} targets simultaneously, with each target being hit {{attack@times}:.0f} times",
+			"Can attack {{attack@max_target}:.0f} targets simultaneously, with each target being hit {{attack@times}:.0f} times",
+			"Can attack {{attack@max_target}:.0f} targets simultaneously, with each target being hit {{attack@times}:.0f} times",
+			"Can attack {{attack@max_target}:.0f} targets simultaneously, with each target being hit {{attack@times}:.0f} times",
+			"Can attack {{attack@max_target}:.0f} targets simultaneously, with each target being hit {{attack@times}:.0f} times",
+			"Can attack {{attack@max_target}:.0f} targets simultaneously, with each target being hit {{attack@times}:.0f} times",
+			"Can attack {{attack@max_target}:.0f} targets simultaneously, with each target being hit {{attack@times}:.0f} times",
+			"Can attack {{attack@max_target}:.0f} targets simultaneously, with each target being hit {{attack@times}:.0f} times",
+			"Can attack {{attack@max_target}:.0f} targets simultaneously, with each target being hit {{attack@times}:.0f} times"
 		]
 	},
 	"skchr_meteo_1": {
@@ -2864,31 +3059,31 @@
 	"skchr_rope_1": {
 		"name": "Hook Shot",
 		"desc": [
-			"The next attack will pull the enemy towards self with small force, dealing {{atk_scale}:.0%} physical damage",
-			"The next attack will pull the enemy towards self with small force, dealing {{atk_scale}:.0%} physical damage",
-			"The next attack will pull the enemy towards self with small force, dealing {{atk_scale}:.0%} physical damage",
-			"The next attack will pull the enemy towards self with medium force, dealing {{atk_scale}:.0%} physical damage",
-			"The next attack will pull the enemy towards self with medium force, dealing {{atk_scale}:.0%} physical damage",
-			"The next attack will pull the enemy towards self with medium force, dealing {{atk_scale}:.0%} physical damage",
-			"The next attack will pull the enemy towards self with medium force, dealing {{atk_scale}:.0%} physical damage",
-			"The next attack will pull the enemy towards self with medium force, dealing {{atk_scale}:.0%} physical damage",
-			"The next attack will pull the enemy towards self with medium force, dealing {{atk_scale}:.0%} physical damage",
-			"The next attack will pull the enemy towards self with large force, dealing {{atk_scale}:.0%} physical damage"
+			"The next attack will pull the enemy towards self with [[small]] force, dealing {{atk_scale}:.0%} physical damage",
+			"The next attack will pull the enemy towards self with [[small]] force, dealing {{atk_scale}:.0%} physical damage",
+			"The next attack will pull the enemy towards self with [[small]] force, dealing {{atk_scale}:.0%} physical damage",
+			"The next attack will pull the enemy towards self with [[medium]] force, dealing {{atk_scale}:.0%} physical damage",
+			"The next attack will pull the enemy towards self with [[medium]] force, dealing {{atk_scale}:.0%} physical damage",
+			"The next attack will pull the enemy towards self with [[medium]] force, dealing {{atk_scale}:.0%} physical damage",
+			"The next attack will pull the enemy towards self with [[medium]] force, dealing {{atk_scale}:.0%} physical damage",
+			"The next attack will pull the enemy towards self with [[medium]] force, dealing {{atk_scale}:.0%} physical damage",
+			"The next attack will pull the enemy towards self with [[medium]] force, dealing {{atk_scale}:.0%} physical damage",
+			"The next attack will pull the enemy towards self with [[large]] force, dealing {{atk_scale}:.0%} physical damage"
 		]
 	},
 	"skchr_rope_2": {
 		"name": "Duplex Hook",
 		"desc": [
-			"Pull 2 faraway enemies towards self with small force, dealing {{atk_scale}:.0%} physical damage",
-			"Pull 2 faraway enemies towards self with small force, dealing {{atk_scale}:.0%} physical damage",
-			"Pull 2 faraway enemies towards self with small force, dealing {{atk_scale}:.0%} physical damage",
-			"Pull 2 faraway enemies towards self with medium force, dealing {{atk_scale}:.0%} physical damage",
-			"Pull 2 faraway enemies towards self with medium force, dealing {{atk_scale}:.0%} physical damage",
-			"Pull 2 faraway enemies towards self with medium force, dealing {{atk_scale}:.0%} physical damage",
-			"Pull 2 faraway enemies towards self with medium force, dealing {{atk_scale}:.0%} physical damage",
-			"Pull 2 faraway enemies towards self with medium force, dealing {{atk_scale}:.0%} physical damage",
-			"Pull 2 faraway enemies towards self with medium force, dealing {{atk_scale}:.0%} physical damage",
-			"Pull 2 faraway enemies towards self with large force, dealing {{atk_scale}:.0%} physical damage"
+			"Pull 2 faraway enemies towards self with [[small]] force, dealing {{atk_scale}:.0%} physical damage",
+			"Pull 2 faraway enemies towards self with [[small]] force, dealing {{atk_scale}:.0%} physical damage",
+			"Pull 2 faraway enemies towards self with [[small]] force, dealing {{atk_scale}:.0%} physical damage",
+			"Pull 2 faraway enemies towards self with [[medium]] force, dealing {{atk_scale}:.0%} physical damage",
+			"Pull 2 faraway enemies towards self with [[medium]] force, dealing {{atk_scale}:.0%} physical damage",
+			"Pull 2 faraway enemies towards self with [[medium]] force, dealing {{atk_scale}:.0%} physical damage",
+			"Pull 2 faraway enemies towards self with [[medium]] force, dealing {{atk_scale}:.0%} physical damage",
+			"Pull 2 faraway enemies towards self with [[medium]] force, dealing {{atk_scale}:.0%} physical damage",
+			"Pull 2 faraway enemies towards self with [[medium]] force, dealing {{atk_scale}:.0%} physical damage",
+			"Pull 2 faraway enemies towards self with [[large]] force, dealing {{atk_scale}:.0%} physical damage"
 		]
 	},
 	"skchr_ethan_1": {
@@ -2924,31 +3119,31 @@
 	"skchr_sqrrel_1": {
 		"name": "Steam Pump",
 		"desc": [
-			"The next attack will push the target away with small force, dealing {{atk_scale}:.0%} physical damage",
-			"The next attack will push the target away with small force, dealing {{atk_scale}:.0%} physical damage",
-			"The next attack will push the target away with small force, dealing {{atk_scale}:.0%} physical damage",
-			"The next attack will push the target away with medium force, dealing {{atk_scale}:.0%} physical damage",
-			"The next attack will push the target away with medium force, dealing {{atk_scale}:.0%} physical damage",
-			"The next attack will push the target away with medium force, dealing {{atk_scale}:.0%} physical damage",
-			"The next attack will push the target away with medium force, dealing {{atk_scale}:.0%} physical damage",
-			"The next attack will push the target away with medium force, dealing {{atk_scale}:.0%} physical damage",
-			"The next attack will push the target away with medium force, dealing {{atk_scale}:.0%} physical damage",
-			"The next attack will push the target away with large force, dealing {{atk_scale}:.0%} physical damage"
+			"The next attack will push the target away with [[small]] force, dealing {{atk_scale}:.0%} physical damage",
+			"The next attack will push the target away with [[small]] force, dealing {{atk_scale}:.0%} physical damage",
+			"The next attack will push the target away with [[small]] force, dealing {{atk_scale}:.0%} physical damage",
+			"The next attack will push the target away with [[medium]] force, dealing {{atk_scale}:.0%} physical damage",
+			"The next attack will push the target away with [[medium]] force, dealing {{atk_scale}:.0%} physical damage",
+			"The next attack will push the target away with [[medium]] force, dealing {{atk_scale}:.0%} physical damage",
+			"The next attack will push the target away with [[medium]] force, dealing {{atk_scale}:.0%} physical damage",
+			"The next attack will push the target away with [[medium]] force, dealing {{atk_scale}:.0%} physical damage",
+			"The next attack will push the target away with [[medium]] force, dealing {{atk_scale}:.0%} physical damage",
+			"The next attack will push the target away with [[large]] force, dealing {{atk_scale}:.0%} physical damage"
 		]
 	},
 	"skchr_sqrrel_2": {
 		"name": "High-pressure Water Cannon",
 		"desc": [
-			"Immediately push away all enemies 2 tiles ahead with small force, dealing {{atk_scale}:.0%} physical damage",
-			"Immediately push away all enemies 2 tiles ahead with small force, dealing {{atk_scale}:.0%} physical damage",
-			"Immediately push away all enemies 2 tiles ahead with small force, dealing {{atk_scale}:.0%} physical damage",
-			"Immediately push away all enemies 2 tiles ahead with medium force, dealing {{atk_scale}:.0%} physical damage",
-			"Immediately push away all enemies 2 tiles ahead with medium force, dealing {{atk_scale}:.0%} physical damage",
-			"Immediately push away all enemies 2 tiles ahead with medium force, dealing {{atk_scale}:.0%} physical damage",
-			"Immediately push away all enemies 2 tiles ahead with large force, dealing {{atk_scale}:.0%} physical damage",
-			"Immediately push away all enemies 2 tiles ahead with large force, dealing {{atk_scale}:.0%} physical damage",
-			"Immediately push away all enemies 2 tiles ahead with large force, dealing {{atk_scale}:.0%} physical damage",
-			"Immediately push away all enemies 2 tiles ahead with large force, dealing {{atk_scale}:.0%} physical damage"
+			"Immediately push away all enemies 2 tiles ahead with [[small]] force, dealing {{atk_scale}:.0%} physical damage",
+			"Immediately push away all enemies 2 tiles ahead with [[small]] force, dealing {{atk_scale}:.0%} physical damage",
+			"Immediately push away all enemies 2 tiles ahead with [[small]] force, dealing {{atk_scale}:.0%} physical damage",
+			"Immediately push away all enemies 2 tiles ahead with [[medium]] force, dealing {{atk_scale}:.0%} physical damage",
+			"Immediately push away all enemies 2 tiles ahead with [[medium]] force, dealing {{atk_scale}:.0%} physical damage",
+			"Immediately push away all enemies 2 tiles ahead with [[medium]] force, dealing {{atk_scale}:.0%} physical damage",
+			"Immediately push away all enemies 2 tiles ahead with [[large]] force, dealing {{atk_scale}:.0%} physical damage",
+			"Immediately push away all enemies 2 tiles ahead with [[large]] force, dealing {{atk_scale}:.0%} physical damage",
+			"Immediately push away all enemies 2 tiles ahead with [[large]] force, dealing {{atk_scale}:.0%} physical damage",
+			"Immediately push away all enemies 2 tiles ahead with [[large]] force, dealing {{atk_scale}:.0%} physical damage"
 		]
 	},
 	"skchr_red_1": {
@@ -3014,61 +3209,61 @@
 	"skchr_slchan_1": {
 		"name": "Chain Hook",
 		"desc": [
-			"The next attack will pull the enemy towards self with small force, dealing {{atk_scale}:.0%} magical damage",
-			"The next attack will pull the enemy towards self with small force, dealing {{atk_scale}:.0%} magical damage",
-			"The next attack will pull the enemy towards self with small force, dealing {{atk_scale}:.0%} magical damage",
-			"The next attack will pull the enemy towards self with medium force, dealing {{atk_scale}:.0%} magical damage",
-			"The next attack will pull the enemy towards self with medium force, dealing {{atk_scale}:.0%} magical damage",
-			"The next attack will pull the enemy towards self with medium force, dealing {{atk_scale}:.0%} magical damage",
-			"The next attack will pull the enemy towards self with medium force, dealing {{atk_scale}:.0%} magical damage",
-			"The next attack will pull the enemy towards self with medium force, dealing {{atk_scale}:.0%} magical damage",
-			"The next attack will pull the enemy towards self with medium force, dealing {{atk_scale}:.0%} magical damage",
-			"The next attack will pull the enemy towards self with large force, dealing {{atk_scale}:.0%} magical damage"
+			"The next attack will pull the enemy towards self with [[small]] force, dealing {{atk_scale}:.0%} magical damage",
+			"The next attack will pull the enemy towards self with [[small]] force, dealing {{atk_scale}:.0%} magical damage",
+			"The next attack will pull the enemy towards self with [[small]] force, dealing {{atk_scale}:.0%} magical damage",
+			"The next attack will pull the enemy towards self with [[medium]] force, dealing {{atk_scale}:.0%} magical damage",
+			"The next attack will pull the enemy towards self with [[medium]] force, dealing {{atk_scale}:.0%} magical damage",
+			"The next attack will pull the enemy towards self with [[medium]] force, dealing {{atk_scale}:.0%} magical damage",
+			"The next attack will pull the enemy towards self with [[medium]] force, dealing {{atk_scale}:.0%} magical damage",
+			"The next attack will pull the enemy towards self with [[medium]] force, dealing {{atk_scale}:.0%} magical damage",
+			"The next attack will pull the enemy towards self with [[medium]] force, dealing {{atk_scale}:.0%} magical damage",
+			"The next attack will pull the enemy towards self with [[large]] force, dealing {{atk_scale}:.0%} magical damage"
 		]
 	},
 	"skchr_slchan_2": {
 		"name": "Binding Chain",
 		"desc": [
-			"Immediately pull up to {{max_target}:.0f} enemies from a large area ahead towards self with small force, dealing {{atk_scale}:.0%} true damage and stunning them for {stun} seconds",
-			"Immediately pull up to {{max_target}:.0f} enemies from a large area ahead towards self with small force, dealing {{atk_scale}:.0%} true damage and stunning them for {stun} seconds",
-			"Immediately pull up to {{max_target}:.0f} enemies from a large area ahead towards self with small force, dealing {{atk_scale}:.0%} true damage and stunning them for {stun} seconds",
-			"Immediately pull up to {{max_target}:.0f} enemies from a large area ahead towards self with medium force, dealing {{atk_scale}:.0%} true damage and stunning them for {stun} seconds",
-			"Immediately pull up to {{max_target}:.0f} enemies from a large area ahead towards self with medium force, dealing {{atk_scale}:.0%} true damage and stunning them for {stun} seconds",
-			"Immediately pull up to {{max_target}:.0f} enemies from a large area ahead towards self with medium force, dealing {{atk_scale}:.0%} true damage and stunning them for {stun} seconds",
-			"Immediately pull up to {{max_target}:.0f} enemies from a large area ahead towards self with medium force, dealing {{atk_scale}:.0%} true damage and stunning them for {stun} seconds",
-			"Immediately pull up to {{max_target}:.0f} enemies from a large area ahead towards self with medium force, dealing {{atk_scale}:.0%} true damage and stunning them for {stun} seconds",
-			"Immediately pull up to {{max_target}:.0f} enemies from a large area ahead towards self with medium force, dealing {{atk_scale}:.0%} true damage and stunning them for {stun} seconds",
-			"Immediately pull up to {{max_target}:.0f} enemies from a large area ahead towards self with large force, dealing {{atk_scale}:.0%} true damage and stunning them for {stun} seconds"
+			"Immediately pull up to {{max_target}:.0f} enemies from a large area ahead towards self with [[small]] force, dealing {{atk_scale}:.0%} true damage and stunning them for {stun} seconds",
+			"Immediately pull up to {{max_target}:.0f} enemies from a large area ahead towards self with [[small]] force, dealing {{atk_scale}:.0%} true damage and stunning them for {stun} seconds",
+			"Immediately pull up to {{max_target}:.0f} enemies from a large area ahead towards self with [[small]] force, dealing {{atk_scale}:.0%} true damage and stunning them for {stun} seconds",
+			"Immediately pull up to {{max_target}:.0f} enemies from a large area ahead towards self with [[medium]] force, dealing {{atk_scale}:.0%} true damage and stunning them for {stun} seconds",
+			"Immediately pull up to {{max_target}:.0f} enemies from a large area ahead towards self with [[medium]] force, dealing {{atk_scale}:.0%} true damage and stunning them for {stun} seconds",
+			"Immediately pull up to {{max_target}:.0f} enemies from a large area ahead towards self with [[medium]] force, dealing {{atk_scale}:.0%} true damage and stunning them for {stun} seconds",
+			"Immediately pull up to {{max_target}:.0f} enemies from a large area ahead towards self with [[medium]] force, dealing {{atk_scale}:.0%} true damage and stunning them for {stun} seconds",
+			"Immediately pull up to {{max_target}:.0f} enemies from a large area ahead towards self with [[medium]] force, dealing {{atk_scale}:.0%} true damage and stunning them for {stun} seconds",
+			"Immediately pull up to {{max_target}:.0f} enemies from a large area ahead towards self with [[medium]] force, dealing {{atk_scale}:.0%} true damage and stunning them for {stun} seconds",
+			"Immediately pull up to {{max_target}:.0f} enemies from a large area ahead towards self with [[large]] force, dealing {{atk_scale}:.0%} true damage and stunning them for {stun} seconds"
 		]
 	},
 	"skchr_snsant_1": {
 		"name": "Barbed Hook",
 		"desc": [
-			"The next attack will pull the enemy towards self with small force, dealing {{atk_scale}:.0%} physical damage and slowing them for {sluggish} seconds.",
-			"The next attack will pull the enemy towards self with small force, dealing {{atk_scale}:.0%} physical damage and slowing them for {sluggish} seconds.",
-			"The next attack will pull the enemy towards self with small force, dealing {{atk_scale}:.0%} physical damage and slowing them for {sluggish} seconds.",
-			"The next attack will pull the enemy towards self with medium force, dealing {{atk_scale}:.0%} physical damage and slowing them for {sluggish} seconds.",
-			"The next attack will pull the enemy towards self with medium force, dealing {{atk_scale}:.0%} physical damage and slowing them for {sluggish} seconds.",
-			"The next attack will pull the enemy towards self with medium force, dealing {{atk_scale}:.0%} physical damage and slowing them for {sluggish} seconds.",
-			"The next attack will pull the enemy towards self with medium force, dealing {{atk_scale}:.0%} physical damage and slowing them for {sluggish} seconds.",
-			"The next attack will pull the enemy towards self with medium force, dealing {{atk_scale}:.0%} physical damage and slowing them for {sluggish} seconds.",
-			"The next attack will pull the enemy towards self with medium force, dealing {{atk_scale}:.0%} physical damage and slowing them for {sluggish} seconds.",
-			"The next attack will pull the enemy towards self with large force, dealing {{atk_scale}:.0%} physical damage and slowing them for {sluggish} seconds."
+			"The next attack will pull the enemy towards self with [[small]] force, dealing {{atk_scale}:.0%} physical damage and slowing them for {sluggish} seconds.",
+			"The next attack will pull the enemy towards self with [[small]] force, dealing {{atk_scale}:.0%} physical damage and slowing them for {sluggish} seconds.",
+			"The next attack will pull the enemy towards self with [[small]] force, dealing {{atk_scale}:.0%} physical damage and slowing them for {sluggish} seconds.",
+			"The next attack will pull the enemy towards self with [[medium]] force, dealing {{atk_scale}:.0%} physical damage and slowing them for {sluggish} seconds.",
+			"The next attack will pull the enemy towards self with [[medium]] force, dealing {{atk_scale}:.0%} physical damage and slowing them for {sluggish} seconds.",
+			"The next attack will pull the enemy towards self with [[medium]] force, dealing {{atk_scale}:.0%} physical damage and slowing them for {sluggish} seconds.",
+			"The next attack will pull the enemy towards self with [[medium]] force, dealing {{atk_scale}:.0%} physical damage and slowing them for {sluggish} seconds.",
+			"The next attack will pull the enemy towards self with [[medium]] force, dealing {{atk_scale}:.0%} physical damage and slowing them for {sluggish} seconds.",
+			"The next attack will pull the enemy towards self with [[medium]] force, dealing {{atk_scale}:.0%} physical damage and slowing them for {sluggish} seconds.",
+			"The next attack will pull the enemy towards self with [[large]] force, dealing {{atk_scale}:.0%} physical damage and slowing them for {sluggish} seconds."
 		]
 	},
 	"skchr_snsant_2": {
 		"name": "Retractable Electric Net",
 		"desc": [
-			"Fire a net forwards, pulling all enemies nearby the targeted location towards self with small force, dealing {{atk_scale}:.0%} magical damage and slowing them for {sluggish} seconds",
-			"Fire a net forwards, pulling all enemies nearby the targeted location towards self with small force, dealing {{atk_scale}:.0%} magical damage and slowing them for {sluggish} seconds",
-			"Fire a net forwards, pulling all enemies nearby the targeted location towards self with small force, dealing {{atk_scale}:.0%} magical damage and slowing them for {sluggish} seconds",
-			"Fire a net forwards, pulling all enemies nearby the targeted location towards self with medium force, dealing {{atk_scale}:.0%} magical damage and slowing them for {sluggish} seconds",
-			"Fire a net forwards, pulling all enemies nearby the targeted location towards self with medium force, dealing {{atk_scale}:.0%} magical damage and slowing them for {sluggish} seconds",
-			"Fire a net forwards, pulling all enemies nearby the targeted location towards self with medium force, dealing {{atk_scale}:.0%} magical damage and slowing them for {sluggish} seconds",
-			"Fire a net forwards, pulling all enemies nearby the targeted location towards self with medium force, dealing {{atk_scale}:.0%} magical damage and slowing them for {sluggish} seconds",
-			"Fire a net forwards, pulling all enemies nearby the targeted location towards self with medium force, dealing {{atk_scale}:.0%} magical damage and slowing them for {sluggish} seconds",
-			"Fire a net forwards, pulling all enemies nearby the targeted location towards self with medium force, dealing {{atk_scale}:.0%} magical damage and slowing them for {sluggish} seconds",
-			"Fire a net forwards, pulling all enemies nearby the targeted location towards self with large force, dealing {{atk_scale}:.0%} magical damage and slowing them for {sluggish} seconds"
+			"Fire a net forwards, pulling all enemies nearby the targeted location towards self with [[small]] force, dealing {{atk_scale}:.0%} magical damage and slowing them for {sluggish} seconds",
+			"Fire a net forwards, pulling all enemies nearby the targeted location towards self with [[small]] force, dealing {{atk_scale}:.0%} magical damage and slowing them for {sluggish} seconds",
+			"Fire a net forwards, pulling all enemies nearby the targeted location towards self with [[small]] force, dealing {{atk_scale}:.0%} magical damage and slowing them for {sluggish} seconds",
+			"Fire a net forwards, pulling all enemies nearby the targeted location towards self with [[medium]] force, dealing {{atk_scale}:.0%} magical damage and slowing them for {sluggish} seconds",
+			"Fire a net forwards, pulling all enemies nearby the targeted location towards self with [[medium]] force, dealing {{atk_scale}:.0%} magical damage and slowing them for {sluggish} seconds",
+			"Fire a net forwards, pulling all enemies nearby the targeted location towards self with [[medium]] force, dealing {{atk_scale}:.0%} magical damage and slowing them for {sluggish} seconds",
+			"Fire a net forwards, pulling all enemies nearby the targeted location towards self with [[medium]] force, dealing {{atk_scale}:.0%} magical damage and slowing them for {sluggish} seconds",
+			"Fire a net forwards, pulling all enemies nearby the targeted location towards self with [[medium]] force, dealing {{atk_scale}:.0%} magical damage and slowing them for {sluggish} seconds",
+			"Fire a net forwards, pulling all enemies nearby the targeted location towards self with [[medium]] force, dealing {{atk_scale}:.0%} magical damage and slowing them for {sluggish} seconds",
+			"Fire a net forwards, pulling all enemies nearby the targeted location towards self with [[large]] force, dealing {{atk_scale}:.0%} magical damage and slowing them for {sluggish} seconds"
 		]
 	},
 	"skchr_mantic_1": {
@@ -3104,31 +3299,31 @@
 	"skchr_panda_1": {
 		"name": "Metallic Union",
 		"desc": [
-			"The next attack will push the target away with small force, inflicting {{move_speed}:.0%} movement speed for {{duration}:.0f} seconds",
-			"The next attack will push the target away with small force, inflicting {{move_speed}:.0%} movement speed for {{duration}:.0f} seconds",
-			"The next attack will push the target away with small force, inflicting {{move_speed}:.0%} movement speed for {{duration}:.0f} seconds",
-			"The next attack will push the target away with medium force, inflicting {{move_speed}:.0%} movement speed for {{duration}:.0f} seconds",
-			"The next attack will push the target away with medium force, inflicting {{move_speed}:.0%} movement speed for {{duration}:.0f} seconds",
-			"The next attack will push the target away with medium force, inflicting {{move_speed}:.0%} movement speed for {{duration}:.0f} seconds",
-			"The next attack will push the target away with medium force, inflicting {{move_speed}:.0%} movement speed for {{duration}:.0f} seconds",
-			"The next attack will push the target away with medium force, inflicting {{move_speed}:.0%} movement speed for {{duration}:.0f} seconds",
-			"The next attack will push the target away with medium force, inflicting {{move_speed}:.0%} movement speed for {{duration}:.0f} seconds",
-			"The next attack will push the target away with large force, inflicting {{move_speed}:.0%} movement speed for {{duration}:.0f} seconds"
+			"The next attack will push the target away with [[small]] force, inflicting {{move_speed}:.0%} movement speed for {{duration}:.0f} seconds",
+			"The next attack will push the target away with [[small]] force, inflicting {{move_speed}:.0%} movement speed for {{duration}:.0f} seconds",
+			"The next attack will push the target away with [[small]] force, inflicting {{move_speed}:.0%} movement speed for {{duration}:.0f} seconds",
+			"The next attack will push the target away with [[medium]] force, inflicting {{move_speed}:.0%} movement speed for {{duration}:.0f} seconds",
+			"The next attack will push the target away with [[medium]] force, inflicting {{move_speed}:.0%} movement speed for {{duration}:.0f} seconds",
+			"The next attack will push the target away with [[medium]] force, inflicting {{move_speed}:.0%} movement speed for {{duration}:.0f} seconds",
+			"The next attack will push the target away with [[medium]] force, inflicting {{move_speed}:.0%} movement speed for {{duration}:.0f} seconds",
+			"The next attack will push the target away with [[medium]] force, inflicting {{move_speed}:.0%} movement speed for {{duration}:.0f} seconds",
+			"The next attack will push the target away with [[medium]] force, inflicting {{move_speed}:.0%} movement speed for {{duration}:.0f} seconds",
+			"The next attack will push the target away with [[large]] force, inflicting {{move_speed}:.0%} movement speed for {{duration}:.0f} seconds"
 		]
 	},
 	"skchr_panda_2": {
 		"name": "Collapsing Strike",
 		"desc": [
-			"Immediately rush forward and target the closest enemy in a straight line ahead, pushing back all enemies around the target with medium force and dealing {{atk_scale}:.0%} physical damage. Additionally, inflict {{move_speed}:.0%} movement speed to all targets for {{duration}:.0f} seconds",
-			"Immediately rush forward and target the closest enemy in a straight line ahead, pushing back all enemies around the target with medium force and dealing {{atk_scale}:.0%} physical damage. Additionally, inflict {{move_speed}:.0%} movement speed to all targets for {{duration}:.0f} seconds",
-			"Immediately rush forward and target the closest enemy in a straight line ahead, pushing back all enemies around the target with medium force and dealing {{atk_scale}:.0%} physical damage. Additionally, inflict {{move_speed}:.0%} movement speed to all targets for {{duration}:.0f} seconds",
-			"Immediately rush forward and target the closest enemy in a straight line ahead, pushing back all enemies around the target with medium force and dealing {{atk_scale}:.0%} physical damage. Additionally, inflict {{move_speed}:.0%} movement speed to all targets for {{duration}:.0f} seconds",
-			"Immediately rush forward and target the closest enemy in a straight line ahead, pushing back all enemies around the target with medium force and dealing {{atk_scale}:.0%} physical damage. Additionally, inflict {{move_speed}:.0%} movement speed to all targets for {{duration}:.0f} seconds",
-			"Immediately rush forward and target the closest enemy in a straight line ahead, pushing back all enemies around the target with medium force and dealing {{atk_scale}:.0%} physical damage. Additionally, inflict {{move_speed}:.0%} movement speed to all targets for {{duration}:.0f} seconds",
-			"Immediately rush forward and target the closest enemy in a straight line ahead, pushing back all enemies around the target with large force and dealing {{atk_scale}:.0%} physical damage. Additionally, inflict {{move_speed}:.0%} movement speed to all targets for {{duration}:.0f} seconds",
-			"Immediately rush forward and target the closest enemy in a straight line ahead, pushing back all enemies around the target with large force and dealing {{atk_scale}:.0%} physical damage. Additionally, inflict {{move_speed}:.0%} movement speed to all targets for {{duration}:.0f} seconds",
-			"Immediately rush forward and target the closest enemy in a straight line ahead, pushing back all enemies around the target with large force and dealing {{atk_scale}:.0%} physical damage. Additionally, inflict {{move_speed}:.0%} movement speed to all targets for {{duration}:.0f} seconds",
-			"Immediately rush forward and target the closest enemy in a straight line ahead, pushing back all enemies around the target with huge force and dealing {{atk_scale}:.0%} physical damage. Additionally, inflict {{move_speed}:.0%} movement speed to all targets for {{duration}:.0f} seconds"
+			"Immediately rush forward and target the closest enemy in a straight line ahead, pushing back all enemies around the target with [[medium]] force and dealing {{atk_scale}:.0%} physical damage. Additionally, inflict {{move_speed}:.0%} movement speed to all targets for {{duration}:.0f} seconds",
+			"Immediately rush forward and target the closest enemy in a straight line ahead, pushing back all enemies around the target with [[medium]] force and dealing {{atk_scale}:.0%} physical damage. Additionally, inflict {{move_speed}:.0%} movement speed to all targets for {{duration}:.0f} seconds",
+			"Immediately rush forward and target the closest enemy in a straight line ahead, pushing back all enemies around the target with [[medium]] force and dealing {{atk_scale}:.0%} physical damage. Additionally, inflict {{move_speed}:.0%} movement speed to all targets for {{duration}:.0f} seconds",
+			"Immediately rush forward and target the closest enemy in a straight line ahead, pushing back all enemies around the target with [[medium]] force and dealing {{atk_scale}:.0%} physical damage. Additionally, inflict {{move_speed}:.0%} movement speed to all targets for {{duration}:.0f} seconds",
+			"Immediately rush forward and target the closest enemy in a straight line ahead, pushing back all enemies around the target with [[medium]] force and dealing {{atk_scale}:.0%} physical damage. Additionally, inflict {{move_speed}:.0%} movement speed to all targets for {{duration}:.0f} seconds",
+			"Immediately rush forward and target the closest enemy in a straight line ahead, pushing back all enemies around the target with [[medium]] force and dealing {{atk_scale}:.0%} physical damage. Additionally, inflict {{move_speed}:.0%} movement speed to all targets for {{duration}:.0f} seconds",
+			"Immediately rush forward and target the closest enemy in a straight line ahead, pushing back all enemies around the target with [[large]] force and dealing {{atk_scale}:.0%} physical damage. Additionally, inflict {{move_speed}:.0%} movement speed to all targets for {{duration}:.0f} seconds",
+			"Immediately rush forward and target the closest enemy in a straight line ahead, pushing back all enemies around the target with [[large]] force and dealing {{atk_scale}:.0%} physical damage. Additionally, inflict {{move_speed}:.0%} movement speed to all targets for {{duration}:.0f} seconds",
+			"Immediately rush forward and target the closest enemy in a straight line ahead, pushing back all enemies around the target with [[large]] force and dealing {{atk_scale}:.0%} physical damage. Additionally, inflict {{move_speed}:.0%} movement speed to all targets for {{duration}:.0f} seconds",
+			"Immediately rush forward and target the closest enemy in a straight line ahead, pushing back all enemies around the target with [[huge]] force and dealing {{atk_scale}:.0%} physical damage. Additionally, inflict {{move_speed}:.0%} movement speed to all targets for {{duration}:.0f} seconds"
 		]
 	},
 	"skchr_phatom_1": {
@@ -3164,61 +3359,61 @@
 	"skchr_phatom_3": {
 		"name": "Night Raid",
 		"desc": [
-			"After deployment, immediately deal {{atk_scale}:.0%} physical damage to all nearby enemies and push them away with small force. Additionally, randomly apply one of the following status effects (slow, bind, stun) for {sluggish} seconds",
-			"After deployment, immediately deal {{atk_scale}:.0%} physical damage to all nearby enemies and push them away with small force. Additionally, randomly apply one of the following status effects (slow, bind, stun) for {sluggish} seconds",
-			"After deployment, immediately deal {{atk_scale}:.0%} physical damage to all nearby enemies and push them away with small force. Additionally, randomly apply one of the following status effects (slow, bind, stun) for {sluggish} seconds",
-			"After deployment, immediately deal {{atk_scale}:.0%} physical damage to all nearby enemies and push them away with small force. Additionally, randomly apply one of the following status effects (slow, bind, stun) for {sluggish} seconds",
-			"After deployment, immediately deal {{atk_scale}:.0%} physical damage to all nearby enemies and push them away with small force. Additionally, randomly apply one of the following status effects (slow, bind, stun) for {sluggish} seconds",
-			"After deployment, immediately deal {{atk_scale}:.0%} physical damage to all nearby enemies and push them away with small force. Additionally, randomly apply one of the following status effects (slow, bind, stun) for {sluggish} seconds",
-			"After deployment, immediately deal {{atk_scale}:.0%} physical damage to all nearby enemies and push them away with small force. Additionally, randomly apply one of the following status effects (slow, bind, stun) for {sluggish} seconds",
-			"After deployment, immediately deal {{atk_scale}:.0%} physical damage to all nearby enemies and push them away with small force. Additionally, randomly apply one of the following status effects (slow, bind, stun) for {sluggish} seconds",
-			"After deployment, immediately deal {{atk_scale}:.0%} physical damage to all nearby enemies and push them away with small force. Additionally, randomly apply one of the following status effects (slow, bind, stun) for {sluggish} seconds",
-			"After deployment, immediately deal {{atk_scale}:.0%} physical damage to all nearby enemies and push them away with small force. Additionally, randomly apply one of the following status effects (slow, bind, stun) for {sluggish} seconds"
+			"After deployment, immediately deal {{atk_scale}:.0%} physical damage to all nearby enemies and push them away with [[small]] force. Additionally, randomly apply one of the following status effects (slow, bind, stun) for {sluggish} seconds",
+			"After deployment, immediately deal {{atk_scale}:.0%} physical damage to all nearby enemies and push them away with [[small]] force. Additionally, randomly apply one of the following status effects (slow, bind, stun) for {sluggish} seconds",
+			"After deployment, immediately deal {{atk_scale}:.0%} physical damage to all nearby enemies and push them away with [[small]] force. Additionally, randomly apply one of the following status effects (slow, bind, stun) for {sluggish} seconds",
+			"After deployment, immediately deal {{atk_scale}:.0%} physical damage to all nearby enemies and push them away with [[small]] force. Additionally, randomly apply one of the following status effects (slow, bind, stun) for {sluggish} seconds",
+			"After deployment, immediately deal {{atk_scale}:.0%} physical damage to all nearby enemies and push them away with [[small]] force. Additionally, randomly apply one of the following status effects (slow, bind, stun) for {sluggish} seconds",
+			"After deployment, immediately deal {{atk_scale}:.0%} physical damage to all nearby enemies and push them away with [[small]] force. Additionally, randomly apply one of the following status effects (slow, bind, stun) for {sluggish} seconds",
+			"After deployment, immediately deal {{atk_scale}:.0%} physical damage to all nearby enemies and push them away with [[small]] force. Additionally, randomly apply one of the following status effects (slow, bind, stun) for {sluggish} seconds",
+			"After deployment, immediately deal {{atk_scale}:.0%} physical damage to all nearby enemies and push them away with [[small]] force. Additionally, randomly apply one of the following status effects (slow, bind, stun) for {sluggish} seconds",
+			"After deployment, immediately deal {{atk_scale}:.0%} physical damage to all nearby enemies and push them away with [[small]] force. Additionally, randomly apply one of the following status effects (slow, bind, stun) for {sluggish} seconds",
+			"After deployment, immediately deal {{atk_scale}:.0%} physical damage to all nearby enemies and push them away with [[small]] force. Additionally, randomly apply one of the following status effects (slow, bind, stun) for {sluggish} seconds"
 		]
 	},
 	"skchr_weedy_1": {
 		"name": "Cannon Strike",
 		"desc": [
-			"The next attack will push the target away with small force, dealing {{atk_scale}:.0%} physical damage and stunning them for {stun} seconds",
-			"The next attack will push the target away with small force, dealing {{atk_scale}:.0%} physical damage and stunning them for {stun} seconds",
-			"The next attack will push the target away with small force, dealing {{atk_scale}:.0%} physical damage and stunning them for {stun} seconds",
-			"The next attack will push the target away with medium force, dealing {{atk_scale}:.0%} physical damage and stunning them for {stun} seconds",
-			"The next attack will push the target away with medium force, dealing {{atk_scale}:.0%} physical damage and stunning them for {stun} seconds",
-			"The next attack will push the target away with medium force, dealing {{atk_scale}:.0%} physical damage and stunning them for {stun} seconds",
-			"The next attack will push the target away with medium force, dealing {{atk_scale}:.0%} physical damage and stunning them for {stun} seconds",
-			"The next attack will push the target away with medium force, dealing {{atk_scale}:.0%} physical damage and stunning them for {stun} seconds",
-			"The next attack will push the target away with medium force, dealing {{atk_scale}:.0%} physical damage and stunning them for {stun} seconds",
-			"The next attack will push the target away with large force, dealing {{atk_scale}:.0%} physical damage and stunning them for {stun} seconds"
+			"The next attack will push the target away with [[small]] force, dealing {{atk_scale}:.0%} physical damage and stunning them for {stun} seconds",
+			"The next attack will push the target away with [[small]] force, dealing {{atk_scale}:.0%} physical damage and stunning them for {stun} seconds",
+			"The next attack will push the target away with [[small]] force, dealing {{atk_scale}:.0%} physical damage and stunning them for {stun} seconds",
+			"The next attack will push the target away with [[medium]] force, dealing {{atk_scale}:.0%} physical damage and stunning them for {stun} seconds",
+			"The next attack will push the target away with [[medium]] force, dealing {{atk_scale}:.0%} physical damage and stunning them for {stun} seconds",
+			"The next attack will push the target away with [[medium]] force, dealing {{atk_scale}:.0%} physical damage and stunning them for {stun} seconds",
+			"The next attack will push the target away with [[medium]] force, dealing {{atk_scale}:.0%} physical damage and stunning them for {stun} seconds",
+			"The next attack will push the target away with [[medium]] force, dealing {{atk_scale}:.0%} physical damage and stunning them for {stun} seconds",
+			"The next attack will push the target away with [[medium]] force, dealing {{atk_scale}:.0%} physical damage and stunning them for {stun} seconds",
+			"The next attack will push the target away with [[large]] force, dealing {{atk_scale}:.0%} physical damage and stunning them for {stun} seconds"
 		]
 	},
 	"skchr_weedy_2": {
 		"name": "Water Cannon Mode",
 		"desc": [
-			"Increase attack interval (+{{base_attack_time}:.0%}), Attack +{{atk}:.0%}, attack range +{{ability_range_forward_extend}:.0f} tiles, attacks change to ranged splash attacks which push the targets away with very small force. Infinite duration",
-			"Increase attack interval (+{{base_attack_time}:.0%}), Attack +{{atk}:.0%}, attack range +{{ability_range_forward_extend}:.0f} tiles, attacks change to ranged splash attacks which push the targets away with very small force. Infinite duration",
-			"Increase attack interval (+{{base_attack_time}:.0%}), Attack +{{atk}:.0%}, attack range +{{ability_range_forward_extend}:.0f} tiles, attacks change to ranged splash attacks which push the targets away with very small force. Infinite duration",
-			"Increase attack interval (+{{base_attack_time}:.0%}), Attack +{{atk}:.0%}, attack range +{{ability_range_forward_extend}:.0f} tiles, attacks change to ranged splash attacks which push the targets away with small force. Infinite duration",
-			"Increase attack interval (+{{base_attack_time}:.0%}), Attack +{{atk}:.0%}, attack range +{{ability_range_forward_extend}:.0f} tiles, attacks change to ranged splash attacks which push the targets away with small force. Infinite duration",
-			"Increase attack interval (+{{base_attack_time}:.0%}), Attack +{{atk}:.0%}, attack range +{{ability_range_forward_extend}:.0f} tiles, attacks change to ranged splash attacks which push the targets away with small force. Infinite duration",
-			"Increase attack interval (+{{base_attack_time}:.0%}), Attack +{{atk}:.0%}, attack range +{{ability_range_forward_extend}:.0f} tiles, attacks change to ranged splash attacks which push the targets away with small force. Infinite duration",
-			"Increase attack interval (+{{base_attack_time}:.0%}), Attack +{{atk}:.0%}, attack range +{{ability_range_forward_extend}:.0f} tiles, attacks change to ranged splash attacks which push the targets away with small force. Infinite duration",
-			"Increase attack interval (+{{base_attack_time}:.0%}), Attack +{{atk}:.0%}, attack range +{{ability_range_forward_extend}:.0f} tiles, attacks change to ranged splash attacks which push the targets away with small force. Infinite duration",
-			"Increase attack interval (+{{base_attack_time}:.0%}), Attack +{{atk}:.0%}, attack range +{{ability_range_forward_extend}:.0f} tiles, attacks change to ranged splash attacks which push the targets away with medium force. Infinite duration"
+			"Increase attack interval (+{{base_attack_time}:.0%}), Attack +{{atk}:.0%}, attack range +{{ability_range_forward_extend}:.0f} tiles, attacks change to ranged splash attacks which push the targets away with [[very small]] force. Infinite duration",
+			"Increase attack interval (+{{base_attack_time}:.0%}), Attack +{{atk}:.0%}, attack range +{{ability_range_forward_extend}:.0f} tiles, attacks change to ranged splash attacks which push the targets away with [[very small]] force. Infinite duration",
+			"Increase attack interval (+{{base_attack_time}:.0%}), Attack +{{atk}:.0%}, attack range +{{ability_range_forward_extend}:.0f} tiles, attacks change to ranged splash attacks which push the targets away with [[very small]] force. Infinite duration",
+			"Increase attack interval (+{{base_attack_time}:.0%}), Attack +{{atk}:.0%}, attack range +{{ability_range_forward_extend}:.0f} tiles, attacks change to ranged splash attacks which push the targets away with [[small]] force. Infinite duration",
+			"Increase attack interval (+{{base_attack_time}:.0%}), Attack +{{atk}:.0%}, attack range +{{ability_range_forward_extend}:.0f} tiles, attacks change to ranged splash attacks which push the targets away with [[small]] force. Infinite duration",
+			"Increase attack interval (+{{base_attack_time}:.0%}), Attack +{{atk}:.0%}, attack range +{{ability_range_forward_extend}:.0f} tiles, attacks change to ranged splash attacks which push the targets away with [[small]] force. Infinite duration",
+			"Increase attack interval (+{{base_attack_time}:.0%}), Attack +{{atk}:.0%}, attack range +{{ability_range_forward_extend}:.0f} tiles, attacks change to ranged splash attacks which push the targets away with [[small]] force. Infinite duration",
+			"Increase attack interval (+{{base_attack_time}:.0%}), Attack +{{atk}:.0%}, attack range +{{ability_range_forward_extend}:.0f} tiles, attacks change to ranged splash attacks which push the targets away with [[small]] force. Infinite duration",
+			"Increase attack interval (+{{base_attack_time}:.0%}), Attack +{{atk}:.0%}, attack range +{{ability_range_forward_extend}:.0f} tiles, attacks change to ranged splash attacks which push the targets away with [[small]] force. Infinite duration",
+			"Increase attack interval (+{{base_attack_time}:.0%}), Attack +{{atk}:.0%}, attack range +{{ability_range_forward_extend}:.0f} tiles, attacks change to ranged splash attacks which push the targets away with [[medium]] force. Infinite duration"
 		]
 	},
 	"skchr_weedy_3": {
 		"name": "LN2 Cannon",
 		"desc": [
-			"Immediately fire a shot of compressed LN2, dealing {{atk_scale}:.0%} magic splash damage and pushing the targets away with medium force. Additionally, for {{duration}:.0f} seconds the targets receive true damage proportional to the distance moved. If the Water Cannon is adjacent to Weedy, it will fire the same shot",
-			"Immediately fire a shot of compressed LN2, dealing {{atk_scale}:.0%} magic splash damage and pushing the targets away with medium force. Additionally, for {{duration}:.0f} seconds the targets receive true damage proportional to the distance moved. If the Water Cannon is adjacent to Weedy, it will fire the same shot",
-			"Immediately fire a shot of compressed LN2, dealing {{atk_scale}:.0%} magic splash damage and pushing the targets away with medium force. Additionally, for {{duration}:.0f} seconds the targets receive true damage proportional to the distance moved. If the Water Cannon is adjacent to Weedy, it will fire the same shot",
-			"Immediately fire a shot of compressed LN2, dealing {{atk_scale}:.0%} magic splash damage and pushing the targets away with medium force. Additionally, for {{duration}:.0f} seconds the targets receive true damage proportional to the distance moved. If the Water Cannon is adjacent to Weedy, it will fire the same shot",
-			"Immediately fire a shot of compressed LN2, dealing {{atk_scale}:.0%} magic splash damage and pushing the targets away with medium force. Additionally, for {{duration}:.0f} seconds the targets receive true damage proportional to the distance moved. If the Water Cannon is adjacent to Weedy, it will fire the same shot",
-			"Immediately fire a shot of compressed LN2, dealing {{atk_scale}:.0%} magic splash damage and pushing the targets away with medium force. Additionally, for {{duration}:.0f} seconds the targets receive true damage proportional to the distance moved. If the Water Cannon is adjacent to Weedy, it will fire the same shot",
-			"Immediately fire a shot of compressed LN2, dealing {{atk_scale}:.0%} magic splash damage and pushing the targets away with large force. Additionally, for {{duration}:.0f} seconds the targets receive true damage proportional to the distance moved. If the Water Cannon is adjacent to Weedy, it will fire the same shot",
-			"Immediately fire a shot of compressed LN2, dealing {{atk_scale}:.0%} magic splash damage and pushing the targets away with large force. Additionally, for {{duration}:.0f} seconds the targets receive true damage proportional to the distance moved. If the Water Cannon is adjacent to Weedy, it will fire the same shot",
-			"Immediately fire a shot of compressed LN2, dealing {{atk_scale}:.0%} magic splash damage and pushing the targets away with large force. Additionally, for {{duration}:.0f} seconds the targets receive true damage proportional to the distance moved. If the Water Cannon is adjacent to Weedy, it will fire the same shot",
-			"Immediately fire a shot of compressed LN2, dealing {{atk_scale}:.0%} magic splash damage and pushing the targets away with huge force. Additionally, for {{duration}:.0f} seconds the targets receive true damage proportional to the distance moved. If the Water Cannon is adjacent to Weedy, it will fire the same shot"
+			"Immediately fire a shot of compressed LN2, dealing {{atk_scale}:.0%} magic splash damage and pushing the targets away with [[medium]] force. Additionally, for {{duration}:.0f} seconds the targets receive true damage proportional to the distance moved. If the Water Cannon is adjacent to Weedy, it will fire the same shot",
+			"Immediately fire a shot of compressed LN2, dealing {{atk_scale}:.0%} magic splash damage and pushing the targets away with [[medium]] force. Additionally, for {{duration}:.0f} seconds the targets receive true damage proportional to the distance moved. If the Water Cannon is adjacent to Weedy, it will fire the same shot",
+			"Immediately fire a shot of compressed LN2, dealing {{atk_scale}:.0%} magic splash damage and pushing the targets away with [[medium]] force. Additionally, for {{duration}:.0f} seconds the targets receive true damage proportional to the distance moved. If the Water Cannon is adjacent to Weedy, it will fire the same shot",
+			"Immediately fire a shot of compressed LN2, dealing {{atk_scale}:.0%} magic splash damage and pushing the targets away with [[medium]] force. Additionally, for {{duration}:.0f} seconds the targets receive true damage proportional to the distance moved. If the Water Cannon is adjacent to Weedy, it will fire the same shot",
+			"Immediately fire a shot of compressed LN2, dealing {{atk_scale}:.0%} magic splash damage and pushing the targets away with [[medium]] force. Additionally, for {{duration}:.0f} seconds the targets receive true damage proportional to the distance moved. If the Water Cannon is adjacent to Weedy, it will fire the same shot",
+			"Immediately fire a shot of compressed LN2, dealing {{atk_scale}:.0%} magic splash damage and pushing the targets away with [[medium]] force. Additionally, for {{duration}:.0f} seconds the targets receive true damage proportional to the distance moved. If the Water Cannon is adjacent to Weedy, it will fire the same shot",
+			"Immediately fire a shot of compressed LN2, dealing {{atk_scale}:.0%} magic splash damage and pushing the targets away with [[large]] force. Additionally, for {{duration}:.0f} seconds the targets receive true damage proportional to the distance moved. If the Water Cannon is adjacent to Weedy, it will fire the same shot",
+			"Immediately fire a shot of compressed LN2, dealing {{atk_scale}:.0%} magic splash damage and pushing the targets away with [[large]] force. Additionally, for {{duration}:.0f} seconds the targets receive true damage proportional to the distance moved. If the Water Cannon is adjacent to Weedy, it will fire the same shot",
+			"Immediately fire a shot of compressed LN2, dealing {{atk_scale}:.0%} magic splash damage and pushing the targets away with [[large]] force. Additionally, for {{duration}:.0f} seconds the targets receive true damage proportional to the distance moved. If the Water Cannon is adjacent to Weedy, it will fire the same shot",
+			"Immediately fire a shot of compressed LN2, dealing {{atk_scale}:.0%} magic splash damage and pushing the targets away with [[huge]] force. Additionally, for {{duration}:.0f} seconds the targets receive true damage proportional to the distance moved. If the Water Cannon is adjacent to Weedy, it will fire the same shot"
 		]
 	},
 	"skchr_haak_1": {
