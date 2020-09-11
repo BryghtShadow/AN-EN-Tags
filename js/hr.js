@@ -1,3 +1,4 @@
+
 var conf = {
 	reg: 'cn',
 	lang: 'en',
@@ -102,8 +103,39 @@ init()
 	var selectedOpsContainer = document.createElement('div')
 	selectedOpsContainer.id = 'selectedOps';
 
-	function clickBtnTag(ev) {
+	let checkedTags = new Set()
 
+	function clickBtnTag(e) {
+		let checkbox = e.target
+		let label = checkbox.parentNode;
+		let tagID = label.getAttribute('data-tag-id');
+		if (checkbox.checked) {
+			checkedTags.add(tagID);
+		} else {
+			checkedTags.delete(tagID);
+		}
+		if (checkedTags.size >= 6) {
+			document.querySelectorAll('.tags input[type="checkbox"]:not(:checked)').forEach(input=>{
+				input.disabled = true;
+			})
+		} else {
+			document.querySelectorAll('.tags input[type="checkbox"]:disabled').forEach(input=>{
+				input.disabled = false;
+			})
+		}
+		updateOperators();
+	}
+
+	function updateOperators() {
+		selectedOpsContainer.innerHTML = '';
+		let chars = data.characters.filter(char=>{
+			return char.tags.some(tagID=>checkedTags[tagID])
+		})
+		chars.forEach(char=>{
+			let element = document.createElement('div')
+			element.textContent = char.name_en;
+			selectedOpsContainer.appendChild(element);
+		})
 	}
 
 	var ul = document.createElement('ul');
@@ -111,9 +143,11 @@ init()
 	Object.entries(data.tagsTL).forEach(([tagID, tag]) => {
 		let li = document.createElement('li');
 		let label = document.createElement('label')
+		label.setAttribute('data-tag-id', tagID)
 
 		let checkbox = document.createElement('input')
 		checkbox.type = 'checkbox';
+		checkbox.addEventListener('change', clickBtnTag)
 		label.appendChild(checkbox);
 
 		let textnode = document.createTextNode(tag.type_en || tag.tag_en || tag.sex_en);
@@ -123,6 +157,6 @@ init()
 		ul.appendChild(li)
 	})
 	document.body.appendChild(ul);
-	// document.body.appendChild(selectedOpsContainer);
+	document.body.appendChild(selectedOpsContainer);
 });
 
