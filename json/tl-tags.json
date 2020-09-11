@@ -4,41 +4,52 @@
 		"tag_en": "三测暂不实装",
 		"tag_jp": "",
 		"tag_kr": "",
+		"tag_tw": "",
 		"type": ""
 	},
 	{
+		"id": 17,
 		"tag_cn": "新手",
 		"tag_en": "Starter",
 		"tag_jp": "初期",
 		"tag_kr": "신입",
+		"tag_tw": "新手",
 		"type": "qualifications"
 	},
 	{
+		"id": 14,
 		"tag_cn": "资深干员",
 		"tag_en": "Senior Operator",
 		"tag_jp": "エリート",
-		"tag_kr": "특별채용",
+		"tag_kr": "특별 채용",
+		"tag_tw": "資深幹員",
 		"type": "qualifications"
 	},
 	{
+		"id": 11,
 		"tag_cn": "高级资深干员",
 		"tag_en": "Top Operator",
 		"tag_jp": "上級エリート",
-		"tag_kr": "고급특별채용",
+		"tag_kr": "고급 특별 채용",
+		"tag_tw": "高級資深幹員",
 		"type": "qualifications"
 	},
 	{
+		"id": 9,
 		"tag_cn": "近战位",
 		"tag_en": "Melee",
 		"tag_jp": "近距離",
 		"tag_kr": "근거리",
+		"tag_tw": "近戰位",
 		"type": "position"
 	},
 	{
+		"id": 10,
 		"tag_cn": "远程位",
 		"tag_en": "Ranged",
 		"tag_jp": "遠距離",
 		"tag_kr": "원거리",
+		"tag_tw": "遠程位",
 		"type": "position"
 	},
 	{
@@ -46,6 +57,7 @@
 		"tag_en": "Melee",
 		"tag_jp": "遠距離",
 		"tag_kr": "MELEE",
+		"tag_tw": "MELEE",
 		"type": "position"
 	},
 	{
@@ -53,111 +65,142 @@
 		"tag_en": "Ranged",
 		"tag_jp": "遠距離",
 		"tag_kr": "RANGED",
+		"tag_tw": "RANGED",
 		"type": "position"
 	},
 	{
+		"id": 15,
 		"tag_cn": "治疗",
 		"tag_en": "Healing",
 		"tag_jp": "治療",
 		"tag_kr": "힐링",
+		"tag_tw": "治療",
 		"type": "affix"
 	},
 	{
+		"id": 16,
 		"tag_cn": "支援",
 		"tag_en": "Support",
 		"tag_jp": "支援",
 		"tag_kr": "지원",
+		"tag_tw": "支援",
 		"type": "affix"
 	},
 	{
+		"id": 19,
 		"tag_cn": "输出",
 		"tag_en": "DPS",
 		"tag_jp": "火力",
 		"tag_kr": "딜러",
+		"tag_tw": "輸出",
 		"type": "affix"
 	},
 	{
+		"id": 21,
 		"tag_cn": "群攻",
 		"tag_en": "AoE",
 		"tag_jp": "範囲攻撃",
 		"tag_kr": "범위공격",
+		"tag_tw": "群攻",
 		"type": "affix"
 	},
 	{
+		"id": 23,
 		"tag_cn": "减速",
 		"tag_en": "Slow",
 		"tag_jp": "減速",
 		"tag_kr": "감속",
+		"tag_tw": "減速",
 		"type": "affix"
 	},
 	{
+		"id": 20,
 		"tag_cn": "生存",
 		"tag_en": "Survival",
 		"tag_jp": "生存",
 		"tag_kr": "생존형",
+		"tag_tw": "生存",
 		"type": "affix"
 	},
 	{
+		"id": 22,
 		"tag_cn": "防护",
 		"tag_en": "Defense",
 		"tag_jp": "防御",
 		"tag_kr": "방어형",
+		"tag_tw": "防護",
 		"type": "affix"
 	},
 	{
+		"id": 24,
 		"tag_cn": "削弱",
 		"tag_en": "Debuff",
 		"tag_jp": "弱化",
 		"tag_kr": "디버프",
+		"tag_tw": "削弱",
 		"type": "affix"
 	},
 	{
+		"id": 26,
 		"tag_cn": "位移",
 		"tag_en": "Shift",
 		"tag_jp": "強制移動",
 		"tag_kr": "강제이동",
+		"tag_tw": "位移",
 		"type": "affix"
 	},
 	{
+		"id": 12,
 		"tag_cn": "控场",
-		"tag_en": "Crowd Control",
+		"tag_en": "Crowd-Control",
 		"tag_jp": "牽制",
 		"tag_kr": "제어형",
+		"tag_tw": "控場",
 		"type": "affix"
 	},
 	{
+		"id": 13,
 		"tag_cn": "爆发",
 		"tag_en": "Nuker",
 		"tag_jp": "爆発力",
 		"tag_kr": "누커",
+		"tag_tw": "爆發",
 		"type": "affix"
 	},
 	{
+		"id": 27,
 		"tag_cn": "召唤",
 		"tag_en": "Summon",
 		"tag_jp": "召喚",
 		"tag_kr": "소환",
+		"tag_tw": "召喚",
 		"type": "affix"
 	},
 	{
+		"id": 25,
 		"tag_cn": "快速复活",
 		"tag_en": "Fast-Redeploy",
 		"tag_jp": "高速再配置",
 		"tag_kr": "쾌속부활",
+		"tag_tw": "快速復活",
 		"type": "affix"
 	},
 	{
+		"id": 18,
 		"tag_cn": "费用回复",
 		"tag_en": "DP-Recovery",
 		"tag_jp": "COST回復",
 		"tag_kr": "코스트+",
+		"tag_tw": "費用回復",
 		"type": "affix"
 	},
 	{
+		"id": 28,
 		"tag_cn": "支援机械",
 		"tag_en": "Robot",
 		"tag_jp": "ロボット",
 		"tag_kr": "로봇",
+		"tag_tw": "支援機械",
 		"type": "affix"
 	}
 ]

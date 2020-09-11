@@ -1,58 +1,74 @@
 [
 	{
-		"type_data" : "WARRIOR",
+		"id": 1,
+		"type_data": "WARRIOR",
 		"type_cn": "近卫",
 		"type_en": "Guard",
 		"type_jp": "前衛",
-		"type_kr": "가드"
+		"type_kr": "가드",
+		"type_tw": "近衛"
 	},
 	{
-		"type_data" : "MEDIC",
+		"id": 4,
+		"type_data": "MEDIC",
 		"type_cn": "医疗",
 		"type_en": "Medic",
 		"type_jp": "医療",
-		"type_kr": "메딕"
+		"type_kr": "메딕",
+		"type_tw": "醫療"
 	},
 	{
-		"type_data" : "PIONEER",
+		"id": 8,
+		"type_data": "PIONEER",
 		"type_cn": "先锋",
 		"type_en": "Vanguard",
 		"type_jp": "先鋒",
-		"type_kr": "뱅가드"
+		"type_kr": "뱅가드",
+		"type_tw": "先鋒"
 	},
 	{
-		"type_data" : "CASTER",
+		"id": 6,
+		"type_data": "CASTER",
 		"type_cn": "术师",
 		"type_en": "Caster",
 		"type_jp": "術師",
-		"type_kr": "캐스터"
+		"type_kr": "캐스터",
+		"type_tw": "術師"
 	},
 	{
-		"type_data" : "SNIPER",
+		"id": 2,
+		"type_data": "SNIPER",
 		"type_cn": "狙击",
 		"type_en": "Sniper",
 		"type_jp": "狙撃",
-		"type_kr": "스나이퍼"
+		"type_kr": "스나이퍼",
+		"type_tw": "狙擊"
 	},
 	{
-		"type_data" : "TANK",
+		"id": 3,
+		"type_data": "TANK",
 		"type_cn": "重装",
 		"type_en": "Defender",
 		"type_jp": "重装",
-		"type_kr": "디펜더"
+		"type_kr": "디펜더",
+		"type_tw": "重裝"
 	},
 	{
-		"type_data" : "SUPPORT",
+		"id": 5,
+		"type_data": "SUPPORT",
 		"type_cn": "辅助",
 		"type_en": "Supporter",
 		"type_jp": "補助",
-		"type_kr": "서포터"
+		"type_kr": "서포터",
+		"type_tw": "輔助"
 	},
 	{
-		"type_data" : "SPECIAL",
+		"id": 7,
+		"type_data": "SPECIAL",
 		"type_cn": "特种",
 		"type_en": "Specialist",
 		"type_jp": "特殊",
-		"type_kr": "스페셜리스트"
+		"type_kr": "스페셜리스트",
+		"type_tw": "特種"
 	}
 ]
