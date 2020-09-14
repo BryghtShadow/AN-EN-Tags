@@ -167,16 +167,6 @@
                 var size = JSON.parse(localStorage.getItem('size'));
                 updateImageSizeDropdownList(size);
 
-                $(document).on("click", ".btn-name", function () {
-                    var showName = !JSON.parse(localStorage.getItem('showName'))
-                    localStorage.setItem('showName',JSON.stringify(showName));
-                    console.log("Show Name: ", showName);
-                })
-                $(document).on("click", ".btn-class", function () {
-                    var showClass = !JSON.parse(localStorage.getItem('showClass'))
-                    localStorage.setItem('showClass',JSON.stringify(showClass));
-                    console.log("Show Class: ", showClass);
-                })
                 $(document).on("click", ".btn-image:not(.disabled)", function () {
                     var showImage = !JSON.parse(localStorage.getItem('showImage'))
                     localStorage.setItem('showImage',JSON.stringify(showImage));
@@ -378,11 +368,17 @@
         }
 
         function clickBtnOpt2(el){
+            var showName = !JSON.parse(localStorage.getItem('showName'))
+            localStorage.setItem('showName',JSON.stringify(showName));
+            console.log("Show Name: ", showName);
             $(el).toggleClass("btn-primary btn-secondary");
             localStorage.removeItem('lastChar')
             refresh();
         }
         function clickBtnOpt3(el){
+            var showClass = !JSON.parse(localStorage.getItem('showClass'))
+            localStorage.setItem('showClass',JSON.stringify(showClass));
+            console.log("btn clicked, show Class: ", showClass);
             $(el).toggleClass("btn-primary btn-secondary");
             localStorage.removeItem('lastChar')
             changeUILanguage(el);
@@ -543,22 +539,11 @@
                     if (chars.length === 0) return;
                     if (!tags.includes("高级资深干员")) {
                         // console.log(tags.join(",") + " 不含(高级)资深干员");
-                        let reduce6 = [];
-                        $.each(chars, function (_, char) {
-                            if (char.level !== 6) {
-                                reduce6.push(char);
-                            }
-                        });
+                        let reduce6 = chars.filter(char => char.level !== 6);
                         chars = reduce6;
                     }
                     // console.log(chars)
-                    let filtered_chars = [];
-                    $.each(chars, function (_, char) {
-                        //console.log(char.level);
-                        if (optStars.includes(char.level.toString())) {
-                            filtered_chars.push(char);
-                        }
-                    });
+                    let filtered_chars = chars.filter(char=>optStars.includes(char.level.toString()));
                     // console.log(filtered_chars)
                     chars = filtered_chars;
                     comb.possible = chars;
@@ -702,9 +687,10 @@
             $('#display-reg').text(reg.toUpperCase())
             switch (lang) {
                 case "en":$('#display-lang').text("English");console.log('English');break;
-                case "cn":$('#display-lang').html("Chinese");console.log('Chinese');break;
+                case "cn":$('#display-lang').text("Chinese");console.log('Chinese');break;
                 case "jp":$('#display-lang').text("Japanese");console.log('Japanese');break;
                 case "kr":$('#display-lang').text("Korean");console.log('Japanese');break;
+                case "tw":$('#display-lang').text("Taiwanese");console.log('Japanese');break;
             }
             
             localStorage.setItem("gameRegion", reg);
@@ -713,33 +699,34 @@
             for (let m = 0; m < types.length; m++) {
                 $(".tags-"+types[m]).each(function(j,el){
                     let data = JsonDATA.tagsTL
-                        if(data.length != 0){
-                            let k = 0;
-                            for (var i = 0; i < data.length; i++) {
-                                if(data[i].type == types[m]){
-                                    //console.log("j="+j+" , k="+k);
-                                    if(j==k){
-                                        $(el).html(data[i]["tag_"+reg]);
-                                        $(el).attr("data-original-title", data[i]["tag_"+lang]);
-                                    }
-                                    k++;
+                    if(data.length != 0){
+                        let k = 0;
+                        for (var i = 0; i < data.length; i++) {
+                            if(data[i].type == types[m]){
+                                //console.log("j="+j+" , k="+k);
+                                if(j==k){
+                                    $(el).html(data[i]["tag_"+reg]);
+                                    $(el).attr("data-original-title", data[i]["tag_"+lang]);
                                 }
+                                k++;
                             }
                         }
+                    }
                 });
             }
             $(".tags-gender").each(function(i,el){
                 let data = JsonDATA.gendersTL
-                    if(data.length != 0){
-                        if(reg == 'cn'){
-                            $(el).html(data[i]["sex_"+reg]+'性干员');
-                        } else {
-                            $(el).html(data[i]["sex_"+reg]);
-                        }
-                        $(el).attr("data-original-title", data[i]["sex_"+lang]);
+                if(data.length != 0){
+                    if(reg == 'cn'){
+                        $(el).html(data[i]["sex_"+reg]+'性干员');
+                    } else {
+                        $(el).html(data[i]["sex_"+reg]);
                     }
+                    $(el).attr("data-original-title", data[i]["sex_"+lang]);
+                }
             });
             var showClass = JSON.parse(localStorage.getItem('showClass'))
+            console.log("changeUILanguage showClass", showClass)
             $(".tags-class").each(function(i,el){
                 let data = JsonDATA.typesTL
                     if(data.length != 0){
