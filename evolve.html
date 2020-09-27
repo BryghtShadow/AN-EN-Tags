@@ -7,6 +7,8 @@
     <meta name="theme-color" content="#222222ff">
     <title>Arknights Material Inventory</title>
     <link rel="manifest" href="./manifest.json" crossorigin="use-credentials">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed|Roboto&display=swap" rel="stylesheet">
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css'>
     <link rel="stylesheet" href="css/ak.css">
     <script src="js/multilingual.js"></script>
@@ -22,9 +24,28 @@
         gtag('js', new Date());
         gtag('config', 'UA-159317757-1');
     </script>
+    <style type="text/css">
+        .item {
+            color:#fff;
+            border:2px solid silver;
+            display:inline-block;
+            margin:4px;
+            padding:2px;
+            font-family: Roboto Condensed, sans-serif;
+        }
+        .icon {
+            display:inline-block;
+            width:40px;
+            height:40px;
+        }
+        .icon img {
+            object-fit:contain;
+        }
+    </style>
 </head>
 <body>
-<!--     <div id="loadingOverlay" style="width: 100vw; height: 150%; background-color: #111111; position: absolute; z-index: 9999; top:0px;">
+    <!--
+     <div id="loadingOverlay" style="width: 100vw; height: 150%; background-color: #111111; position: absolute; z-index: 9999; top:0px;">
         <div class="d-flex justify-content-center" style="margin-top: 50vh">
             <div class="spinner-border" role="status" style="border-color: #0098DC; border-right-color: transparent; width: 4rem; height: 4rem;">
             </div>
@@ -34,8 +55,8 @@
             <div></div>
             <div class="loadforce" onclick="hideload()"><a>Click here if stuck on loading</a></div>
         </div>
-    </div>
- -->    <script>
+     </div>
+     <script>
         $(function(){
           $('#nav-placeholder').load('nav.html');
         });
@@ -44,7 +65,8 @@
                 $("#loadingOverlay").fadeOut(); 
             }, 1000);
         });
-    </script>
+     </script>
+    -->
     <!-- <button class="btn btn-sm btn-primary goToTag" style="position:fixed;bottom:15px ;right: 0px;size:70px 70px;padding: 10px;z-index: 10000" id="to-tag" type="button">^ </button> -->
     <nav id="aknav" class="navbar fixed-top navbar-expand-md navbar-dark bg-dark" style="background-image: linear-gradient(#222222ff 70%,#222222ff , #111111aa );">
             <img src="./img/factions/logo_rhodes.png" width="40" height="40" style="transform:scale(1.2,1.2)translate(-8px,1px)"class="d-inline-block align-top" alt="">
@@ -92,7 +114,7 @@
             </div>
             <br>
             <div style='display: inline-flex;'> 
-                <input class="my-1" type="text" style="background-color:#444444;width:410px;border-width:0;border-radius:5px;padding:5px;color:white;" id="updater" placeholder="Put the adress of another akevolve to update the current" />
+                <input class="my-1" type="text" style="background-color:#444444;width:410px;border-width:0;border-radius:5px;padding:5px;color:white;" id="updater" placeholder="Put the address of another akevolve to update the current" />
             <button type="button" class="btn btn-sm my-1" style="background-color:#444444;position:relative;border-radius:5px;color:white;margin: 2px;" id="btn-update">Update</button>
             </div>
             <hr class="my-1" />
@@ -136,116 +158,113 @@
     </div>
     <script src='js/arrive.min.js'></script>
     <script src="./js/aknav.js"></script>
-    <script>
-        let materials = {}
+    
+<script>
+    let materials = {}
 
-        let config = {
-            showChips: false,
-            showBooks: false,
-            showElite: true,
+    let config = {
+        showChips: false,
+        showBooks: false,
+        showElite: true,
+    }
+
+    function isMaterial(item) {
+        return item.classifyType === 'MATERIAL' && item.itemType === 'MATERIAL'
+    }
+
+    function isObtainable(item) {
+        return item.stageDropList.length > 0 || item.buildingProductList.length > 0
+    }
+
+    function isBook(item) {
+        const ids = [
+            3301, 3302, 3303,
+        ];
+        const id = parseInt(item.itemId)
+        return ids.includes(id)
+    }
+
+    function isChip(item) {
+        const ids = [
+            3211, 3212, 3213,
+            3221, 3222, 3223,
+            3231, 3232, 3233,
+            3241, 3242, 3243,
+            3251, 3252, 3253,
+            3261, 3262, 3263,
+            3271, 3272, 3273,
+            3281, 3282, 3283,
+        ];
+        const id = parseInt(item.itemId)
+        return ids.includes(id)
+    }
+
+    function isEliteMaterial(item) {
+        return 3400 <= parseInt(item.itemId)
+    }
+
+    fetch('json/gamedata/en_US/gamedata/excel/item_table.json').then(r=>r.json()).then(data => {
+        function toggleItems(selector, configName, filterFunction) {
+            var checkbox = document.querySelector(selector)
+            if (checkbox === null) {
+                return
+            }
+            checkbox.addEventListener('change', function(ev) {
+                ev.preventDefault()
+                config[configName] = ev.target.checked
+                Array.from(document.querySelectorAll('#row-m .item')).forEach((row) => {
+                    let id = row.getAttribute('data-item-id')
+                    if (filterFunction({itemId: id})) {
+                        row.hidden = !config[configName]
+                    }
+                })
+            })
+        }
+        toggleItems('#toggle-elite-materials', 'showElite', isEliteMaterial)
+        toggleItems('#toggle-skill-books', 'showBooks', isBook)
+        toggleItems('#toggle-class-chips', 'showChips', isChip)
+
+        let materialContainer = document.createElement('div')
+
+        let items = Object.values(data.items)
+        items.sort((a, b) => a.sortId - b.sortId)
+
+        for (let item of items) {
+            if (!isMaterial(item) || !isObtainable(item)) {
+                continue
+            }
+            let itemId = item.itemId
+
+            materials[itemId] = {
+                have: 0,
+                need: 0,
+            }
+
+            var row = document.createElement('div')
+            row.className = 'item'
+            row.setAttribute('data-item-id', itemId)
+            row.hidden = isChip(item) && !config.showChips || isBook(item) && !config.showBooks || isEliteMaterial(item) && !config.showElite
+
+            var icon = document.createElement('span')
+            icon.className = 'icon'
+            var img = document.createElement('img')
+            img.src = `img/items/${item.iconId}.png`
+            img.width = 40
+            img.height = 40
+            icon.appendChild(img)
+            var name = document.createTextNode(item.name)
+            row.appendChild(icon)
+            row.appendChild(name)
+
+            materialContainer.appendChild(row)
         }
 
-        let Item = {
-            init(options) {
-                for (var k in options) {
-                    if (options.hasOwnProperty(k)) {
-                        this[k] = options[k];
-                    }
-                }
-                return this;
-            },
-            isMaterial() {
-                return this.classifyType === 'MATERIAL' && this.itemType === 'MATERIAL';
-            },
-            isObtainable() {
-                return this.stageDropList.length > 0 || item.buildingProductList.length > 0;
-            },
-            isBook() {
-                let ids = [
-                    3301, 3302, 3303,
-                ];
-                let id = parseInt(this.itemId);
-                return ids.includes(id);
-            },
-            isChip() {
-                let ids = [
-                    3211, 3212, 3213,
-                    3221, 3222, 3223,
-                    3231, 3232, 3233,
-                    3241, 3242, 3243,
-                    3251, 3252, 3253,
-                    3261, 3262, 3263,
-                    3271, 3272, 3273,
-                    3281, 3282, 3283,
-                ];
-                let id = parseInt(this.itemId);
-                return ids.includes(id);
-            },
-            isEliteMaterial() {
-                return 3400 <= parseInt(this.itemId);
-            },
-        };
+        let ROOT = document.querySelector('#row-m')
+        let FRAGMENT = document.createDocumentFragment()
+        FRAGMENT.appendChild(materialContainer)
 
-        fetch('json/gamedata/en_US/gamedata/excel/item_table.json').then(r=>r.json()).then(data=>{
-            let ROOT = document.querySelector('#row-m');
-            let FRAGMENT = document.createDocumentFragment();
-
-            let materialContainer = document.createElement('div');
-
-            let items = Object.values(data.items)
-            items.sort((a,b) => a.sortId - b.sortId);
-
-            for (let item of items) {
-                let item = new Item(item);
-                if (!item.isMaterial() || !item.isObtainable()) continue;
-                let itemId = item.itemId;
-
-                materials[itemId] = {
-                    have: 0,
-                    need: 0,
-                }
-
-                var row = document.createElement('div');
-                row.style = "color:#fff;border:thin solid silver;display:inline-block;margin:4px;padding:2px;"
-                row.className = 'item'
-                row.setAttribute('data-item-id', itemId);
-                row.hidden = item.isChip() && !config.showChips || item.isBook() && !config.showBooks || item.isElite() && !config.showElite;
-
-                var icon = document.createElement('img');
-                icon.src = `img/items/${item.iconId}.png`
-                icon.width = 40
-                icon.height = 40;
-                icon.style = "object-fit:contain;width:40px;height:40px;"
-
-                var name = document.createTextNode(item.name);
-                row.appendChild(icon)
-                row.appendChild(name)
-
-                materialContainer.appendChild(row);
-            }
-
-            let toggleItems = function(selector, configName, filterFunction) {
-                var checkbox = document.querySelector(selector);
-                checkbox.checked = config[configName];
-                checkbox.addEventListener('change', (ev) => {
-                    ev.preventDefault()
-                    config[configName] = ev.target.checked;
-                    Array.from(ROOT.querySelectorAll('.item')).forEach(row => {
-                        let id = row.getAttribute('data-item-id')
-                        if (filterFunction(id)) {
-                            row.hidden = !config[configName];
-                        }
-                    })
-                });
-            }
-            toggleItems('#toggle-elite-materials', 'showElite', 'isElite')
-            toggleItems('#toggle-skill-books', 'showBooks', 'isBook')
-            toggleItems('#toggle-class-chips', 'showChips', 'isChip')
-
-            FRAGMENT.appendChild(materialContainer);
-
-            ROOT.appendChild(FRAGMENT);
-        })
-    </script>
+        ROOT.appendChild(FRAGMENT)
+    })
+</script>
 </body>
 </html>
