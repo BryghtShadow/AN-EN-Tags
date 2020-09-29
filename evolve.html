@@ -41,6 +41,9 @@
         .icon img {
             object-fit:contain;
         }
+        input[type="number"] {
+            appearance: textfield;
+        }
     </style>
 </head>
 <body>
@@ -203,26 +206,83 @@
         return 3400 <= parseInt(item.itemId)
     }
 
-    fetch('json/gamedata/en_US/gamedata/excel/item_table.json').then(r=>r.json()).then(data => {
-        function toggleItems(selector, configName, filterFunction) {
-            var checkbox = document.querySelector(selector)
-            if (checkbox === null) {
-                return
-            }
-            checkbox.addEventListener('change', function(ev) {
-                ev.preventDefault()
-                config[configName] = ev.target.checked
-                Array.from(document.querySelectorAll('#row-m .item')).forEach((row) => {
-                    let id = row.getAttribute('data-item-id')
-                    if (filterFunction({itemId: id})) {
-                        row.hidden = !config[configName]
-                    }
-                })
-            })
+    function toggleItems(selector, configName, filterFunction) {
+        var checkbox = document.querySelector(selector)
+        if (checkbox === null) {
+            return
         }
-        toggleItems('#toggle-elite-materials', 'showElite', isEliteMaterial)
-        toggleItems('#toggle-skill-books', 'showBooks', isBook)
-        toggleItems('#toggle-class-chips', 'showChips', isChip)
+        checkbox.checked = config[configName]
+        checkbox.addEventListener('change', function(ev) {
+            ev.preventDefault()
+            config[configName] = ev.target.checked
+            Array.from(document.querySelectorAll('#row-m .item')).forEach((row) => {
+                let id = row.getAttribute('data-item-id')
+                if (filterFunction({itemId: id})) {
+                    row.hidden = !config[configName]
+                }
+            })
+        })
+    }
+    toggleItems('#toggle-elite-materials', 'showElite', isEliteMaterial)
+    toggleItems('#toggle-skill-books', 'showBooks', isBook)
+    toggleItems('#toggle-class-chips', 'showChips', isChip)
+
+    // Restricts input for the given textbox to the given inputFilter function.
+    function setInputFilter(textbox, inputFilter) {
+      ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
+        textbox.addEventListener(event, function() {
+          if (inputFilter(this.value)) {
+            this.oldValue = this.value;
+            this.oldSelectionStart = this.selectionStart;
+            this.oldSelectionEnd = this.selectionEnd;
+          } else if (this.hasOwnProperty("oldValue")) {
+            this.value = this.oldValue;
+            this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+          } else {
+            this.value = "";
+          }
+        });
+      });
+    }
+
+    function renderItem(item) {
+        var row = document.createElement('div')
+        row.className = 'item'
+        row.setAttribute('data-item-id', item.itemId)
+        row.hidden = isChip(item) && !config.showChips || isBook(item) && !config.showBooks || isEliteMaterial(item) && !config.showElite
+        var icon = document.createElement('span')
+        icon.className = 'icon'
+        var img = document.createElement('img')
+        img.src = `img/items/${item.iconId}.png`
+        img.width = 40
+        img.height = 40
+        icon.appendChild(img)
+        var name = document.createTextNode(item.name)
+        row.appendChild(icon)
+        row.appendChild(name)
+
+        let haveCounter = document.createElement('div')
+        let minus = document.createElement('button')
+        let plus = document.createElement('button')
+        let counter = document.createElement('input')
+        counter.setAttribute('type', 'number')
+        counter.min = 0
+        counter.addEventListener('change', function(ev) {
+            ev.preventDefault();
+        })
+        
+        minus.textContent = '-'
+        plus.textContent = '+'
+        counter.value = 0
+        haveCounter.appendChild(counter)
+        haveCounter.appendChild(minus)
+        haveCounter.appendChild(plus)
+        row.appendChild(haveCounter)
+
+        return row
+    }
+
+    fetch('json/gamedata/en_US/gamedata/excel/item_table.json').then(r=>r.json()).then(data => {
 
         let materialContainer = document.createElement('div')
 
@@ -233,28 +293,13 @@
             if (!isMaterial(item) || !isObtainable(item)) {
                 continue
             }
-            let itemId = item.itemId
 
-            materials[itemId] = {
+            materials[item.itemId] = {
                 have: 0,
                 need: 0,
             }
 
-            var row = document.createElement('div')
-            row.className = 'item'
-            row.setAttribute('data-item-id', itemId)
-            row.hidden = isChip(item) && !config.showChips || isBook(item) && !config.showBooks || isEliteMaterial(item) && !config.showElite
-
-            var icon = document.createElement('span')
-            icon.className = 'icon'
-            var img = document.createElement('img')
-            img.src = `img/items/${item.iconId}.png`
-            img.width = 40
-            img.height = 40
-            icon.appendChild(img)
-            var name = document.createTextNode(item.name)
-            row.appendChild(icon)
-            row.appendChild(name)
+            let row = renderItem(item)
 
             materialContainer.appendChild(row)
         }
