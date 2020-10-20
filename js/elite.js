@@ -1,6 +1,7 @@
 const names = [
 	'character_table',
 	'skill_table',
+	'item_table',
 ]
 
 
