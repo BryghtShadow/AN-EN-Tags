@@ -1,0 +1,57 @@
+
+body {
+	font-family: 'Roboto Condensed', sans-serif;
+}
+
+th {
+	background: #111;
+	color: #eee;
+	padding: 0.5em;
+}
+td {
+	background: #333;
+	color: #eee;
+	padding: 0.5em;
+}
+
+.item {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+}
+.item .icon {
+	position: relative;
+}
+.item .icon:before {
+	display: inline-block;
+	position: absolute;
+	content: "";
+	width: 100%;
+	height: 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 100% 100%;
+	z-index: 1;
+}
+
+.item.rare-1 .icon:before {
+	background-image: url("/img/material/bg/item-1.png");
+}
+.item.rare-2 .icon:before {
+	background-image: url("/img/material/bg/item-2.png");
+}
+.item.rare-3 .icon:before {
+	background-image: url("/img/material/bg/item-3.png");
+}
+.item.rare-4 .icon:before {
+	background-image: url("/img/material/bg/item-4.png");
+}
+.item.rare-5 .icon:before {
+	background-image: url("/img/material/bg/item-5.png");
+}
+.item .icon img {
+	position: relative;
+	object-fit: contain;
+	z-index: 2;
+}
