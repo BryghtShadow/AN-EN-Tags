@@ -8,12 +8,12 @@ body {
 }
 
 th {
-	background: #444;
+	background: #333;
 	color: #eee;
 	padding: 0.5em;
 }
 td {
-	background: #777;
+	background: #555;
 	color: #eee;
 	padding: 0.5em;
 }
@@ -56,8 +56,8 @@ td {
 }
 .item .icon img {
 	position: relative;
-	width: 80px;
-	height: 80px;
+	width: 50px;
+	height: 50px;
 	object-fit: contain;
 	z-index: 2;
 }
@@ -65,9 +65,16 @@ td {
 	position: absolute;
 	bottom: 15%;
 	right: 15%;
-	background: #0009;
-	box-shadow: 0.1em 0.25em 0.2em #333e;
-	padding: 0.3em 0.6em;
-	font-size: 0.75em;
+	background: rgba(14, 14, 14, 0.83);
+	box-shadow: 0.1em 0.2em 0.2em rgba(14, 14, 14, 0.83);
+	padding: 1px 5px;
+	font-size: 12px;
 	z-index: 3;
+}
+
+.requisites-cell {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
 }

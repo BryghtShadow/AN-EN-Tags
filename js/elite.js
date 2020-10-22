@@ -21,14 +21,26 @@ let promises = names.map(name=>{
 	)
 })
 
+const clock = `<svg x="0" y="0" viewBox="0 0 10 10" height="1em"><g fill="none" stroke="currentColor" stroke-width="10%" stroke-linecap="square">
+<circle cx="50%" cy="50%" r="45%"/>
+<line x1="50%" y1="50%" x2="30%" y2="50%"/>
+<line x1="50%" y1="50%" x2="50%" y2="30%"/>
+</g></svg>`
+
+function pad(n) {
+	return (n < 10 ? '0' : '') + n
+}
+
+let DB
 Promise.all(promises).then(args=>{
-	let DB = names.reduce((acc, name, i) =>{
+	DB = names.reduce((acc, name, i) =>{
 		acc[name] = args[i]
 		return acc
 	}, {})
 
 	function formatItemIcon(kwargs) {
 		let item = DB.item_table.items[kwargs.id]
+
 		let root = document.createElement('div')
 		root.className = 'item rare-'+(item.rarity+1)
 		let icon = document.createElement('span')
@@ -36,12 +48,13 @@ Promise.all(promises).then(args=>{
 		let img = document.createElement('img')
 		img.src = `img/items/${item.iconId}.png`
 		img.width = 40
-		icon.appendChild(img)
-		root.appendChild(icon)
 		let count = document.createElement('span')
 		count.className = 'count'
 		count.textContent = kwargs.count
-		root.appendChild(count)
+
+		icon.append(img)
+		root.append(icon, count)
+
 		return root
 	}
 
@@ -60,7 +73,7 @@ Promise.all(promises).then(args=>{
 
 		var h1 = document.createElement('h1')
 		h1.textContent = v.name
-		fragment.appendChild(h1)
+		fragment.append(h1)
 
 		console.log(k, v)
 
@@ -68,14 +81,14 @@ Promise.all(promises).then(args=>{
 		var tr = document.createElement('tr')
 		var th = document.createElement('th')
 		th.textContent = 'Level'
-		tr.appendChild(th)
+		tr.append(th)
 		var th = document.createElement('th')
 		th.textContent = 'Requisites'
-		tr.appendChild(th)
+		tr.append(th)
 		var th = document.createElement('th')
 		th.textContent = 'Materials'
-		tr.appendChild(th)
-		table.appendChild(tr)
+		tr.append(th)
+		table.append(tr)
 
 		v.allSkillLvlup.forEach((skill, i) => {
 			let currLevel = i + 1
@@ -83,37 +96,42 @@ Promise.all(promises).then(args=>{
 			var tr = document.createElement('tr')
 			var td = document.createElement('td')
 			td.textContent = `${currLevel} → ${nextLevel}`
-			tr.appendChild(td)
+			tr.append(td)
 			var td = document.createElement('td')
-			td.textContent = `E${skill.unlockCond.phase} Lv${skill.unlockCond.level}`
-			tr.appendChild(td)
+			var img = document.createElement('img')
+			img.src = `img/ui/elite/${skill.unlockCond.phase}-s.png`
+			img.width = 25
+			var reqCell = document.createElement('div')
+			reqCell.className = 'requisites-cell'
+			reqCell.append(img, `Lv${skill.unlockCond.level}`)
+			td.append(reqCell)
+			tr.append(td)
 
 			var td = document.createElement('td')
 			skill.lvlUpCost.forEach(item=>{
 				total[item.id] = (total[item.id] || 0) + item.count
-				td.appendChild(formatItemIcon(item))
+				td.append(formatItemIcon(item))
 			})
-			tr.appendChild(td)
-			table.appendChild(tr)
+			tr.append(td)
+			table.append(tr)
 		})
-		fragment.appendChild(table)
-
+		fragment.append(table)
 
 		var table = document.createElement('table')
 		var tr = document.createElement('tr')
 		var th = document.createElement('th')
 		th.textContent = 'Skill'
-		tr.appendChild(th)
+		tr.append(th)
 		var th = document.createElement('th')
 		th.textContent = 'Rank'
-		tr.appendChild(th)
+		tr.append(th)
 		var th = document.createElement('th')
 		th.textContent = 'Requisites'
-		tr.appendChild(th)
+		tr.append(th)
 		var th = document.createElement('th')
 		th.textContent = 'Materials'
-		tr.appendChild(th)
-		table.appendChild(tr)
+		tr.append(th)
+		table.append(tr)
 
 		v.skills.forEach((skill, si) => {
 			const skillLevel = si + 1
@@ -122,61 +140,82 @@ Promise.all(promises).then(args=>{
 				const masteryLevel = mi + 1
 				let tr = document.createElement('tr')
 				if (masteryLevel === 1) {
-					let td = document.createElement('td')
-					td.setAttribute('rowspan', masteryCount)
-					td.textContent = skillLevel
-					tr.appendChild(td)
+					let levelCell = document.createElement('td')
+					levelCell.setAttribute('rowspan', masteryCount)
+					levelCell.textContent = skillLevel
+					tr.append(levelCell)
 				}
-				var td = document.createElement('td')
+				var rankCell = document.createElement('td')
 				var img = document.createElement('img')
 				img.src = `img/ui/rank/m-${masteryLevel}.png`
-				img.width = 40
-				td.appendChild(img)
-				tr.appendChild(td)
+				img.width = 50
+				rankCell.append(img)
 
-				var td = document.createElement('td')
+				var requisitesCell = document.createElement('td')
+				var reqCell = document.createElement('div')
+				reqCell.className = 'requisites-cell'
 				var reqLvl = document.createElement('span')
 				reqLvl.textContent = `Lv${mastery.unlockCond.level}`
-				td.appendChild(reqLvl)
 				var reqTime = document.createElement('span')
-				var svg = document.createElement('svg')
-
-				reqTime.appendChild(svg)
-				reqTime.appendChild(document.createTextNode(`${mastery.lvlUpTime / 3600}h`))
-				td.appendChild(reqTime)
+				reqTime.insertAdjacentHTML('beforeend', `${clock} ${pad(mastery.lvlUpTime / 3600)}h`)
 				var reqPhase = document.createElement('span')
 				var img = document.createElement('img')
 				img.src = `img/ui/elite/${mastery.unlockCond.phase}-s.png`
 				img.width = 25
-				reqPhase.appendChild(img)
-				td.appendChild(reqPhase)
-				tr.appendChild(td)
+				reqPhase.append(img)
+				reqCell.append(reqTime, reqPhase, reqLvl)
+				requisitesCell.append(reqCell)
 
-				var td = document.createElement('td')
-				mastery.levelUpCost.map(item=>{
+				var materialsCell = document.createElement('td')
+				mastery.levelUpCost.forEach(item=>{
 					total[item.id] = (total[item.id] || 0) + item.count
-					td.appendChild(formatItemIcon(item))
+					materialsCell.append(formatItemIcon(item))
 				})
-				tr.appendChild(td)
-				table.appendChild(tr)
+				tr.append(rankCell, requisitesCell, materialsCell)
+				table.append(tr)
 			})
 		})
-		fragment.appendChild(table)
-		body.appendChild(fragment)
+		fragment.append(table)
 
-		// v.phases.forEach((phase, phaseIdx) => {
-		// 	let hr = document.createElement('hr')
-		// 	let pre = document.createElement("pre")
-		// 	let evolveCost = phase.evolveCost
-		// 	if (evolveCost != null) {
-		// 		let txt = `E${phaseIdx} - evolve cost:`
-		// 		txt += evolveCost.map(item => {
-		// 			return `\n* [${DB.item_table.items[item.id].name}]x${item.count}`
-		// 		})
-		// 		pre.textContent = txt
-		// 		body.appendChild(pre)
-		// 		body.appendChild(hr)
-		// 	}
-		// })
+		table = document.createElement('table')
+		tr = document.createElement('tr')
+		th = document.createElement('th')
+		th.textContent = 'Elite'
+		tr.append(th)
+		th = document.createElement('th')
+		th.textContent = 'Materials'
+		tr.append(th)
+		table.append(tr)
+
+		v.phases.forEach((phase, phaseIdx) => {
+			console.log(phase)
+			if (phase.evolveCost === null) {
+				return
+			}
+			tr = document.createElement('tr')
+			var td = document.createElement('td')
+			var img = document.createElement('img')
+			img.src = `img/ui/elite/${phaseIdx}-s.png`
+			img.width = 25
+			td.append(img)
+			tr.append(td)
+			var td = document.createElement('td')
+			let goldCount = DB.gamedata_const.evolveGoldCost[v.rarity][phaseIdx-1]
+			var item = {
+				'id': '4001',
+				'count': goldCount,
+			}
+			total[item.id] = (total[item.id] || 0) + item.count
+			td.append(formatItemIcon(item))
+
+			phase.evolveCost.forEach(item=>{
+				total[item.id] = (total[item.id] || 0) + item.count
+				td.append(formatItemIcon(item))
+			})
+			tr.append(td)
+			table.append(tr)
+		})
+		fragment.append(table)
+		body.append(fragment)
 	})
 })
