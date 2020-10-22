@@ -100,7 +100,6 @@ Promise.all(promises).then(args=>{
 
 
 		var table = document.createElement('table')
-		table.style = "background: #ddd"
 		var tr = document.createElement('tr')
 		var th = document.createElement('th')
 		th.textContent = 'Skill'

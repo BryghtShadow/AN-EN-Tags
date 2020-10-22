@@ -1,15 +1,19 @@
 
 body {
+	margin: 0;
+	background: #111;
+	color: #eee;
 	font-family: 'Roboto Condensed', sans-serif;
+	font-size: 14px;
 }
 
 th {
-	background: #111;
+	background: #444;
 	color: #eee;
 	padding: 0.5em;
 }
 td {
-	background: #333;
+	background: #777;
 	color: #eee;
 	padding: 0.5em;
 }
@@ -52,6 +56,18 @@ td {
 }
 .item .icon img {
 	position: relative;
+	width: 80px;
+	height: 80px;
 	object-fit: contain;
 	z-index: 2;
+}
+.item .count {
+	position: absolute;
+	bottom: 15%;
+	right: 15%;
+	background: #0009;
+	box-shadow: 0.1em 0.25em 0.2em #333e;
+	padding: 0.3em 0.6em;
+	font-size: 0.75em;
+	z-index: 3;
 }
