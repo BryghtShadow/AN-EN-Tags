@@ -1,3 +1,6 @@
+
+let DB
+
 const names = [
 	'gamedata_const',
 	'character_table',
@@ -31,32 +34,32 @@ function pad(n) {
 	return (n < 10 ? '0' : '') + n
 }
 
-let DB
+function formatItemIcon(kwargs) {
+	let item = DB.item_table.items[kwargs.id]
+
+	let root = document.createElement('div')
+	root.className = 'item rare-'+(item.rarity+1)
+	let icon = document.createElement('span')
+	icon.className = 'icon'
+	let img = document.createElement('img')
+	img.src = `img/items/${item.iconId}.png`
+	img.width = 40
+	let count = document.createElement('span')
+	count.className = 'count'
+	count.textContent = kwargs.count
+
+	icon.append(img)
+	root.append(icon, count)
+
+	return root
+}
+
 Promise.all(promises).then(args=>{
-	DB = names.reduce((acc, name, i) =>{
+	DB = DB || names.reduce((acc, name, i) =>{
 		acc[name] = args[i]
 		return acc
 	}, {})
 
-	function formatItemIcon(kwargs) {
-		let item = DB.item_table.items[kwargs.id]
-
-		let root = document.createElement('div')
-		root.className = 'item rare-'+(item.rarity+1)
-		let icon = document.createElement('span')
-		icon.className = 'icon'
-		let img = document.createElement('img')
-		img.src = `img/items/${item.iconId}.png`
-		img.width = 40
-		let count = document.createElement('span')
-		count.className = 'count'
-		count.textContent = kwargs.count
-
-		icon.append(img)
-		root.append(icon, count)
-
-		return root
-	}
 
 	var body = document.querySelector('body')
 	let fragment = document.createDocumentFragment()
@@ -216,6 +219,15 @@ Promise.all(promises).then(args=>{
 			table.append(tr)
 		})
 		fragment.append(table)
+
+		var totalDiv = document.createElement('div')
+		Object.entries(total).sort(([a,aa],[b,bb])=>{
+			return DB.item_table.items[a].sortId - DB.item_table.items[b].sortId
+		}).forEach(([id, count]) => {
+			totalDiv.append(formatItemIcon({id, count}))
+		})
+		fragment.append(totalDiv)
+
 		body.append(fragment)
 	})
 })
