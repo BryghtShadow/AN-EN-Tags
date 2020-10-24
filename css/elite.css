@@ -1,7 +1,7 @@
 
 body {
 	margin: 0;
-	background: #111;
+	background: #999;
 	color: #eee;
 	font-family: 'Roboto Condensed', sans-serif;
 	font-size: 14px;
@@ -63,11 +63,11 @@ td {
 }
 .item .count {
 	position: absolute;
-	bottom: 15%;
-	right: 15%;
+	bottom: 10%;
+	right: 0;
 	background: rgba(14, 14, 14, 0.83);
 	box-shadow: 0.1em 0.2em 0.2em rgba(14, 14, 14, 0.83);
-	padding: 1px 5px;
+	padding: 0 4px;
 	font-size: 12px;
 	z-index: 3;
 }

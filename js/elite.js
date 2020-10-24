@@ -80,6 +80,11 @@ Promise.all(promises).then(args=>{
 
 		console.log(k, v)
 
+		var skillUpgradeCostsSection = document.createElement('section')
+		var header = document.createElement('h2')
+		header.textContent = 'Skill Upgrade Costs'
+		skillUpgradeCostsSection.append(header)
+
 		var table = document.createElement('table')
 		var tr = document.createElement('tr')
 		var th = document.createElement('th')
@@ -92,7 +97,6 @@ Promise.all(promises).then(args=>{
 		th.textContent = 'Materials'
 		tr.append(th)
 		table.append(tr)
-
 		v.allSkillLvlup.forEach((skill, i) => {
 			let currLevel = i + 1
 			let nextLevel = currLevel + 1
@@ -109,7 +113,6 @@ Promise.all(promises).then(args=>{
 			reqCell.append(img, `Lv${skill.unlockCond.level}`)
 			td.append(reqCell)
 			tr.append(td)
-
 			var td = document.createElement('td')
 			skill.lvlUpCost.forEach(item=>{
 				total[item.id] = (total[item.id] || 0) + item.count
@@ -118,7 +121,7 @@ Promise.all(promises).then(args=>{
 			tr.append(td)
 			table.append(tr)
 		})
-		fragment.append(table)
+		skillUpgradeCostsSection.append(table)
 
 		var table = document.createElement('table')
 		var tr = document.createElement('tr')
@@ -135,7 +138,6 @@ Promise.all(promises).then(args=>{
 		th.textContent = 'Materials'
 		tr.append(th)
 		table.append(tr)
-
 		v.skills.forEach((skill, si) => {
 			const skillLevel = si + 1
 			let masteryCount = skill.levelUpCostCond.length
@@ -153,7 +155,6 @@ Promise.all(promises).then(args=>{
 				img.src = `img/ui/rank/m-${masteryLevel}.png`
 				img.width = 50
 				rankCell.append(img)
-
 				var requisitesCell = document.createElement('td')
 				var reqCell = document.createElement('div')
 				reqCell.className = 'requisites-cell'
@@ -168,7 +169,6 @@ Promise.all(promises).then(args=>{
 				reqPhase.append(img)
 				reqCell.append(reqTime, reqPhase, reqLvl)
 				requisitesCell.append(reqCell)
-
 				var materialsCell = document.createElement('td')
 				mastery.levelUpCost.forEach(item=>{
 					total[item.id] = (total[item.id] || 0) + item.count
@@ -178,8 +178,13 @@ Promise.all(promises).then(args=>{
 				table.append(tr)
 			})
 		})
-		fragment.append(table)
+		skillUpgradeCostsSection.append(table)
+		fragment.append(skillUpgradeCostsSection)
 
+		var eliteUpgradeCosts = document.createElement('section')
+		var header = document.createElement('h2')
+		header.textContent = 'Elite Upgrade Costs'
+		eliteUpgradeCosts.append(header)
 		table = document.createElement('table')
 		tr = document.createElement('tr')
 		th = document.createElement('th')
@@ -189,7 +194,6 @@ Promise.all(promises).then(args=>{
 		th.textContent = 'Materials'
 		tr.append(th)
 		table.append(tr)
-
 		v.phases.forEach((phase, phaseIdx) => {
 			console.log(phase)
 			if (phase.evolveCost === null) {
@@ -218,15 +222,19 @@ Promise.all(promises).then(args=>{
 			tr.append(td)
 			table.append(tr)
 		})
-		fragment.append(table)
+		eliteUpgradeCosts.append(table)
+		fragment.append(eliteUpgradeCosts)
 
-		var totalDiv = document.createElement('div')
+		var totalCostSection = document.createElement('section')
+		var header = document.createElement('h2')
+		header.textContent = 'Total Cost'
+		totalCostSection.append(header)
 		Object.entries(total).sort(([a,aa],[b,bb])=>{
 			return DB.item_table.items[a].sortId - DB.item_table.items[b].sortId
 		}).forEach(([id, count]) => {
-			totalDiv.append(formatItemIcon({id, count}))
+			totalCostSection.append(formatItemIcon({id, count}))
 		})
-		fragment.append(totalDiv)
+		fragment.append(totalCostSection)
 
 		body.append(fragment)
 	})
