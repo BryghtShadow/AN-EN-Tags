@@ -1,48 +1,113 @@
-    $.holdReady(true);
-    var db = {};
-    var d0 = $.getJSON("json/gamedata/zh_CN/gamedata/excel/building_data.json",function(data){
-        db["manufactformulas"] = data.manufactFormulas;
-    });
-    var d1 = $.getJSON("json/gamedata/zh_CN/gamedata/excel/building_data.json",function(data){
-        db["workshopformulas"] = data.workshopFormulas;
-    });
-    var d2 = $.getJSON("json/gamedata/zh_CN/gamedata/excel/character_table.json",function(data){
-        db["chars"] = data;
-    });
-    var d3 = $.getJSON("json/gamedata/zh_CN/gamedata/excel/item_table.json",function(data){
-        db["items"] = data.items;
-    });
-    var d4 = $.getJSON("json/tl-akhr.json",function(data){
-        db["chars2"] = data;
-    });
-    var d5 = $.getJSON("json/tl-type.json",function(data){
+// Returns a function, that, as long as it continues to be invoked, will not
+// be triggered. The function will be called after it stops being called for
+// N milliseconds. If `immediate` is passed, trigger the function on the
+// leading edge, instead of the trailing.
+const debounce = function(func, wait, immediate) {
+    var timeout;
+    return function() {
+        var context = this, args = arguments;
+        var later = function() {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
+};
+
+$.holdReady(true);
+var db = {};
+var promises = [
+    // $.getJSON("json/gamedata/zh_CN/gamedata/excel/building_data.json",function(data){
+    //     db["manufactformulas"] = data.manufactFormulas;
+    // }),
+    // $.getJSON("json/gamedata/zh_CN/gamedata/excel/building_data.json",function(data){
+    //     db["workshopformulas"] = data.workshopFormulas;
+    // }),
+    // $.getJSON("json/gamedata/zh_CN/gamedata/excel/character_table.json",function(data){
+    //     db["chars"] = data;
+    // }),
+    // $.getJSON("json/gamedata/zh_CN/gamedata/excel/item_table.json",function(data){
+    //     db["items"] = data.items;
+    // }),
+    // $.getJSON("json/tl-akhr.json",function(data){
+    //     db["chars2"] = data;
+    // }),
+    $.getJSON("json/tl-type.json",function(data){
         db["classes"] = data;
-    });
-    var d6 = $.getJSON("json/tl-tags.json",function(data){
+    }),
+    $.getJSON("json/tl-tags.json",function(data){
         db["tags"] = data;
-    });
-    var d7 = $.getJSON("json/akmaterial.json",function(data){
-        db["itemstl"] = data;
-    });
-    var d8 = $.getJSON("json/gamedata/zh_CN/gamedata/excel/gamedata_const.json",function(data){
+    }),
+    // $.getJSON("json/akmaterial.json",function(data){
+    //     db["itemstl"] = data;
+    // }),
+    $.getJSON("json/gamedata/zh_CN/gamedata/excel/gamedata_const.json",function(data){
         db["dataconst"] = data;
-    });
-    var d9 = $.getJSON("json/gamedata/zh_CN/gamedata/excel/enemy_handbook_table.json",function(data){
-        db["enemy"] = data;
-    });
-    var d10 = $.getJSON("json/tl-enemy.json",function(data){
+    }),
+    $.getJSON("json/tl-enemy.json",function(data){
         db["enemytl"] = data;
-    });
-    var d11 = $.getJSON("json/gamedata/zh_CN/gamedata/levels/enemydata/enemy_database.json",function(data){
+    }),
+    $.getJSON("json/gamedata/zh_CN/gamedata/levels/enemydata/enemy_database.json",function(data){
         db["enemyDetail"] = data.enemies;
-    });
-    // var d12 = $.getJSON("json/en/levels/enemydata/enemy_database.json",function(data){
+    }),
+    // $.getJSON("json/en/levels/enemydata/enemy_database.json",function(data){
     //     db["enemyDetailEN"] = data.enemies;
-    // });
-    var d13 = $.getJSON("json/gamedata/en_US/gamedata/excel/enemy_handbook_table.json",function(data){
-        db["enemyEN"] = data;
-    });
-    $.when(d0,d1,d2,d3,d4,d5,d6,d7,d8,d9,d11,d13).then(function(){
+    // }),
+    $.getJSON("json/gamedata/zh_CN/gamedata/excel/enemy_handbook_table.json",function(data){
+        db.enemy = db.enemy || {}
+        Object.entries(data).forEach(([k,v])=>{
+            db.enemy[k] = db.enemy[k] || {}
+            Object.entries(v).forEach(([key, value])=>{
+                db.enemy[k][key] = db.enemy[k][key] || {}
+                db.enemy[k][key]['cn'] = value
+            })
+        })
+    }),
+    $.getJSON("json/gamedata/en_US/gamedata/excel/enemy_handbook_table.json",function(data){
+        db.enemy = db.enemy || {}
+        Object.entries(data).forEach(([k,v])=>{
+            db.enemy[k] = db.enemy[k] || {}
+            Object.entries(v).forEach(([key, value])=>{
+                db.enemy[k][key] = db.enemy[k][key] || {}
+                db.enemy[k][key]['en'] = value
+            })
+        })
+    }),
+    $.getJSON("json/gamedata/ja_JP/gamedata/excel/enemy_handbook_table.json",function(data){
+        db.enemy = db.enemy || {}
+        Object.entries(data).forEach(([k,v])=>{
+            db.enemy[k] = db.enemy[k] || {}
+            Object.entries(v).forEach(([key, value])=>{
+                db.enemy[k][key] = db.enemy[k][key] || {}
+                db.enemy[k][key]['jp'] = value
+            })
+        })
+    }),
+    $.getJSON("json/gamedata/ko_KR/gamedata/excel/enemy_handbook_table.json",function(data){
+        db.enemy = db.enemy || {}
+        Object.entries(data).forEach(([k,v])=>{
+            db.enemy[k] = db.enemy[k] || {}
+            Object.entries(v).forEach(([key, value])=>{
+                db.enemy[k][key] = db.enemy[k][key] || {}
+                db.enemy[k][key]['kr'] = value
+            })
+        })
+    }),
+    $.getJSON("json/gamedata/zh_TW/gamedata/excel/enemy_handbook_table.json",function(data){
+        db.enemy = db.enemy || {}
+        Object.entries(data).forEach(([k,v])=>{
+            db.enemy[k] = db.enemy[k] || {}
+            Object.entries(v).forEach(([key, value])=>{
+                db.enemy[k][key] = db.enemy[k][key] || {}
+                db.enemy[k][key]['tw'] = value
+            })
+        })
+    }),
+];
+    $.when.apply($, promises).then(function(){
         $.holdReady(false);
     });
 
@@ -96,6 +161,14 @@
         $('.reg[value='+reg+']').addClass('selected');
         $('.lang[value='+lang+']').addClass('selected');
         changeUILanguage();
+
+        $("#opname").on('input', debounce(function(evt) {
+            populateEnemy(evt.target.value)
+        }, 300))
+
+        $("#browseEnemyBtn").on('click', function(evt) {
+            populateEnemy(null, true)
+        })
     });
 
     $.getScript("js/arrive.min.js", function(){
@@ -134,96 +207,107 @@
         console.log(lang);
         $("#tbody-list").empty()
     }
-    function populateEnemy(el){
+    function populateEnemy(input, clickedBrowse){
         // console.log(el)
-        if(($('#enemyResult').css("display") == "block") &&el=="Browse"){
+        if(($('#enemyResult').css("display") == "block") && clickedBrowse){
             // console.log($('#operatorsResult').css("display") == "none" )
             $('#enemyResult').hide();
             return;
         }
         
-        if(el.value != ""||el=="Browse"){
-            var result = [];
-            $.each(db.enemy,function(_,enemy){
-                var languages = ['cn','en','jp','kr'];
-                var found = false;
-                if(el=="Browse"){
-                    found=true;
-                }else{
-                    for (var i = 0; i < languages.length; i++) {
-                        // var charname = char['name_'+languages[i]].toUpperCase();
-                        var input = el.value.toUpperCase();
-                        var search = charname.search(input);
-                        if(search != -1){
-                            found = true;
-                            break;
-                        };
-                    }
-                }
-                if(found){
-                    var id = enemy.enemyId;
-                    var name = enemy.name;
-                    var sortId = enemy.sortId;
-                    result.push({'id':id,'name':name,'sortId':sortId});
-                }
+        var foundEnemies;
+        if (clickedBrowse) {
+            foundEnemies = Object.entries(db.enemy);
+        } else if (input && input !== "") {
+            input = new RegExp(input, 'i');
+            foundEnemies = Object.entries(db.enemy)
+                .filter(([id, enemy])=>{
+                    return Object.values(enemy.name).some(str => input.test(str)) || Object.values(enemy.enemyIndex).some(str => input.test(str))
+                })
+        }
+        $('#enemyResult').hide();
+        $('#enemyResult').empty();
+        if (foundEnemies && foundEnemies.length) {
+            var result = foundEnemies.map(([id, enemy]) => {
+                var name = enemy.name;
+                var enemyIndex = enemy.enemyIndex.cn;
+                var sortId = enemy.sortId.cn;
+                var rarity = enemy.enemyLevel.cn
+                return ({
+                    id,
+                    name,
+                    sortId,
+                    enemyIndex,
+                    rarity,
+                });
             });
-            // console.log(result)
             let currHtml = []
             result.sort((a,b)=> a.sortId-b.sortId)
-            if(result.length > 0){
-                $('#enemyResult').empty();
-                $('#enemyResult').show();
-                for (var i = 0; i < result.length; i++) {
-                    let currEnemy = query(db.enemy,"enemyId",result[i].id)
-                    let image = `<img style="height:80px;padding:1px" src="./img/enemy/${result[i].id}.png">  `
-                    // console.log(currEnemy)
+            if (clickedBrowse) {
+                $("#enemyResult")
+                .removeClass("layout-column layout-nowrap")
+                .addClass("layout-row layout-wrap")
+            } else {
+                $("#enemyResult")
+                .removeClass("layout-row layout-wrap")
+                .addClass("layout-column layout-nowrap")
+            }
+            for (var i = 0; i < result.length; i++) {
+                let currEnemy = db.enemy[result[i].id]
+                // console.log(currEnemy)
+                let enemyIndex = result[i].enemyIndex
 
-                    if(el=="Browse"){
-                        currHtml.push(`<li class="ak-btn ak-enemy" style="display:inline-block;cursor: pointer;width:90px;margin:2px;margin-bottom:2px;padding:1px;border-radius:2px" onclick="selectEnemy('${result[i].id}')"> 
-                        <div class="col-12"style="white-space: nowrap;padding:0px;text-align:center;margin:0px ">
-                            <div style="position:absolute;top:-2px;left:2px;white-space: nowrap;padding:3px;padding-top:1px;padding-bottom:0px;margin:0px;background:#222">${currEnemy.enemyIndex}</div>
-                            ${image}
-                        </div>
-                        
-                        </li>`)
-                    }else{
-                        // $("#operatorsResult").append("<li class=\" ak-shadow-small ak-rare-"+result[i].rarity+"\"style=\"width:100%;cursor: pointer;margin-bottom:2px\" onclick=\"selectOperator('"+result[i].name_cn+"')\">"+image+result[i].nameTL+" ("+result[i].name+")"+"</li>");
-                    }
+                if(clickedBrowse){
+                    let size = 80;
+                    let image = `<img style="width:${size}px;height:${size}px;padding:1px" src="./img/enemy/${result[i].id}.png">`
+                    currHtml.push(`<li class="ak-enemy" onclick="selectEnemy('${result[i].id}')"> 
+                        <div class="enemy-index">${enemyIndex}</div>
+                        ${image}
+                    
+                    </li>`)
+                }else{
+                    let size = 60;
+                    let image = `<img style="width:${size}px;height:${size}px;padding:1px" src="./img/enemy/${result[i].id}.png">`
+                    currHtml.push(`<li class="ak-enemy ak-shadow-small ak-rare-${result[i].rarity}" onclick="selectEnemy('${result[i].id}')">
+                            <div class="icon">
+                                <span class="enemy-index">${enemyIndex}</span>
+                                ${image}
+                            </div>
+                            <div class="name">${result[i].name.en}<br>(${result[i].name.cn})</div>
+                        </li>`);
                 }
             }
             $("#enemyResult").append(currHtml.join(""));
             // console.log( $("#operatorsResult")  )
-            $('#operatorsResult').show();
+            $('#enemyResult').show();
         } else {
-            $('#enemyResult').empty();
             $('#enemyResult').hide();
         }
     }
     function selectEnemy(el){
         $('#enemyResult').empty();
         $('#enemyResult').hide();
-        let currEnemy = query(db.enemy,"enemyId",el)
+        let currEnemy = db.enemy[el]
         LoadAnimation(el)
         // console.log(el)
-        let currEnemyEN = db.enemyEN[el]
         let currEnemyDetail = db.enemyDetail.find(search=>search.Key == el)
         // let currEnemyDetailEN = db.enemyDetailEN.find(search=>search.Key == el)
         let currHtml = []    
         // console.log(query(db.enemytl,"name_cn",currEnemy.name).name_en)
-        let tlname = query(db.enemytl,"name_cn",currEnemy.name).name_en 
-        let tldesc = currEnemy.description
-        let tlrace = currEnemy.enemyRace?currEnemy.enemyRace:""
-        let tlability = currEnemy.ability?currEnemy.ability:""
-        if (currEnemyEN) {
+        let tlname = currEnemy.name.cn
+        let tldesc = currEnemy.description.cn || ""
+        let tlrace = currEnemy.enemyRace.cn || ""
+        let tlability = currEnemy.ability.cn || ""
+        if (currEnemy.name.en) {
             // console.log(currEnemyEN)
-            tlname = currEnemyEN.name
-            tldesc = currEnemyEN.description
-            tlrace = currEnemyEN.enemyRace?currEnemyEN.enemyRace:""
-            tlability = currEnemyEN.ability?currEnemyEN.ability:""
+            tlname = currEnemy.name.en
+            tldesc = currEnemy.description.en || ""
+            tlrace = currEnemy.enemyRace.en || ""
+            tlability = currEnemy.ability.en || ""
         }
         //Attack type
-        let atktype =[]
-        currEnemy.attackType.split(" ").forEach(element => {
+        let atktype = [];
+        currEnemy.attackType.cn.split(" ").forEach(element => {
             switch (element) {
                 case "近战": atktype.push("Melee") ;break;
                 case "远程": atktype.push("Ranged") ;break;
@@ -238,17 +322,17 @@
         
             <div style="padding-top:30px">
             <div  class="ak-shadow" style="margin-bottom:8px;padding:5px;padding-top:10px;background:#444;margin-top:2px;display:inline-block;padding-left:10px;padding-right:30px">
-                <div style="display:inline-block"><img style="height:80px;padding:1px" src="./img/enemy/${currEnemy.enemyId}.png"> </div>
+                <div style="display:inline-block"><img style="height:80px;padding:1px" src="./img/enemy/${currEnemy.enemyId.cn}.png"> </div>
                 <div style="display:inline-block">
-                    <div style="border:3px solid #FFF;text-align:center;margin:5px;padding:0px;height:50px;width:50px;display:inline-block;${currEnemy.enemyIndex.length==2?"font-size:30px":"font-size:15px;padding-top:10px"}">${currEnemy.enemyIndex}</div>
+                    <div style="border:3px solid #FFF;text-align:center;margin:5px;padding:0px;height:50px;width:50px;display:inline-block;${currEnemy.enemyIndex.cn.length==2?"font-size:30px":"font-size:15px;padding-top:10px"}">${currEnemy.enemyIndex.cn}</div>
                     <div style="display:inline-block;vertical-align:top">   
-                    <div>${tlname?tlname:""} [${currEnemy.name}] </div>
+                    <div>${tlname || ""} [${currEnemy.name.cn}] </div>
                     <div>${tlrace}</div>
                     </div>
                 </div>
             
             
-            <div>Enemy Type : ${currEnemy.enemyLevel.charAt(0) + currEnemy.enemyLevel.slice(1).toLowerCase()}</div>
+            <div>Enemy Type : ${currEnemy.enemyLevel.cn.charAt(0) + currEnemy.enemyLevel.cn.slice(1).toLowerCase()}</div>
             
             <div>Attack type : ${atktype.join(" ")}</div>
             </div>
@@ -257,23 +341,23 @@
                 <div class="col" style="border:3px solid #FFF;text-align:center;margin:5px;padding:0px;height:80px;width:100px;display:inline-block">
                 <div style="padding:0px;font-size:12px">
                     <img src="./img/ui/enemy/hp.png" style="margin-top:-5px;position:absolute;top:5px;left:0px">
-                    Health</div><div style="font-size:40px;margin-top:-5px">${currEnemy.endure}</div>
+                    Health</div><div style="font-size:40px;margin-top:-5px">${currEnemy.endure.cn}</div>
                 </div>
                 <div class="col" style="border:3px solid #FFF;text-align:center;margin:5px;padding:0px;height:80px;width:100px;display:inline-block">
                 
                 <div style="padding:0px;font-size:12px">
                     <img src="./img/ui/enemy/atk.png" style="margin-top:-5px;position:absolute;top:5px;left:0px">
-                    Attack</div><div style="font-size:40px;margin-top:-5px">${currEnemy.attack}</div>
+                    Attack</div><div style="font-size:40px;margin-top:-5px">${currEnemy.attack.cn}</div>
                 </div>
                 <div class="col" style="border:3px solid #FFF;text-align:center;margin:5px;padding:0px;height:80px;width:100px;display:inline-block">
                 <div style="padding:0px;font-size:12px">
                     <img src="./img/ui/enemy/defense.png" style="margin-top:-5px;position:absolute;top:5px;left:0px">
-                    Defense</div><div style="font-size:40px;margin-top:-5px">${currEnemy.defence}</div>
+                    Defense</div><div style="font-size:40px;margin-top:-5px">${currEnemy.defence.cn}</div>
                 </div>
                 <div class="col" style="border:3px solid #FFF;text-align:center;margin:5px;padding:0px;height:80px;width:100px;display:inline-block">
                 <div style="padding:0px;font-size:12px;text-align:right;margin-right:5px">
                     <img src="./img/ui/enemy/resistance.png" style="margin-top:-5px;position:absolute;top:5px;left:0px">
-                    Spell Resist</div><div style="font-size:40px;margin-top:-5px">${currEnemy.resistance}</div>
+                    Spell Resist</div><div style="font-size:40px;margin-top:-5px">${currEnemy.resistance.cn}</div>
                 </div>
             </div>
             ${tlability ?
@@ -307,7 +391,7 @@
     function enemyDetail(el,level){
         $('#enemyDetail2').empty();
         $('#enemyDetail2').hide();
-        let currEnemy = query(db.enemy,"enemyId",el)
+        let currEnemy = db.enemy[el]['cn']
         let currEnemyDetail = db.enemyDetail.find(search=>search.Key == el)
         let firstEnemyData = currEnemyDetail.Value[0].enemyData
         let currEnemyData = currEnemyDetail.Value[level].enemyData
@@ -316,7 +400,7 @@
         
         // console.log(query(db.enemytl,"name_cn",currEnemy.name).name_en)
         // <div>Attack Speed : ${currattr.attackSpeed.m_value}</div>
-        let tlname = query(db.enemytl,"name_cn",currEnemy.name).name_en 
+        let tlname = db.enemy[el].name.en
 
         var currattr = currEnemyData.attributes
         var firstattr = firstEnemyData.attributes

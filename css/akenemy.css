@@ -1,19 +1,49 @@
 /* css file for arknight github calculator */
 
-#story{
-    width:100%;
-    text-align:center;
+.enemyresult-list {
+	max-width: 345px;
 }
-.storyimagecontainer{
-    width:100%;
-    text-align:center;
+
+#enemyResult {
+	color: #ddd;
 }
-.storyimagecontainer img{
-    max-width:600px;
-    width:100%;
+.ak-browse {
+    width: 100%;
+    font-size: 13px;
 }
-@media screen and (max-width:768px) {
-    .storyimagecontainer{
-        width:100%;
-    }
+.enemy-index {
+	position:absolute;
+	top:-2px;
+	left:2px;
+	white-space: nowrap;
+	padding:3px;
+	padding-top:1px;
+	padding-bottom:0px;
+	margin:0px;
+	background:#222;
+}
+.ak-enemy {
+	display: flex;
+	align-items: center;
+	position: relative;
+	cursor: pointer;
+	margin: 2px;
+	padding:1px;
+	border-radius:2px
+}
+.layout, .layout-column, .layout-row {
+    box-sizing: border-box;
+    display: flex;
+}
+.layout-row {
+    flex-direction: row;
+}
+.layout-column {
+    flex-direction: column;
+}
+.layout-wrap {
+    flex-wrap: wrap;
+}
+.layout-nowrap {
+    flex-wrap: nowrap;
 }
