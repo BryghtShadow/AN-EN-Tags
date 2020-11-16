@@ -218,7 +218,7 @@ var promises = [
         var foundEnemies;
         if (clickedBrowse) {
             foundEnemies = Object.entries(db.enemy);
-        } else if (input && input !== "") {
+        } else if (input) {
             input = new RegExp(input, 'i');
             foundEnemies = Object.entries(db.enemy)
                 .filter(([id, enemy])=>{
@@ -287,6 +287,7 @@ var promises = [
     function selectEnemy(el){
         $('#enemyResult').empty();
         $('#enemyResult').hide();
+        $("#opname").val("");
         let currEnemy = db.enemy[el]
         LoadAnimation(el)
         // console.log(el)
@@ -294,28 +295,30 @@ var promises = [
         // let currEnemyDetailEN = db.enemyDetailEN.find(search=>search.Key == el)
         let currHtml = []    
         // console.log(query(db.enemytl,"name_cn",currEnemy.name).name_en)
-        let tlname = currEnemy.name.cn
+        let tlname = currEnemy.name.cn || ""
         let tldesc = currEnemy.description.cn || ""
         let tlrace = currEnemy.enemyRace.cn || ""
         let tlability = currEnemy.ability.cn || ""
         if (currEnemy.name.en) {
             // console.log(currEnemyEN)
-            tlname = currEnemy.name.en
+            tlname = currEnemy.name.en || ""
             tldesc = currEnemy.description.en || ""
             tlrace = currEnemy.enemyRace.en || ""
             tlability = currEnemy.ability.en || ""
         }
         //Attack type
-        let atktype = [];
-        currEnemy.attackType.cn.split(" ").forEach(element => {
+        console.log('attackType', currEnemy.attackType)
+        let atktype = currEnemy.attackType.cn.split(" ").map(element => {
             switch (element) {
-                case "近战": atktype.push("Melee") ;break;
-                case "远程": atktype.push("Ranged") ;break;
-                case "法术": atktype.push("Spell") ;break;
-                case "不攻击": atktype.push("No Attack") ;break;
-                default: atktype.push(element) ;break;
+                case "近战": return "Melee";
+                case "远程": return "Ranged";
+                case "法术": return "Spell";
+                case "不攻击": return "No Attack";
+                default: return element;
             }
-        });
+        }).join(" ");
+
+        atktype = currEnemy.attackType.en;
         
         currHtml.push(`
         <div class="ak-c-black col">
@@ -334,7 +337,7 @@ var promises = [
             
             <div>Enemy Type : ${currEnemy.enemyLevel.cn.charAt(0) + currEnemy.enemyLevel.cn.slice(1).toLowerCase()}</div>
             
-            <div>Attack type : ${atktype.join(" ")}</div>
+            <div>Attack type : ${atktype}</div>
             </div>
             </div>
             <div style="max-width:100%;margin-bottom:15px;margin-top:15px" >
@@ -375,7 +378,7 @@ var promises = [
             currHtml.push(`<div class="ak-c-black" style="text-align:center;margin-top:5px;background:#222"> Detail </div> <div class="ak-c-black" style="background:#222">`)
             currEnemyDetail.Value.forEach(element => {
                 // console.log(element)
-                currHtml.push(`<div class="btn btn-sm ak-btn ak-mid"style="display:inline;border: 1px #222;background:#111" onclick='enemyDetail(\"${el}\",${element.level})'> Level ${element.level}</div>`)
+                currHtml.push(`<div class="btn btn-sm ak-btn ak-mid"style="display:inline;border: 1px #222;background:#111" onclick='enemyDetail("${el}",${element.level})'> Level ${element.level}</div>`)
             });
             enemyDetail(el,0)
         }else{
@@ -404,20 +407,41 @@ var promises = [
 
         var currattr = currEnemyData.attributes
         var firstattr = firstEnemyData.attributes
+        var keys = [
+            'atk',
+            'baseAttackTime',
+            'maxHp',
+            'hpRecoveryPerSec',
+            'def',
+            'magicResistance',
+            'massLevel',
+            'moveSpeed',
+            'rangeRadius',
+            'stunImmune',
+            'silenceImmune',
+        ]
+        var attrs = keys.reduce((acc, key) => {
+            if (key == 'rangeRadius') {
+                acc[key] = [currEnemyData[key].m_value, firstEnemyData[key].m_value]
+            } else {
+                acc[key] = [currattr[key].m_value, firstattr[key].m_value]
+            }
+            return acc
+        }, {})
+        console.log('attr', attrs)
         currHtml.push(`
         <div class="ak-c-black col">    
-            <div>Attack Damage : ${currattr.atk.m_value!=0?currattr.atk.m_value:firstattr.atk.m_value}</div>
-
-            <div>Attack Time : ${currattr.baseAttackTime.m_value!=0?currattr.baseAttackTime.m_value:firstattr.baseAttackTime.m_value} Second</div>
-            <div>Health : ${currattr.maxHp.m_value!=0?currattr.maxHp.m_value:firstattr.maxHp.m_value}</div>
-            <div>Health Recovery : ${currattr.hpRecoveryPerSec.m_value!=0?currattr.hpRecoveryPerSec.m_value:firstattr.hpRecoveryPerSec.m_value} /Second</div>
-            <div>Defense : ${currattr.def.m_value!=0?currattr.def.m_value:firstattr.def.m_value}</div>
-            <div>Magic Resistance : ${currattr.magicResistance.m_value!=0?currattr.magicResistance.m_value:firstattr.magicResistance.m_value}</div>
-            <div>Weight : ${currattr.massLevel.m_value!=0?currattr.massLevel.m_value:firstattr.massLevel.m_value}</div>
-            <div>Move Speed : ${currattr.moveSpeed.m_value!=0?currattr.moveSpeed.m_value:firstattr.moveSpeed.m_value}</div>
-            <div>Range : ${currEnemyData.rangeRadius.m_value!=0?currEnemyData.rangeRadius.m_value:firstEnemyData.rangeRadius.m_value} Tile</div>
-            <div>Stun Immune : ${currattr.stunImmune.m_value!=0?currattr.stunImmune.m_value:firstattr.stunImmune.m_value}</div>
-            <div>Silence Immune : ${currattr.silenceImmune.m_value!=0?currattr.silenceImmune.m_value:firstattr.silenceImmune.m_value}</div>
+            <div class="stats">Attack Damage : ${currattr.atk.m_value || firstattr.atk.m_value}</div>
+            <div class="stats">Attack Time : ${currattr.baseAttackTime.m_value || firstattr.baseAttackTime.m_value} Second</div>
+            <div class="stats">Health : ${currattr.maxHp.m_value || firstattr.maxHp.m_value}</div>
+            <div class="stats">Health Recovery : ${currattr.hpRecoveryPerSec.m_value || firstattr.hpRecoveryPerSec.m_value} / Second</div>
+            <div class="stats">Defense : ${currattr.def.m_value || firstattr.def.m_value}</div>
+            <div class="stats">Magic Resistance : ${currattr.magicResistance.m_value || firstattr.magicResistance.m_value}</div>
+            <div class="stats">Weight : ${currattr.massLevel.m_value || firstattr.massLevel.m_value}</div>
+            <div class="stats">Move Speed : ${currattr.moveSpeed.m_value || firstattr.moveSpeed.m_value}</div>
+            <div class="stats">Range : ${currEnemyData.rangeRadius.m_value || firstEnemyData.rangeRadius.m_value} Tile</div>
+            <div class="stats">Stun Immune : ${currattr.stunImmune.m_value || firstattr.stunImmune.m_value}</div>
+            <div class="stats">Silence Immune : ${currattr.silenceImmune.m_value || firstattr.silenceImmune.m_value}</div>
         `)
         currHtml.push(`</div>`)
         if(currEnemyData.talentBlackboard){
