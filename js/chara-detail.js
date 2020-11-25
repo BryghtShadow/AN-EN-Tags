@@ -13,6 +13,7 @@
         skintable       :"./json/gamedata/zh_CN/gamedata/excel/skin_table.json",
         dataconst       :"./json/gamedata/zh_CN/gamedata/excel/gamedata_const.json",
         item_table      :"./json/gamedata/zh_CN/gamedata/excel/item_table.json",
+        audio_data      :"./json/gamedata/zh_CN/gamedata/excel/audio_data.json",
 
 
         //EN
@@ -67,6 +68,7 @@
     var opapp;
     var classfilter;
     var sort;
+    var opSType;
     var skeletonType = "skel"
     var chibitype = 'character'
     var charName = 'char_180_amgoat';
@@ -74,6 +76,7 @@
     var chibiName = 'char_180_amgoat'
     var folder = `./spineassets/${chibitype}/${charName}/${chibipers}/`
     var spinewidget 
+    var curropname
 
     var currskin 
     var spinewidgettoken
@@ -437,6 +440,9 @@
             }else if(vars.has("voice")){
                 GetAudio(opdataFull)
                 $('#opaudio').modal('show')
+            }else if(vars.has("sfx")){
+                GetSFX(opdataFull)
+                $('#opsfx').modal('show')
             }
         
         }
@@ -487,6 +493,16 @@
         $('#opaudio').on('hidden.bs.modal', function(){
             var url = new URL(window.location.href);
             url.searchParams.delete('voice');
+            history.pushState(null, '', url);
+        });
+        $('#opsfx').on('shown.bs.modal', function(){
+            var url = new URL(window.location.href);
+            url.searchParams.set('sfx', 0);
+            history.pushState(null, '', url);
+        });
+        $('#opsfx').on('hidden.bs.modal', function(){
+            var url = new URL(window.location.href);
+            url.searchParams.delete('sfx');
             history.pushState(null, '', url);
         });
 
@@ -715,10 +731,12 @@
                         $("#operatorsResult").removeClass("opresult-list");
                         $("#operatorsResult").addClass("opresult-grid");
                         $("#operatorsResult").append(
-                                "<li class=\"col-2 col-sm-1 ak-shadow-small ak-rare-"+result[i].rarity+"\"style=\"display:inline-block;cursor: pointer;width:75px;margin:2px;margin-bottom:2px;padding:1px;border-radius:2px\" onclick=\"selectOperator('"+result[i].name_cn+"')\">"
-                                +"<div style=\"white-space: nowrap;padding:0px;text-align:center;margin:0 \">"+image+"</div>"
-                                +"<div style=\"white-space: nowrap;padding:0px;text-align:center;margin:0 \">"+`${result[i].name_readable?`[${result[i].name_readable}]`:""}`+result[i].nameTL+"</div>"
-                                +"</li>");
+                            `<li class="col-2 col-sm-1 ak-shadow-small ak-rare-${result[i].rarity}"style="display:inline-block;cursor: pointer;width:75px;margin:2px;margin-bottom:2px;padding:1px;border-radius:2px" onclick="selectOperator('${result[i].name_cn}')">
+                             <div style="white-space: nowrap;padding:0px;text-align:center;margin:0 ">${image}</div>
+                             <div style="white-space: nowrap;padding:0px;text-align:center;margin:0 ">${result[i].name_readable?`[${result[i].name_readable}]`:""}${result[i].nameTL}</div>
+                             </li>
+                            `);
+                            //                             <a class="ak-stealthlink" href="#?opname=${result[i].nameTL}">
                     }else{
                         $("#operatorsResult").removeClass("opresult-grid");
                         $("#operatorsResult").addClass("opresult-list");
@@ -727,6 +745,8 @@
                     }
                 }
             }
+
+            //<a href="?opname=${getENname(val.name)}">
             // console.log( $("#operatorsResult")  )
             // $('#operatorsResult').show();
         } else {
@@ -1043,7 +1063,12 @@
             var opclass = query(db.classes,"type_cn",opdata.type);
             var opdata2 = query(db.chars,"name",opdata.name_cn,true,true);
             var opdata3 = db.charpatch.patchChars.char_1001_amiya2
+            curropname = opname
+
+            var opcode2 = ""
             console.log(opdata3)
+            
+            if (opdata2)
 
             var opcode = Object.keys(opdata2)[0]
  
@@ -1058,6 +1083,7 @@
             });
 
             console.log(opKey)
+
             console.log(opdataFull.appellation)
             gtag('event', 'Selecting Operator', {
                 'event_category' : 'Operator Details',
@@ -1091,6 +1117,13 @@
 
             if(opKey=="char_002_amiya"){
                 $('#class-change').show();
+                if(opSType){
+                    opcode = "char_1001_amiya2"
+                    opcode2 = "char_002_amiya"
+                    opKey=opcode
+                    opdataFull = opdata3
+                    opdataFull.id = opcode
+                }
             }else{
                 $('#class-change').hide();
             }
@@ -1171,10 +1204,12 @@
                 }
                 
                 var skindata;
-                if(!(skinList[i] in db.skintable.charSkins)){
-                    skindata = db.skintable.charSkins[skinList[i-1]];
-                } else {
-                    skindata = db.skintable.charSkins[skinList[i]];
+                if(skinList){
+                    if(!(skinList[i] in db.skintable.charSkins)){
+                        skindata = db.skintable.charSkins[skinList[i-1]];
+                    } else {
+                        skindata = db.skintable.charSkins[skinList[i]];
+                    }
                 }
                 if(skindata){
                     zoombtn.push($(`<button class="btn ak-c-black btn-dark" style="margin:2px;padding:2px; height: 50px; width: 50px;" onclick="ChangeZoomChara('${skindata.portraitId}')"><img src='img/ui/elite/${i}-s.png'></button>`))
@@ -1188,6 +1223,22 @@
                     } else {
                         tabcontent.push($("<div class='tab-pane container' id='opCG_"+i+"_tab'>"
                             +"<img class='chara-image' src='img/characters/"+skindata.portraitId+".png'>"
+                            +"</div>"));
+                    }
+                }
+
+                if(opKey=="char_1001_amiya2"){
+                    zoombtn.push($(`<button class="btn ak-c-black btn-dark" style="margin:2px;padding:2px; height: 50px; width: 50px;" onclick="ChangeZoomChara('char_1001_amiya2_2')"><img src='img/ui/elite/${i}-s.png'></button>`))
+                    if(i == 0){
+                        $("#charazoom").attr("src","img/characters/char_1001_amiya2_2.png");
+                        $('#charazoom').modal('handleUpdate')
+                        
+                        tabcontent.push($("<div class='tab-pane container active' id='opCG_0_tab'>"
+                            +"<img class='chara-image' src='img/characters/char_1001_amiya2_2.png'>"
+                            +"</div>"));
+                    } else {
+                        tabcontent.push($("<div class='tab-pane container' id='opCG_"+i+"_tab'>"
+                            +"<img class='chara-image' src='img/characters/char_1001_amiya2_2.png'>"
                             +"</div>"));
                     }
                 }
@@ -1239,10 +1290,15 @@
             </div>
             </button>`))
 
-            tabbtn.push($(`<button type="button" class="btn tabbing-btns tabbing-btns-bottom ak-btn" style="width:50px;height:50px" data-toggle="modal" data-target="#opaudio" >
+            tabbtn.push($(`<button type="button" class="btn tabbing-btns ak-btn" style="width:50px;height:50px" data-toggle="modal" data-target="#opaudio" onclick="GetAudio(opdataFull)">
             <div>
-                <img class='audioprofilebutton' src="./img/ui/story/audio.png" style="max-width:40px;max-height:40px" onclick="GetAudio(opdataFull)">
+                <img class='audioprofilebutton' src="./img/ui/story/audio.png" style="max-width:40px;max-height:40px">
                 <div class="btn-story-header">Audio</div>
+            </div>
+            </button>`))
+            tabbtn.push($(`<button type="button" class="btn tabbing-btns tabbing-btns-bottom ak-btn" style="width:50px;height:18px" data-toggle="modal" data-target="#opsfx" onclick="GetSFX(opdataFull)">
+            <div>
+                <div class="btn-story-header" style="margin-top: 0px;">SFX</div>
             </div>
             </button>`))
 
@@ -1338,7 +1394,7 @@
             $('#op-riicdetail').hide();
             //Story
 
-            if(db.handbookInfo.handbookDict[opdataFull.id]){
+            if(db.handbookInfo.handbookDict[opdataFull.id]|| opdataFull.id == "char_1001_amiya2"){
                 GetStory(opdataFull)
             }else{
                 $('#info-illustrator').html("")
@@ -1346,6 +1402,7 @@
             }
             
             $('#opaudiocontent').empty()
+            $('#opsfxcontent').empty()
             $('#opaudiotranslator').empty()
             $('#opaudioproofreader').empty()
             ///////////////////////////////////////////////// SKILLS SECTION //////////////////////////////////////////////////
@@ -1699,7 +1756,7 @@
     //     console.log(puretextlist.join("\n"))
     // }translator
     function GetAudio (opdataFull,lang="en"){
-        // console.log(opdataFull)
+        console.log(opdataFull)
         
         var curraudiolist = []
         var puretextlist =[]
@@ -1720,7 +1777,7 @@
             // }
             if(curraudio){
                 
-                if(curraudio.charId&&curraudio.charId == opdataFull.id){
+                if(curraudio.charId&&curraudio.wordKey == opdataFull.id){
                     if(db.charwordEN[element]){
                         curraudio = db.charwordEN[element]
                         currTL = undefined
@@ -1732,7 +1789,7 @@
                 }
             }
         });
-        // console.log(curraudiolist)
+        console.log(curraudiolist)
         // console.log(puretextlist.join("\n"))
         $('#opaudiocontent').empty()
         $('#opaudiotranslator').empty()
@@ -1783,6 +1840,9 @@
         if(db.handbookInfoEN.handbookDict[opdataFull.id]){
             currStory = db.handbookInfoEN.handbookDict[opdataFull.id]
             isEN = true
+        }
+        if(opdataFull.id=="char_1001_amiya2"){
+            currStory = db.handbookInfo.handbookDict["char_002_amiya"]
         }
         // console.log(currStory)
         // console.log(currStory.drawName)
@@ -2079,6 +2139,110 @@
 
     }
 
+    function GetSFX(opdataFull){
+        $('#opsfxcontent').empty()
+        console.log(opdataFull.id)
+        // console.log()
+        var filteredFX = []
+        console.log(opdataFull)
+        db.audio_data.soundFXBanks.forEach(element => {
+            if(element.name.includes(opdataFull.id)){
+                // console.log(element.name)
+                element.sounds.forEach(soundfx => {
+                    var fxname = soundfx.asset.split("/")
+                    var fxdir = "./etc/"+soundfx.asset.split("/").splice(2,2).join("/").toLowerCase()+"/"+fxname[fxname.length-1]
+                    filteredFX.push({name:fxname[fxname.length-1],dataname:element.name,dir:fxdir,type:"1"})
+                });
+            }
+            // console.log("_chr_"+opdataFull.id.split("_")[2])
+            opdataFull.skills.forEach(skill => {
+                if(element.name.includes(skill.skillId)){
+                    // console.log(element.name)
+                    element.sounds.forEach(soundfx => {
+                        var fxname = soundfx.asset.split("/")
+                        var fxdir = "./etc/"+soundfx.asset.split("/").splice(2,2).join("/").toLowerCase()+"/"+fxname[fxname.length-1]
+                        filteredFX.push({name:fxname[fxname.length-1],dataname:element.name,dir:fxdir,type:"2"})
+                    });
+                }
+            });
+            if(element.name.includes("_chr_"+opdataFull.id.split("_")[2])){
+                element.sounds.forEach(soundfx => {
+                    var fxname = soundfx.asset.split("/")
+                    
+                    var fxdir = "./etc/"+soundfx.asset.split("/").splice(2,2).join("/").toLowerCase()+"/"+fxname[fxname.length-1]
+                    console.log(fxdir)
+                    filteredFX.push({name:fxname[fxname.length-1],dataname:element.name,dir:fxdir,type:"3"})
+                });
+            }
+            if(element.name.includes(opdataFull.tokenKey)){
+                // console.log(element.name)
+                element.sounds.forEach(soundfx => {
+                    var fxname = soundfx.asset.split("/")
+                    var fxdir = "./etc/"+soundfx.asset.split("/").splice(2,2).join("/").toLowerCase()+"/"+fxname[fxname.length-1]
+                    filteredFX.push({name:fxname[fxname.length-1],dataname:element.name,dir:fxdir,type:"4"})
+                });
+            }
+
+            
+        });
+        console.log(filteredFX)
+        filteredFX =filteredFX.sort(function(a,b){
+            if(a.type>b.type)return 1
+            else if(a.type<b.type)return -1
+            else return 0
+        })
+        console.log(filteredFX)
+        var sfxnum = 0
+        filteredFX.forEach(element => {
+            var fxdir = element.dir
+            var fxname = element.name
+            var fxdataname = element.dataname
+            // console.log(fxname)
+            // console.log(fxname)
+            // console.log(fxdir)
+            var curraudio  =`<audio class="sfxplayer" preload="metadata" controls style="margin-top:5px"> <source src="${fxdir}.wav" type="audio/wav">Your browser does not support the audio tag.</audio> `
+            var currhtml = $(`
+            <table class="sfx-table">
+            <th>${fxdataname}</th>
+            <tr><td style="text-align:center;background:#1a1a1a">${curraudio} <a href="${fxdir}.wav"  target="_blank">
+            <i class='fa fa-download' style='font-size:30px;vertical-align:top;padding-top:17px'></i></a>
+            <div id="audio-displaynum" style="position: absolute;font-weight: 700;font-size:10px;margin-top:-50px;color:#999;background:#222;padding:0px;padding-left:2px;padding-right:2px;right:18px">${fxname}</div>
+            </td></tr>
+            </table>
+            
+            `)
+            $('#opsfxcontent').append($(currhtml))
+            sfxnum +=1
+        });
+        $(".sfxplayer").each(function(a){
+            $(".sfxplayer")[a].volume = 0.3;
+        })
+        // curraudiolist.forEach(element => {
+        //     var curraudio  =`<audio preload="metadata" controls style="margin-top:5px"> <source src="./etc/player/${element.voiceAsset}.mp3" type="audio/mp3">Your browser does not support the audio tag.</audio> `
+        //     // if(LinkCheck(`./etc/voice/${element.voiceAsset}.mp3`)){
+        //     //     curraudio= '<audio controls> <source src="./etc/voice/${element.voiceAsset}.mp3" type="audio/mpeg">Your browser does not support the audio tag.</audio> '
+        //     // }
+        //     if(currTL)voiceTL= currTL.voiceline[element.voiceTitle][lang]?currTL.voiceline[element.voiceTitle][lang]: element.voiceText
+        //     // console.log(element.voiceTitle)
+        //     // console.log(currTL)
+        //     // console.log(currTL.voiceline[element.voiceTitle])
+        //     // console.log(voiceTL)
+        //     var currhtml = $(`
+        //     <table class="story-table">
+        //     <th>${db.storytextTL[element.voiceTitle]?db.storytextTL[element.voiceTitle]:element.voiceTitle}</th>
+        //     <tr><td style="text-align:center;background:#1a1a1a">${curraudio} <a href="./etc/voice/${element.voiceAsset}.mp3"  target="_blank">
+        //     <i class='fa fa-download' style='font-size:30px;vertical-align:top;padding-top:17px'></i></a>
+        //     <div id="audio-displaynum" style="position: absolute;font-weight: 700;font-size:10px;margin-top:-50px;color:#999;background:#222;padding:0px;padding-left:2px;padding-right:2px;right:18px">${element.voiceAsset.split("_").slice(-1)[0] }</div>
+        //     </td></tr>
+        //     <tr><td style="height:10px"></td></tr>
+        //     <tr><td>${voiceTL}</td></tr>
+        //     <tr><td style="height:10px"></td></tr>
+        //     </table>
+            
+        //     `)
+        //     $('#opaudiocontent').append($(currhtml))
+        // });
+    }
     function GetPotential(opdataFull){
         var potentials = opdataFull.potentialRanks
         var potentialsTL = []
@@ -3203,6 +3367,11 @@
         
     }
 
+    function ChangeSType(){
+        opSType= !opSType
+        selectOperator(curropname)
+        console.log(opSType)
+    }
 
     function PlayPause(widget){
         if(widget=="token") widget=spinewidgettoken
